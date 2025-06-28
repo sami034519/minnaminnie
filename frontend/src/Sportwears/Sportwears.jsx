@@ -1,65 +1,66 @@
 import React, { useState, useEffect } from "react";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import p11 from "../images/p11.jpg";
-import p21 from "../images/p21.jpg";
-import p31 from "../images/p31.jpg";
-import p41 from "../images/p41.jpg";
-import p51 from "../images/p51.jpg";
-import p61 from "../images/p61.jpg";
+import sp1 from "../images/sp1.webp";
+import sp2 from "../images/sp2.webp";
+import sp3 from "../images/sp3.webp";
+import sp4 from "../images/sp4.webp";
+import sp5 from "../images/sp5.webp";
+import sp6 from "../images/sp6.webp";
 import AOS from "aos";
-const products = [
+
+const sportswearProducts = [
   {
     id: 1,
-    title: "Infant Girls Cotton Basic Casual Shirt - Blue Check",
-    image: p11,
-    price: 1395,
-    discountPrice: 999,
+    title: "Boys Athletic Tracksuit - Navy Blue",
+    image: sp1,
+    price: 2499,
+    discountPrice: 1999,
     sale: true,
   },
   {
     id: 2,
-    title: "Infant Boys Cotton Basic Casual Shirt (Roar) - LIGHT-GREEN",
-    image: p21,
-    price: 1395,
-    discountPrice: 1099,
-    sale: false,
-  },
-  {
-    id: 3,
-    title: "Infant Boys Pajama Set - RED",
-    image: p31,
-    price: 1499,
-    discountPrice: 1199,
+    title: "Girls Activewear Set - Peach Pink",
+    image: sp2,
+    price: 2299,
+    discountPrice: 1799,
     sale: true,
   },
   {
+    id: 3,
+    title: "Unisex Kids Joggers - Grey & Black",
+    image: sp3,
+    price: 1799,
+    discountPrice: 1499,
+    sale: false,
+  },
+  {
     id: 4,
-    title: "Traditional Girls Skirt - Purple",
-    image: p41,
-    price: 1199,
-    discountPrice: 899,
+    title: "Boys Sleeveless Sports Tank - Blue",
+    image: sp4,
+    price: 899,
+    discountPrice: 749,
     sale: false,
   },
   {
     id: 5,
-    title: "Baby Check Shirt Linings - Soft ",
-    image: p51,
-    price: 1599,
-    discountPrice: 1299,
+    title: "Girls Yoga Set - Purple Haze",
+    image: sp5,
+    price: 1999,
+    discountPrice: 1599,
     sale: true,
   },
   {
     id: 6,
-    title: "Boys Casual T-Shirts White (3 Pack)",
-    image: p61,
-    price: 499,
-    discountPrice: 399,
+    title: "Kids Sports T-Shirt (3 Pack) - Multicolor",
+    image: sp6,
+    price: 1299,
+    discountPrice: 1099,
     sale: false,
   },
 ];
 
-const BabyGarments = () => {
+const KidsSportswear = () => {
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
@@ -67,13 +68,12 @@ const BabyGarments = () => {
   const [index, setIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(2);
 
-  // Responsive visibleCount logic
   useEffect(() => {
     const updateVisibleCount = () => {
       if (window.innerWidth >= 1024) {
-        setVisibleCount(4); // Desktop
+        setVisibleCount(4);
       } else {
-        setVisibleCount(2); // Mobile & Tablet
+        setVisibleCount(2);
       }
     };
 
@@ -84,31 +84,31 @@ const BabyGarments = () => {
 
   const prevSlide = () => {
     setIndex((prev) =>
-      prev === 0 ? products.length - visibleCount : prev - 1
+      prev === 0 ? sportswearProducts.length - visibleCount : prev - 1
     );
   };
 
   const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % products.length);
+    setIndex((prev) => (prev + 1) % sportswearProducts.length);
   };
 
-  const visibleProducts = [...products, ...products].slice(
+  const visibleProducts = [...sportswearProducts, ...sportswearProducts].slice(
     index,
     index + visibleCount
   );
 
   return (
-    <div className="w-full py-8 my-10">
-      {/* Tabs */}
+    <div className="w-full lg:py-12 mb-10 lg:my-10">
+      {/* Section Title */}
       <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
-        <button className="text-3xl mb-5 font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
-          BABY GARMENTS
-        </button>
+       <h1 className="text-3xl mb-5 font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
+
+          KIDS SPORTSWEAR
+        </h1>
       </div>
 
-      {/* Product Slider with Arrows */}
+      {/* Product Carousel */}
       <div className="flex items-center justify-center gap-2">
-        {/* Left Arrow */}
         <button
           onClick={prevSlide}
           className="bg-pink-600 text-white p-1 rounded-full shadow hover:bg-pink-700"
@@ -116,7 +116,6 @@ const BabyGarments = () => {
           <FaChevronLeft />
         </button>
 
-        {/* Products */}
         <div className="flex gap-4 overflow-hidden">
           {visibleProducts.map((product, idx) => {
             const isActive = idx === 0;
@@ -127,19 +126,17 @@ const BabyGarments = () => {
                   isActive ? "scale-105 z-10" : "scale-100"
                 }`}
               >
-                {/* SALE BADGE */}
                 {product.sale && (
-                  <div className="absolute top-2 left-2 overflow-hidden bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
+                  <div className="absolute top-2 left-2 bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
                     SALE
                   </div>
                 )}
 
-                {/* Clickable Image */}
                 <NavLink to={`/product/${product.id}`} data-aos="fade-left">
                   <img
                     src={product.image}
                     alt={product.title}
-                    className="w-full h-auto lg:object-contain  object-cover rounded-t-md"
+                    className="w-full h-48 object-contain rounded-t-md"
                   />
                 </NavLink>
 
@@ -159,7 +156,6 @@ const BabyGarments = () => {
           })}
         </div>
 
-        {/* Right Arrow */}
         <button
           onClick={nextSlide}
           className="bg-pink-600 text-white p-1 rounded-full shadow hover:bg-pink-700"
@@ -168,7 +164,7 @@ const BabyGarments = () => {
         </button>
       </div>
 
-      {/* View All Button */}
+      {/* View All */}
       <div className="text-center mt-6">
         <button className="bg-mypurple hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2">
           VIEW ALL <FaChevronRight size={14} />
@@ -178,4 +174,4 @@ const BabyGarments = () => {
   );
 };
 
-export default BabyGarments;
+export default KidsSportswear;

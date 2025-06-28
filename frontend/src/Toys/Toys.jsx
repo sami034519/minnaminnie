@@ -123,7 +123,7 @@ const ToysSection = () => {
           className="flex justify-center space-x-4 mb-6"
           data-aos="fade-down"
         >
-          <button className="text-3xl font-bold px-4 py-1 rounded ">
+          <button className="text-3xl mb-5 font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
             TOYS COLLECTION
           </button>
         </div>
@@ -150,12 +150,12 @@ const ToysSection = () => {
                   }`}
                 >
                   {toy.sale && (
-                    <div className="absolute top-2 left-2 overflow-hidden bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
+                    <div className="absolute top-2 left-2  overflow-hidden bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
                       SALE
                     </div>
                   )}
 
-                  <NavLink to={`/product/${toy.id}`} data-aos="fade-left">
+                  <NavLink to={`/product/${toy.id}`} className="bg-black" data-aos="fade-left">
                     <img
                       src={toy.image}
                       alt={toy.title}
