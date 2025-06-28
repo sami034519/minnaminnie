@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { FaChevronRight, FaChevronLeft, FaCartPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/CartSlice"; // Adjust path if needed
 import p11 from "../images/p11.jpg";
 import p21 from "../images/p21.jpg";
 import p31 from "../images/p31.jpg";
@@ -8,9 +10,10 @@ import p41 from "../images/p41.jpg";
 import p51 from "../images/p51.jpg";
 import p61 from "../images/p61.jpg";
 import AOS from "aos";
+
 const products = [
   {
-    id: 1,
+    id: 21,
     title: "Infant Girls Cotton Basic Casual Shirt - Blue Check",
     image: p11,
     price: 1395,
@@ -18,7 +21,7 @@ const products = [
     sale: true,
   },
   {
-    id: 2,
+    id: 22,
     title: "Infant Boys Cotton Basic Casual Shirt (Roar) - LIGHT-GREEN",
     image: p21,
     price: 1395,
@@ -26,7 +29,7 @@ const products = [
     sale: false,
   },
   {
-    id: 3,
+    id: 23,
     title: "Infant Boys Pajama Set - RED",
     image: p31,
     price: 1499,
@@ -34,7 +37,7 @@ const products = [
     sale: true,
   },
   {
-    id: 4,
+    id: 24,
     title: "Traditional Girls Skirt - Purple",
     image: p41,
     price: 1199,
@@ -42,7 +45,7 @@ const products = [
     sale: false,
   },
   {
-    id: 5,
+    id: 25,
     title: "Baby Check Shirt Linings - Soft ",
     image: p51,
     price: 1599,
@@ -50,7 +53,7 @@ const products = [
     sale: true,
   },
   {
-    id: 6,
+    id: 26,
     title: "Boys Casual T-Shirts White (3 Pack)",
     image: p61,
     price: 499,
@@ -60,20 +63,20 @@ const products = [
 ];
 
 const BabyGarments = () => {
+  const dispatch = useDispatch();
+  const [index, setIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(2);
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
 
-  const [index, setIndex] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(2);
-
-  // Responsive visibleCount logic
   useEffect(() => {
     const updateVisibleCount = () => {
       if (window.innerWidth >= 1024) {
-        setVisibleCount(4); // Desktop
+        setVisibleCount(4);
       } else {
-        setVisibleCount(2); // Mobile & Tablet
+        setVisibleCount(2);
       }
     };
 
@@ -97,18 +100,21 @@ const BabyGarments = () => {
     index + visibleCount
   );
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
   return (
     <div className="w-full py-8 my-10">
-      {/* Tabs */}
+      {/* Heading */}
       <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
-        <button className="text-3xl mb-5 font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
+        <h1 className="text-3xl mb-5 font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
           BABY GARMENTS
-        </button>
+        </h1>
       </div>
 
-      {/* Product Slider with Arrows */}
+      {/* Carousel with Arrows */}
       <div className="flex items-center justify-center gap-2">
-        {/* Left Arrow */}
         <button
           onClick={prevSlide}
           className="bg-pink-600 text-white p-1 rounded-full shadow hover:bg-pink-700"
@@ -116,7 +122,6 @@ const BabyGarments = () => {
           <FaChevronLeft />
         </button>
 
-        {/* Products */}
         <div className="flex gap-4 overflow-hidden">
           {visibleProducts.map((product, idx) => {
             const isActive = idx === 0;
@@ -127,22 +132,23 @@ const BabyGarments = () => {
                   isActive ? "scale-105 z-10" : "scale-100"
                 }`}
               >
-                {/* SALE BADGE */}
+                {/* SALE Badge */}
                 {product.sale && (
-                  <div className="absolute top-2 left-2 overflow-hidden bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
+                  <div className="absolute top-2 left-2 bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
                     SALE
                   </div>
                 )}
 
-                {/* Clickable Image */}
+                {/* Image */}
                 <NavLink to={`/product/${product.id}`} data-aos="fade-left">
                   <img
                     src={product.image}
                     alt={product.title}
-                    className="w-full h-auto lg:object-contain  object-cover rounded-t-md"
+                    className="w-full h-48 object-cover rounded-t-md"
                   />
                 </NavLink>
 
+                {/* Info + Add to Cart */}
                 <div className="p-2 text-xs text-center">
                   <h3 className="font-medium text-gray-800">{product.title}</h3>
                   <div className="flex justify-center items-center gap-2 mt-1">
@@ -153,13 +159,18 @@ const BabyGarments = () => {
                       Rs.{product.discountPrice.toLocaleString()}
                     </p>
                   </div>
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    className="mt-2 text-white bg-pink-600 hover:bg-pink-700 text-xs py-1 px-3 rounded flex items-center justify-center gap-2"
+                  >
+                    <FaCartPlus size={14} /> Add to Cart
+                  </button>
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* Right Arrow */}
         <button
           onClick={nextSlide}
           className="bg-pink-600 text-white p-1 rounded-full shadow hover:bg-pink-700"

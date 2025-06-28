@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/CartSlice'; // ✅ Make sure path is correct
+
 import sh1 from "../images/shoe1.jpg";
 import sh2 from "../images/shoe2.webp";
 import sh3 from "../images/shoe3.jpg";
@@ -11,7 +14,7 @@ import AOS from "aos";
 
 const shoeProducts = [
   {
-    id: 1,
+    id: 31,
     title: "Boys Sneakers - Navy Blue",
     image: sh1,
     price: 2599,
@@ -19,7 +22,7 @@ const shoeProducts = [
     sale: true,
   },
   {
-    id: 2,
+    id: 32,
     title: "Girls Glitter Pumps - Pink Shine",
     image: sh2,
     price: 2399,
@@ -27,7 +30,7 @@ const shoeProducts = [
     sale: true,
   },
   {
-    id: 3,
+    id: 33,
     title: "Unisex Slip-ons - Grey Sport",
     image: sh3,
     price: 1999,
@@ -35,7 +38,7 @@ const shoeProducts = [
     sale: false,
   },
   {
-    id: 4,
+    id: 34,
     title: "Kids Velcro Sandals - Black",
     image: sh4,
     price: 1399,
@@ -43,7 +46,7 @@ const shoeProducts = [
     sale: false,
   },
   {
-    id: 5,
+    id: 35,
     title: "Girls Ballerina Flats - Purple Charm",
     image: sh5,
     price: 2199,
@@ -51,7 +54,7 @@ const shoeProducts = [
     sale: true,
   },
   {
-    id: 6,
+    id: 36,
     title: "Kids Canvas Shoes (2 Pack) - Multicolor",
     image: sh6,
     price: 1899,
@@ -61,14 +64,14 @@ const shoeProducts = [
 ];
 
 const KidsShoes = () => {
-  useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
+  const dispatch = useDispatch();
 
   const [index, setIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(2);
 
   useEffect(() => {
+    AOS.init({ duration: 1000 });
+
     const updateVisibleCount = () => {
       if (window.innerWidth >= 1024) {
         setVisibleCount(4);
@@ -97,16 +100,18 @@ const KidsShoes = () => {
     index + visibleCount
   );
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
   return (
-    <div className="w-full lg:py-12 mb-10 lg:my-10">
-      {/* Section Title */}
+    <div className="w-full lg:py-12 mt-10 mb-10 lg:my-10">
       <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
         <h1 className="text-3xl mb-5 font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
           KIDS SHOES
         </h1>
       </div>
 
-      {/* Product Carousel */}
       <div className="flex items-center justify-center gap-2">
         <button
           onClick={prevSlide}
@@ -121,7 +126,7 @@ const KidsShoes = () => {
             return (
               <div
                 key={product.id}
-                className={`relative bg-white rounded-md shadow w-[260px] flex flex-col transition-transform duration-500 ${
+                className={`relative bg-white  rounded-md shadow w-[260px] flex flex-col transition-transform duration-500 ${
                   isActive ? "scale-105 z-10" : "scale-100"
                 }`}
               >
@@ -149,6 +154,14 @@ const KidsShoes = () => {
                       Rs.{product.discountPrice.toLocaleString()}
                     </p>
                   </div>
+
+                  {/* ✅ Add to Cart Button */}
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    className="bg-pink-600 text-white text-xs mt-2 px-3 py-1 rounded hover:bg-pink-700 transition"
+                  >
+                    Add to Cart
+                  </button>
                 </div>
               </div>
             );
@@ -163,7 +176,6 @@ const KidsShoes = () => {
         </button>
       </div>
 
-      {/* View All */}
       <div className="text-center mt-6">
         <NavLink to="/shoes">
           <button className="bg-mypurple hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2">

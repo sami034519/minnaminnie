@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { FaChevronRight, FaChevronLeft, FaCartPlus } from "react-icons/fa";
 import herovideo from "../videos/Toysvideo.mp4";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/CartSlice"; // ✅ adjust the path if needed
 import t1 from "../images/t1animal.jpg";
 import t2 from "../images/t2counting.jpg";
 import t3 from "../images/t3duck.jpg";
@@ -12,7 +14,7 @@ import AOS from "aos";
 
 const toys = [
   {
-    id: 1,
+    id: 41,
     title: "MINI ANIMALS",
     image: t1,
     price: 1299,
@@ -20,7 +22,7 @@ const toys = [
     sale: true,
   },
   {
-    id: 2,
+    id: 42,
     title: "Colorful Building Blocks Set",
     image: t2,
     price: 1699,
@@ -28,7 +30,7 @@ const toys = [
     sale: false,
   },
   {
-    id: 3,
+    id: 43,
     title: "MINI DUCKS - Brown",
     image: t3,
     price: 1499,
@@ -36,7 +38,7 @@ const toys = [
     sale: true,
   },
   {
-    id: 4,
+    id: 44,
     title: "MINI TEADY BEARS",
     image: t4,
     price: 899,
@@ -44,7 +46,7 @@ const toys = [
     sale: false,
   },
   {
-    id: 5,
+    id: 45,
     title: "Educational Wooden Puzzle Board",
     image: t5,
     price: 1199,
@@ -52,7 +54,7 @@ const toys = [
     sale: true,
   },
   {
-    id: 6,
+    id: 46,
     title: "BABY TRACTORS",
     image: t6,
     price: 599,
@@ -62,20 +64,17 @@ const toys = [
 ];
 
 const ToysSection = () => {
-  useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
-
+  const dispatch = useDispatch();
   const [index, setIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(2);
 
   useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
+
+  useEffect(() => {
     const updateVisibleCount = () => {
-      if (window.innerWidth >= 1024) {
-        setVisibleCount(4);
-      } else {
-        setVisibleCount(2);
-      }
+      setVisibleCount(window.innerWidth >= 1024 ? 4 : 2);
     };
     updateVisibleCount();
     window.addEventListener("resize", updateVisibleCount);
@@ -92,11 +91,15 @@ const ToysSection = () => {
 
   const visibleToys = [...toys, ...toys].slice(index, index + visibleCount);
 
+  const handleAddToCart = (toy) => {
+    dispatch(addToCart(toy));
+  };
+
   return (
     <>
+      {/* Hero Section */}
       <div className="relative w-full h-auto lg:h-screen overflow-hidden animate__animated animate__zoomIn">
         <div className="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
-
         <video
           className="w-full h-full object-contain lg:object-cover"
           src={herovideo}
@@ -105,8 +108,6 @@ const ToysSection = () => {
           muted
           playsInline
         />
-
-        {/* Overlay content */}
         <div className="absolute bottom-10 w-full z-20 flex items-center justify-center text-white text-center px-4">
           <div>
             <NavLink>
@@ -117,18 +118,15 @@ const ToysSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Toys Section */}
       <div className="w-full my-10 py-8">
-        {/* Heading */}
-        <div
-          className="flex justify-center space-x-4 mb-6"
-          data-aos="fade-down"
-        >
+        <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
           <button className="text-3xl mb-5 font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
             TOYS COLLECTION
           </button>
         </div>
 
-        {/* Slider */}
         <div className="flex items-center justify-center gap-2">
           {/* Left Arrow */}
           <button
@@ -138,28 +136,28 @@ const ToysSection = () => {
             <FaChevronLeft />
           </button>
 
-          {/* Products */}
+          {/* Toy Cards */}
           <div className="flex gap-4 overflow-hidden">
             {visibleToys.map((toy, idx) => {
               const isActive = idx === 0;
               return (
                 <div
                   key={toy.id}
-                  className={`relative bg-white rounded-md shadow h-[300px] w-[260px] flex flex-col transition-transform duration-500 ${
+                  className={`relative bg-white rounded-md shadow h-[330px] w-[260px] flex flex-col transition-transform duration-500 ${
                     isActive ? "scale-105 z-10" : "scale-100"
                   }`}
                 >
                   {toy.sale && (
-                    <div className="absolute top-2 left-2  overflow-hidden bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
+                    <div className="absolute top-2 left-2 bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
                       SALE
                     </div>
                   )}
 
-                  <NavLink to={`/product/${toy.id}`} className="bg-black" data-aos="fade-left">
+                  <NavLink to={`/product/${toy.id}`} data-aos="fade-left">
                     <img
                       src={toy.image}
                       alt={toy.title}
-                      className="w-full bg-slate-50 h-[200px] max-h-56 object-cover rounded-t-md"
+                      className="w-full bg-slate-50 h-[200px] object-cover rounded-t-md"
                     />
                   </NavLink>
 
@@ -173,6 +171,12 @@ const ToysSection = () => {
                         Rs.{toy.discountPrice.toLocaleString()}
                       </p>
                     </div>
+                    <button
+                      onClick={() => handleAddToCart(toy)}
+                      className="mt-2 text-white bg-pink-600 hover:bg-pink-700 text-xs py-1 px-3 rounded flex items-center justify-center gap-2"
+                    >
+                      <FaCartPlus size={14} /> Add to Cart
+                    </button>
                   </div>
                 </div>
               );
@@ -188,7 +192,7 @@ const ToysSection = () => {
           </button>
         </div>
 
-        {/* View All Button */}
+        {/* View All */}
         <div className="text-center mt-6">
           <button className="bg-mypurple hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2">
             VIEW ALL <FaChevronRight size={14} />

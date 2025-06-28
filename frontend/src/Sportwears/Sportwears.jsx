@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { FaChevronRight, FaChevronLeft, FaCartPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/CartSlice"; // Adjust the path if needed
 import sp1 from "../images/sp1.webp";
 import sp2 from "../images/sp2.webp";
 import sp3 from "../images/sp3.webp";
@@ -11,7 +13,7 @@ import AOS from "aos";
 
 const sportswearProducts = [
   {
-    id: 1,
+    id: 11,
     title: "Boys Athletic Tracksuit - Navy Blue",
     image: sp1,
     price: 2499,
@@ -19,7 +21,7 @@ const sportswearProducts = [
     sale: true,
   },
   {
-    id: 2,
+    id: 12,
     title: "Girls Activewear Set - Peach Pink",
     image: sp2,
     price: 2299,
@@ -27,7 +29,7 @@ const sportswearProducts = [
     sale: true,
   },
   {
-    id: 3,
+    id: 13,
     title: "Unisex Kids Joggers - Grey & Black",
     image: sp3,
     price: 1799,
@@ -35,7 +37,7 @@ const sportswearProducts = [
     sale: false,
   },
   {
-    id: 4,
+    id: 14,
     title: "Boys Sleeveless Sports Tank - Blue",
     image: sp4,
     price: 899,
@@ -43,7 +45,7 @@ const sportswearProducts = [
     sale: false,
   },
   {
-    id: 5,
+    id: 15,
     title: "Girls Yoga Set - Purple Haze",
     image: sp5,
     price: 1999,
@@ -51,7 +53,7 @@ const sportswearProducts = [
     sale: true,
   },
   {
-    id: 6,
+    id: 16,
     title: "Kids Sports T-Shirt (3 Pack) - Multicolor",
     image: sp6,
     price: 1299,
@@ -61,12 +63,13 @@ const sportswearProducts = [
 ];
 
 const KidsSportswear = () => {
+  const dispatch = useDispatch();
+  const [index, setIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(2);
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
-
-  const [index, setIndex] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(2);
 
   useEffect(() => {
     const updateVisibleCount = () => {
@@ -97,17 +100,18 @@ const KidsSportswear = () => {
     index + visibleCount
   );
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
   return (
     <div className="w-full lg:py-12 mb-10 lg:my-10">
-      {/* Section Title */}
       <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
-       <h1 className="text-3xl mb-5 font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
-
+        <h1 className="text-3xl mb-5 font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
           KIDS SPORTSWEAR
         </h1>
       </div>
 
-      {/* Product Carousel */}
       <div className="flex items-center justify-center gap-2">
         <button
           onClick={prevSlide}
@@ -150,6 +154,12 @@ const KidsSportswear = () => {
                       Rs.{product.discountPrice.toLocaleString()}
                     </p>
                   </div>
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    className="mt-2 text-white bg-pink-600 hover:bg-pink-700 text-xs py-1 px-3 rounded flex items-center justify-center gap-2"
+                  >
+                    <FaCartPlus size={14} /> Add to Cart
+                  </button>
                 </div>
               </div>
             );
@@ -164,7 +174,6 @@ const KidsSportswear = () => {
         </button>
       </div>
 
-      {/* View All */}
       <div className="text-center mt-6">
         <button className="bg-mypurple hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2">
           VIEW ALL <FaChevronRight size={14} />
