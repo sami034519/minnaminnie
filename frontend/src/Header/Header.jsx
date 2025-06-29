@@ -27,6 +27,11 @@ function Header() {
     if (mobileMenuOpen) setAccessoriesOpen(false);
   };
 
+  const closeMenus = () => {
+    setMobileMenuOpen(false);
+    setAccessoriesOpen(false);
+  };
+
   const navLinkStyle =
     'cursor-pointer hover:underline decoration-2 underline-offset-4 decoration-mypurple';
   const getActiveLink = ({ isActive }) =>
@@ -59,16 +64,16 @@ function Header() {
       {/* Navigation Bar */}
       <nav className="bg-white text-gray-700 p-2 uppercase shadow-md w-full">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-          {/* Left: Hamburger (Mobile) */}
+          {/* Hamburger (Mobile) */}
           <div className="md:hidden flex items-center">
             <button onClick={toggleMobileMenu}>
               {mobileMenuOpen ? <X size={24} /> : <Menu size={28} />}
             </button>
           </div>
 
-          {/* Center: Logo */}
+          {/* Logo */}
           <div className="flex-1 flex justify-center md:justify-start items-center relative">
-            <NavLink to="/">
+            <NavLink to="/" onClick={closeMenus}>
               <img
                 src={logo}
                 alt="Minna Minni Logo"
@@ -76,7 +81,7 @@ function Header() {
               />
             </NavLink>
 
-            {/* Cart icon on mobile (right to logo) */}
+            {/* Mobile Cart/Search */}
             <div className="absolute right-0 md:hidden flex items-center gap-4">
               <button className="text-gray-700">
                 <Search size={22} />
@@ -95,7 +100,7 @@ function Header() {
             </div>
           </div>
 
-          {/* Right: Desktop Menu */}
+          {/* Desktop Nav */}
           <ul className="hidden md:flex items-center space-x-6 font-medium text-base ml-auto">
             <li><NavLink to="/baby-garments" className={getActiveLink}>Baby Garments</NavLink></li>
 
@@ -132,10 +137,12 @@ function Header() {
           </ul>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Mobile Dropdown */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-myPink text-white px-4 py-4 space-y-2 text-sm font-medium">
-            <NavLink to="/baby-garments" className={getActiveLink}>Baby Garments</NavLink>
+            <NavLink to="/baby-garments" className={getActiveLink} onClick={closeMenus}>
+              Baby Garments
+            </NavLink>
 
             <div
               className="flex justify-between items-center cursor-pointer hover:underline underline-offset-4 decoration-white"
@@ -147,22 +154,22 @@ function Header() {
 
             {accessoriesOpen && (
               <div className="pl-4 space-y-1 flex flex-col gap-1">
-                <NavLink to="/accessories/fiddle" className={getActiveLink}>Fiddle</NavLink>
-                <NavLink to="/accessories/prams" className={getActiveLink}>Prams</NavLink>
-                <NavLink to="/accessories/walkers" className={getActiveLink}>Walkers</NavLink>
+                <NavLink to="/accessories/fiddle" className={getActiveLink} onClick={closeMenus}>Fiddle</NavLink>
+                <NavLink to="/accessories/prams" className={getActiveLink} onClick={closeMenus}>Prams</NavLink>
+                <NavLink to="/accessories/walkers" className={getActiveLink} onClick={closeMenus}>Walkers</NavLink>
               </div>
             )}
 
             <div className="flex flex-col gap-2">
-              <NavLink to="/toys" className={getActiveLink}>Toys</NavLink>
-              <NavLink to="/sport-wears" className={getActiveLink}>Sport Wears</NavLink>
-              <NavLink to="/baby-shoes" className={getActiveLink}>Baby Shoes</NavLink>
+              <NavLink to="/toys" className={getActiveLink} onClick={closeMenus}>Toys</NavLink>
+              <NavLink to="/sport-wears" className={getActiveLink} onClick={closeMenus}>Sport Wears</NavLink>
+              <NavLink to="/baby-shoes" className={getActiveLink} onClick={closeMenus}>Baby Shoes</NavLink>
             </div>
           </div>
         )}
       </nav>
 
-      {/* Cart Drawer (works on both mobile and desktop) */}
+      {/* Cart Drawer */}
       <Cart isOpen={showCart} onClose={() => setShowCart(false)} />
 
       {/* Hero Section */}
@@ -179,7 +186,7 @@ function Header() {
         <div className="absolute bottom-10 flex items-center w-full justify-center text-white text-center px-4">
           <div>
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">SUMMER'2025</h1>
-            <NavLink to="/shop">
+            <NavLink to="/shop" onClick={closeMenus}>
               <button className="border-[3px] px-3 py-1 mt-3 border-white">SHOP NOW</button>
             </NavLink>
           </div>
