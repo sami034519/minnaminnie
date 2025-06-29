@@ -108,7 +108,7 @@ const BabyGarments = () => {
     <div className="w-full py-8 my-10">
       {/* Heading */}
       <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
-        <h1 className="text-3xl mb-5 font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
+        <h1 className="text-3xl mb-5 font-extrabold shadow-md shadow-slate-200 p-1 text-myPink">
           BABY GARMENTS
         </h1>
       </div>
@@ -129,7 +129,7 @@ const BabyGarments = () => {
               <div
                 key={product.id}
                 className={`relative bg-white rounded-md shadow w-[260px] flex flex-col transition-transform duration-500 ${
-                  isActive ? "scale-105 z-10" : "scale-100"
+                  isActive ? "scale-100 z-10" : "scale-100"
                 }`}
               >
                 {/* SALE Badge */}
@@ -144,7 +144,7 @@ const BabyGarments = () => {
                   <img
                     src={product.image}
                     alt={product.title}
-                    className="w-full h-48 object-cover rounded-t-md"
+                    className=" bg-slate-100 w-60 h-48 object-cover rounded-t-md"
                   />
                 </NavLink>
 
@@ -181,7 +181,7 @@ const BabyGarments = () => {
 
       {/* View All Button */}
       <div className="text-center mt-6">
-        <button className="bg-mypurple hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2">
+        <button className="bg-mypurple w-[80%] hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex justify-center items-center gap-2" data-aos="fade-right">
           VIEW ALL <FaChevronRight size={14} />
         </button>
       </div>

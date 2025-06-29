@@ -111,7 +111,7 @@ const ToysSection = () => {
         <div className="absolute bottom-10 w-full z-20 flex items-center justify-center text-white text-center px-4">
           <div>
             <NavLink>
-              <button className="border-[3px] px-3 py-1 mt-3 border-white">
+              <button className="border-[3px]  px-3 py-1 mt-3 border-white">
                 SHOP NOW
               </button>
             </NavLink>
@@ -122,7 +122,7 @@ const ToysSection = () => {
       {/* Toys Section */}
       <div className="w-full my-10 py-8">
         <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
-          <button className="text-3xl mb-5 font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
+          <button className="text-3xl shadow-md shadow-slate-200 mb-5 font-extrabold text-myPink p-1">
             TOYS COLLECTION
           </button>
         </div>
@@ -157,7 +157,7 @@ const ToysSection = () => {
                     <img
                       src={toy.image}
                       alt={toy.title}
-                      className="w-full bg-slate-50 h-[200px] object-cover rounded-t-md"
+                      className="bg-slate-100 w-60 h-48 object-cover rounded-t-md"
                     />
                   </NavLink>
 
@@ -194,7 +194,7 @@ const ToysSection = () => {
 
         {/* View All */}
         <div className="text-center mt-6">
-          <button className="bg-mypurple hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2">
+          <button className="bg-mypurple w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2" data-aos="fade-right">
             VIEW ALL <FaChevronRight size={14} />
           </button>
         </div>
