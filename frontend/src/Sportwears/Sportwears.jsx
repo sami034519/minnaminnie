@@ -62,7 +62,6 @@ const sportswearProducts = [
   },
 ];
 
-
 const KidsSportswear = () => {
   const dispatch = useDispatch();
   const [index, setIndex] = useState(0);
@@ -176,7 +175,10 @@ const KidsSportswear = () => {
       </div>
 
       <div className="text-center mt-6">
-        <button className="bg-mypurple lg:w-[30%] w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2" data-aos='fade-right'>
+        <button
+          className="bg-mypurple lg:w-[30%] w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2"
+          data-aos="fade-right"
+        >
           VIEW ALL <FaChevronRight size={14} />
         </button>
       </div>

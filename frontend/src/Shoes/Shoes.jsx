@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { addToCart } from '../redux/CartSlice'; // ✅ Make sure path is correct
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/CartSlice"; // ✅ Make sure path is correct
 
 import sh1 from "../images/shoe1-removebg-preview.png";
 import sh2 from "../images/shoe2-removebg-preview.png";
@@ -62,7 +62,6 @@ const shoeProducts = [
     sale: false,
   },
 ];
-
 
 const KidsShoes = () => {
   const dispatch = useDispatch();
@@ -179,7 +178,10 @@ const KidsShoes = () => {
 
       <div className="text-center mt-6">
         <NavLink to="/shoes">
-          <button className="bg-mypurple lg:w-[30%] w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2" data-aos='fade-right'>
+          <button
+            className="bg-mypurple lg:w-[30%] w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2"
+            data-aos="fade-right"
+          >
             VIEW ALL <FaChevronRight size={14} />
           </button>
         </NavLink>

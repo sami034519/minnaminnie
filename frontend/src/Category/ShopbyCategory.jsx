@@ -13,12 +13,12 @@ const categories = [
   {
     title: 'GIRLS APPAREL',
     image: girlsapparels,
-    path: '/baby-garments',
+    path: '/allgarments',
   },
   {
     title: 'BOYS APPAREL',
     image:boysapparel,
-    path: '/accessories',
+    path: '/allgarments',
   },
   {
     title: 'TOYS',

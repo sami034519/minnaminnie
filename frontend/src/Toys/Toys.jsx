@@ -63,7 +63,6 @@ const toys = [
   },
 ];
 
-
 const ToysSection = () => {
   const dispatch = useDispatch();
   const [index, setIndex] = useState(0);
@@ -122,7 +121,10 @@ const ToysSection = () => {
 
       {/* Toys Section */}
       <div className="w-full my-10 py-8">
-        <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
+        <div
+          className="flex justify-center space-x-4 mb-6"
+          data-aos="fade-down"
+        >
           <button className="text-3xl  mb-5 font-extrabold text-myPink ">
             TOYS COLLECTION
           </button>
@@ -194,8 +196,11 @@ const ToysSection = () => {
         </div>
 
         {/* View All */}
-        <div className="text-center mt-6">
-          <button className="bg-mypurple lg:w-[30%] w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2" data-aos="fade-right">
+        <div className="text-center mt-4 lg:mt-6">
+          <button
+            className="bg-mypurple lg:w-[30%] w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2"
+            data-aos="fade-right"
+          >
             VIEW ALL <FaChevronRight size={14} />
           </button>
         </div>

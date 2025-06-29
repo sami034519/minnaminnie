@@ -78,7 +78,7 @@ const Footer = () => {
 
       {/* Bottom Line */}
       <div
-        className="mt-10 border-t border-gray-400 pt-4 text-sm text-gray-700 flex flex-col md:flex-row justify-between items-center gap-2"
+        className="mt-10 border-t lg:px-10 border-gray-400 pt-4 text-sm text-gray-700 flex flex-col md:flex-row justify-between items-center gap-2"
         
         data-aos-delay="300"
       >

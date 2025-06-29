@@ -4,18 +4,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        myPink: '#f49ac0',
-        mypurple: '#a27cb9',
-        productscolor:'#efefef'
+        myPink: "#f49ac0",
+        mypurple: "#a27cb9",
+        productscolor: "#efefef",
       },
       keyframes: {
         marquee: {
-          '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-50%)' },
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-50%)" },
         },
       },
       animation: {
-        marquee: 'marquee 20s linear infinite',
+        marquee: "marquee 20s linear infinite",
       },
     },
   },
