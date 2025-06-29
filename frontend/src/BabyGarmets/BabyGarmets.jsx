@@ -4,17 +4,17 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/CartSlice"; // Adjust path if needed
 import p11 from "../images/p11.jpg";
-import p21 from "../images/p21.jpg";
+import p21 from "../images/p22.jpg";
 import p31 from "../images/p31.jpg";
-import p41 from "../images/p41.jpg";
-import p51 from "../images/p51.jpg";
+import p41 from "../images/p71.jpg";
+import p51 from "../images/p81.jpg";
 import p61 from "../images/p61.jpg";
 import AOS from "aos";
 
 const products = [
   {
     id: 21,
-    title: "Infant Girls Cotton Basic Casual Shirt - Blue Check",
+    title: "Infant Girls Cotton Shirt - Blue",
     image: p11,
     price: 1395,
     discountPrice: 999,
@@ -22,7 +22,7 @@ const products = [
   },
   {
     id: 22,
-    title: "Infant Boys Cotton Basic Casual Shirt (Roar) - LIGHT-GREEN",
+    title: "Infant Boys Casual Shirt - Green",
     image: p21,
     price: 1395,
     discountPrice: 1099,
@@ -30,7 +30,7 @@ const products = [
   },
   {
     id: 23,
-    title: "Infant Boys Pajama Set - RED",
+    title: "Infant Boys Pajama Set - Red",
     image: p31,
     price: 1499,
     discountPrice: 1199,
@@ -38,7 +38,7 @@ const products = [
   },
   {
     id: 24,
-    title: "Traditional Girls Skirt - Purple",
+    title: "Traditional Girls Printed Skirt - Purple",
     image: p41,
     price: 1199,
     discountPrice: 899,
@@ -46,7 +46,7 @@ const products = [
   },
   {
     id: 25,
-    title: "Baby Check Shirt Linings - Soft ",
+    title: "Baby Check Shirt Linings - Soft",
     image: p51,
     price: 1599,
     discountPrice: 1299,
@@ -54,13 +54,14 @@ const products = [
   },
   {
     id: 26,
-    title: "Boys Casual T-Shirts White (3 Pack)",
+    title: "Boys White T-Shirts Set - Pack",
     image: p61,
     price: 499,
     discountPrice: 399,
     sale: false,
   },
 ];
+
 
 const BabyGarments = () => {
   const dispatch = useDispatch();
@@ -108,7 +109,7 @@ const BabyGarments = () => {
     <div className="w-full py-8 my-10">
       {/* Heading */}
       <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
-        <h1 className="text-3xl mb-5 font-extrabold shadow-md shadow-slate-200 p-1 text-myPink">
+        <h1 className="text-3xl mb-5 font-extrabold  text-myPink">
           BABY GARMENTS
         </h1>
       </div>
@@ -144,7 +145,7 @@ const BabyGarments = () => {
                   <img
                     src={product.image}
                     alt={product.title}
-                    className=" bg-slate-100 w-60 h-48 object-cover rounded-t-md"
+                    className=" bg-productscolor lg:object-contain w-60 h-48 object-cover rounded-t-md"
                   />
                 </NavLink>
 
@@ -181,7 +182,7 @@ const BabyGarments = () => {
 
       {/* View All Button */}
       <div className="text-center mt-6">
-        <button className="bg-mypurple w-[80%] hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex justify-center items-center gap-2" data-aos="fade-right">
+        <button className="bg-mypurple lg:w-[30%] w-[80%] hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex justify-center items-center gap-2" data-aos="fade-right">
           VIEW ALL <FaChevronRight size={14} />
         </button>
       </div>

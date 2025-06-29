@@ -4,12 +4,12 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/CartSlice'; // ✅ Make sure path is correct
 
-import sh1 from "../images/shoe1.jpg";
-import sh2 from "../images/shoe2.webp";
-import sh3 from "../images/shoe3.jpg";
-import sh4 from "../images/shoe4.jpg";
-import sh5 from "../images/shoe5.jpg";
-import sh6 from "../images/shoe6.jpg";
+import sh1 from "../images/shoe1-removebg-preview.png";
+import sh2 from "../images/shoe2-removebg-preview.png";
+import sh3 from "../images/shoe3-removebg-preview.png";
+import sh4 from "../images/shoe4-removebg-preview.png";
+import sh5 from "../images/shoe5-removebg-preview.png";
+import sh6 from "../images/shoe6-removebg-preview.png";
 import AOS from "aos";
 
 const shoeProducts = [
@@ -108,7 +108,7 @@ const KidsShoes = () => {
   return (
     <div className="w-full lg:py-12 mt-10 mb-10 lg:my-10">
       <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
-        <h1 className="text-3xl shadow-md p-1 shadow-slate-200 mb-5 font-extrabold text-myPink">
+        <h1 className="text-3xl  mb-5 font-extrabold text-myPink">
           KIDS SHOES
         </h1>
       </div>
@@ -141,7 +141,7 @@ const KidsShoes = () => {
                   <img
                     src={product.image}
                     alt={product.title}
-                    className="bg-slate-100 rounded w-60 h-48 object-cover rounded-t-md"
+                    className="bg-slate-100 rounded w-60 h-48 object-contain rounded-t-md"
                   />
                 </NavLink>
 
@@ -179,7 +179,7 @@ const KidsShoes = () => {
 
       <div className="text-center mt-6">
         <NavLink to="/shoes">
-          <button className="bg-mypurple w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2" data-aos='fade-right'>
+          <button className="bg-mypurple lg:w-[30%] w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2" data-aos='fade-right'>
             VIEW ALL <FaChevronRight size={14} />
           </button>
         </NavLink>

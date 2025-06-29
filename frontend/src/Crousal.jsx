@@ -33,11 +33,11 @@ const ImageCarousel = () => {
       <Slider {...settings}>
         {images.map((src, index) => (
           <div key={index} className="px-2">
-            <div className="overflow-hidden rounded-lg h-auto lg:h-[100vh]  flex items-center justify-center">
+            <div className="overflow-hidden rounded-lg h-auto lg:h-[80vh]  flex items-center justify-center">
               <img
                 src={src}
                 alt={`Slide ${index + 1}`}
-                className={`w-full h-full object-cover transition-transform duration-1000 ${
+                className={`w-[100vw] h-full object-cover transition-transform duration-1000 ${
                   activeIndex === index
                     ? 'animate__animated animate__zoomIn animate__delay-1s'
                     : ''

@@ -4,18 +4,18 @@ import herovideo from "../videos/Toysvideo.mp4";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/CartSlice"; // ✅ adjust the path if needed
-import t1 from "../images/t1animal.jpg";
-import t2 from "../images/t2counting.jpg";
-import t3 from "../images/t3duck.jpg";
-import t4 from "../images/t4teadybear.jpg";
-import t5 from "../images/t5boxes.jpg";
-import t6 from "../images/t6tractors.jpg";
+import t1 from "../images/t1animal-removebg-preview.png";
+import t2 from "../images/t5racingcar.webp";
+import t3 from "../images/t3duck__2_-removebg-preview.png";
+import t4 from "../images/t4teadtbear1-removebg-preview.png";
+import t5 from "../images/t5boxes.png";
+import t6 from "../images/t6tractor-removebg-preview.png";
 import AOS from "aos";
 
 const toys = [
   {
     id: 41,
-    title: "MINI ANIMALS",
+    title: "Mini Animal Toy Set Pack",
     image: t1,
     price: 1299,
     discountPrice: 899,
@@ -23,7 +23,7 @@ const toys = [
   },
   {
     id: 42,
-    title: "Colorful Building Blocks Set",
+    title: "Colorful Advanced Racing-Cars",
     image: t2,
     price: 1699,
     discountPrice: 1199,
@@ -31,7 +31,7 @@ const toys = [
   },
   {
     id: 43,
-    title: "MINI DUCKS - Brown",
+    title: "Mini Ducks Toy Set Brown",
     image: t3,
     price: 1499,
     discountPrice: 999,
@@ -39,7 +39,7 @@ const toys = [
   },
   {
     id: 44,
-    title: "MINI TEADY BEARS",
+    title: "Mini Teddy Bear Soft Set",
     image: t4,
     price: 899,
     discountPrice: 699,
@@ -55,13 +55,14 @@ const toys = [
   },
   {
     id: 46,
-    title: "BABY TRACTORS",
+    title: "Baby Tractor Toy Vehicle Set",
     image: t6,
     price: 599,
     discountPrice: 499,
     sale: false,
   },
 ];
+
 
 const ToysSection = () => {
   const dispatch = useDispatch();
@@ -98,7 +99,7 @@ const ToysSection = () => {
   return (
     <>
       {/* Hero Section */}
-      <div className="relative w-full h-auto lg:h-screen overflow-hidden animate__animated animate__zoomIn">
+      <div className="relative w-full h-auto lg:h-[60vh] overflow-hidden animate__animated animate__zoomIn">
         <div className="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
         <video
           className="w-full h-full object-contain lg:object-cover"
@@ -122,7 +123,7 @@ const ToysSection = () => {
       {/* Toys Section */}
       <div className="w-full my-10 py-8">
         <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
-          <button className="text-3xl shadow-md shadow-slate-200 mb-5 font-extrabold text-myPink p-1">
+          <button className="text-3xl  mb-5 font-extrabold text-myPink ">
             TOYS COLLECTION
           </button>
         </div>
@@ -144,7 +145,7 @@ const ToysSection = () => {
                 <div
                   key={toy.id}
                   className={`relative bg-white rounded-md shadow h-[330px] w-[260px] flex flex-col transition-transform duration-500 ${
-                    isActive ? "scale-105 z-10" : "scale-100"
+                    isActive ? "scale-100 z-10" : "scale-100"
                   }`}
                 >
                   {toy.sale && (
@@ -157,7 +158,7 @@ const ToysSection = () => {
                     <img
                       src={toy.image}
                       alt={toy.title}
-                      className="bg-slate-100 w-60 h-48 object-cover rounded-t-md"
+                      className="bg-slate-100 w-60 h-48 lg:object-contain object-contain rounded-t-md"
                     />
                   </NavLink>
 
@@ -194,7 +195,7 @@ const ToysSection = () => {
 
         {/* View All */}
         <div className="text-center mt-6">
-          <button className="bg-mypurple w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2" data-aos="fade-right">
+          <button className="bg-mypurple lg:w-[30%] w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2" data-aos="fade-right">
             VIEW ALL <FaChevronRight size={14} />
           </button>
         </div>

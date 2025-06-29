@@ -1,16 +1,9 @@
 import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaTwitter,
-  FaYoutube,
-  FaPhoneAlt,
-  FaEnvelope,
-  FaMapMarkerAlt,
-} from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import logo from "../images/minnaminnilogo-removebg-preview.png";
 
 const Footer = () => {
   useEffect(() => {
@@ -18,110 +11,86 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="bg-myPink text-gray-800 pt-10 pb-6 px-4 md:px-20">
-      <div className="grid md:grid-cols-4 gap-10">
-        {/* About Section */}
-        <div data-aos="fade-up">
-          <h2 className="text-2xl font-extrabold text-pink-600 mb-3">
-            MINNAMINNIE
-          </h2>
-          <p className="text-sm leading-relaxed">
-            Your one-stop shop for adorable baby garments, educational toys, and
-            quality sportswear. We bring comfort, joy, and style to every
-            child's world.
-          </p>
-        </div>
+    <footer className=" text-center bg-gradient-to-b to-pink-50 from-purple-50 text-gray-800 py-10 px-4">
+      {/* Logo */}
+      <div data-aos="fade-up">
+        <NavLink
+          to="/"
+          className=" w-full flex justify-center text-4xl font-extrabold text-gray-900"
+        >
+          <img src={logo} className="max-w-[100px]" alt="" />
+        </NavLink>
+      </div>
 
-        {/* Quick Links */}
-        <div data-aos="fade-up" data-aos-delay="100">
-          <h2 className="text-lg font-semibold text-pink-700 mb-3">
-            Quick Links
-          </h2>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <NavLink to="/privacy" className="hover:text-pink-500 transition">
-                Privacy Policy
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/terms" className="hover:text-pink-500 transition">
-                Terms & Conditions
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/returns" className="hover:text-pink-500 transition">
-                Return & Refund
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/shipping" className="hover:text-pink-500 transition">
-                Shipping Policy
-              </NavLink>
-            </li>
-          </ul>
-        </div>
+      {/* Role Title */}
+      <div data-aos="fade-up" data-aos-delay="100" className="mt-4">
+        <h2 className="text-xl font-extrabold">
+          <span className="text-myPink">MINNA</span>{" "}
+          <span className="text-mypurple">MINNIE</span>
+        </h2>
+        <p className="max-w-xl mx-auto text-xs mt-2 text-gray-500">
+          MINNAMINNIE is a lovingly crafted baby products website offering a
+          wide range of high-quality items including garments, toys,
+          accessories, shoes, and more. Designed with care and built using
+          modern web technologies.
+        </p>
+      </div>
 
-        {/* Contact Info & Social Links */}
-        <div data-aos="fade-up" data-aos-delay="200">
-          <h2 className="text-lg font-semibold text-pink-700 mb-3">
-            Contact Us
-          </h2>
-          <ul className="space-y-3 text-sm">
-            <li className="flex items-center gap-3">
-              <FaPhoneAlt className="text-pink-500" /> +92 300 1234567
-            </li>
-            <li className="flex items-center gap-3">
-              <FaEnvelope className="text-pink-500" /> info@minnaminnie.com
-            </li>
-            <li className="flex items-center gap-3">
-              <FaMapMarkerAlt className="text-pink-500" /> Lahore, Pakistan
-            </li>
-          </ul>
-
-          <div className="flex gap-4 mt-5 text-xl">
-            <a
-              href="https://www.facebook.com/minnaminnie"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-pink-800 transition text-blue-600"
-            >
-              <FaFacebookF />
-            </a>
-            <a
-              href="https://www.instagram.com/minnaminnie"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-pink-800 transition text-red-600"
-            >
-              <FaInstagram />
-            </a>
-            <a
-              href="https://twitter.com/minnaminnie"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-pink-800 transition text-blue-500"
-            >
-              <FaTwitter />
-            </a>
-            <a
-              href="https://www.youtube.com/@minnaminnie"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-pink-800 transition text-red-500"
-            >
-              <FaYoutube />
-            </a>
-          </div>
-        </div>
+      {/* Social Links */}
+      <div
+        className="flex justify-center gap-5 mt-6 text-2xl"
+        data-aos="fade-down"
+        data-aos-delay="200"
+      >
+        <a
+          href="https://www.facebook.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-700 transition"
+        >
+          <FaFacebookF />
+        </a>
+        <a
+          href="https://www.instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-pink-600 transition"
+        >
+          <FaInstagram />
+        </a>
+        <a
+          href="https://twitter.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 transition"
+        >
+          <FaTwitter />
+        </a>
+        <a
+          href="https://www.youtube.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-red-500 transition"
+        >
+          <FaYoutube />
+        </a>
       </div>
 
       {/* Bottom Line */}
       <div
-        className="mt-10 border-t border-white pt-4 text-center font-medium text-sm text-pink-700"
-        data-aos="fade-up"
+        className="mt-10 border-t border-gray-400 pt-4 text-sm text-gray-700 flex flex-col md:flex-row justify-between items-center gap-2"
+        
         data-aos-delay="300"
       >
-        © {new Date().getFullYear()} MINNAMINNIE. All rights reserved.
+        <p>© {new Date().getFullYear()} Sami Ullah. All rights reserved.</p>
+        <div className="flex gap-4">
+          <NavLink to="/privacy" className="hover:underline">
+            Privacy-Policy
+          </NavLink>
+          <NavLink to="/terms" className="hover:underline">
+            Terms and Conditions
+          </NavLink>
+        </div>
       </div>
     </footer>
   );

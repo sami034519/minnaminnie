@@ -3,18 +3,18 @@ import { FaChevronRight, FaChevronLeft, FaCartPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/CartSlice"; // Adjust the path if needed
-import sp1 from "../images/sp1.webp";
-import sp2 from "../images/sp2.webp";
-import sp3 from "../images/sp3.webp";
-import sp4 from "../images/sp4.webp";
-import sp5 from "../images/sp5.webp";
-import sp6 from "../images/sp6.webp";
+import sp1 from "../images/sp1-removebg-preview.png";
+import sp2 from "../images/sp2-removebg-preview.png";
+import sp3 from "../images/sp3-removebg-preview.png";
+import sp4 from "../images/sp4-removebg-preview.png";
+import sp5 from "../images/sp5-removebg-preview.png";
+import sp6 from "../images/sp6-removebg-preview.png";
 import AOS from "aos";
 
 const sportswearProducts = [
   {
     id: 11,
-    title: "Boys Athletic Tracksuit - Navy Blue",
+    title: "Boys Athletic Tracksuit Set - Navy",
     image: sp1,
     price: 2499,
     discountPrice: 1999,
@@ -22,7 +22,7 @@ const sportswearProducts = [
   },
   {
     id: 12,
-    title: "Girls Activewear Set - Peach Pink",
+    title: "Girls Activewear Outfit Set - Peach",
     image: sp2,
     price: 2299,
     discountPrice: 1799,
@@ -30,7 +30,7 @@ const sportswearProducts = [
   },
   {
     id: 13,
-    title: "Unisex Kids Joggers - Grey & Black",
+    title: "Unisex Kids Joggers Set - Grey",
     image: sp3,
     price: 1799,
     discountPrice: 1499,
@@ -38,7 +38,7 @@ const sportswearProducts = [
   },
   {
     id: 14,
-    title: "Boys Sleeveless Sports Tank - Blue",
+    title: "Boys Sleeveless Tank Top - Blue",
     image: sp4,
     price: 899,
     discountPrice: 749,
@@ -46,7 +46,7 @@ const sportswearProducts = [
   },
   {
     id: 15,
-    title: "Girls Yoga Set - Purple Haze",
+    title: "Girls Yoga Outfit Set - Purple",
     image: sp5,
     price: 1999,
     discountPrice: 1599,
@@ -54,13 +54,14 @@ const sportswearProducts = [
   },
   {
     id: 16,
-    title: "Kids Sports T-Shirt (3 Pack) - Multicolor",
+    title: "Kids Sports T-Shirt Pack - Multicolor",
     image: sp6,
     price: 1299,
     discountPrice: 1099,
     sale: false,
   },
 ];
+
 
 const KidsSportswear = () => {
   const dispatch = useDispatch();
@@ -107,7 +108,7 @@ const KidsSportswear = () => {
   return (
     <div className="w-full lg:py-12 mb-10 lg:my-10">
       <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
-        <h1 className="text-3xl mb-5 font-extrabold  text-myPink shadow-md shadow-slate-200 p-1">
+        <h1 className="text-3xl mb-5 font-extrabold text-myPink">
           KIDS SPORTSWEAR
         </h1>
       </div>
@@ -140,7 +141,7 @@ const KidsSportswear = () => {
                   <img
                     src={product.image}
                     alt={product.title}
-                    className="bg-slate-100 w-60 h-48 object-cover rounded-t-md"
+                    className="bg-slate-100 w-60 h-48 object-contain rounded-t-md"
                   />
                 </NavLink>
 
@@ -175,7 +176,7 @@ const KidsSportswear = () => {
       </div>
 
       <div className="text-center mt-6">
-        <button className="bg-mypurple w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2" data-aos='fade-right'>
+        <button className="bg-mypurple lg:w-[30%] w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2" data-aos='fade-right'>
           VIEW ALL <FaChevronRight size={14} />
         </button>
       </div>

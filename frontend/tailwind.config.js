@@ -6,6 +6,7 @@ module.exports = {
       colors: {
         myPink: '#f49ac0',
         mypurple: '#a27cb9',
+        productscolor:'#efefef'
       },
       keyframes: {
         marquee: {
