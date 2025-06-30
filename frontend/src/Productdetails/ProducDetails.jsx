@@ -110,7 +110,7 @@ const ProductDetail = () => {
 
         <div>
           <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
-          <p className="text-xl text-pink-600 font-semibold mb-4">Rs. {product.discountPrice}</p>
+          <p className="text-xl text-pink-600 font-semibold mb-4"> {product.discountPrice}</p>
 
           <p className="text-xs mb-1">
             <span className="font-medium">NOTE:</span> Please check the <span className="text-red-500 underline">Size Chart</span> in the last image.
