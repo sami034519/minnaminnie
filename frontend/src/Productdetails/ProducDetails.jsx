@@ -18,7 +18,7 @@ const ProductDetail = () => {
     name: "",
     email: "",
     phone: "",
-    adress: "",
+    adress: "", // intentionally keeping as 'adress'
   });
 
   const handleFormChange = (e) => {
@@ -34,19 +34,24 @@ const ProductDetail = () => {
   };
 
   const handleSubmitOrder = async () => {
-    if (!form.name || !form.email || !form.phone || !form.address) {
+    if (!form.name || !form.email || !form.phone || !form.adress) {
       alert("Please fill all fields");
       return;
     }
 
     setIsLoading(true);
 
+    const numericPrice = parseInt(product.price.replace(/[^0-9]/g, ""), 10);
+
     const orderData = {
-      ...form,
-      message: `Order for ${product.title} | Size: ${selectedSize} | Qty: ${quantity} | Price: Rs. ${product.price}`,
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      adress: form.adress,
+      message: `Order for ${product.title} - Size: ${selectedSize} - Qty: ${quantity}`,
       product: {
         title: product.title,
-        price: product.price,
+        price: `PKR ${numericPrice.toLocaleString()}`,
         sizes: product.sizes,
         features: product.features,
         image: product.image,
@@ -79,6 +84,8 @@ const ProductDetail = () => {
   if (!product) {
     return <div className="text-center text-red-500 mt-10">Product not found.</div>;
   }
+
+  const numericPrice = parseInt(product.price.replace(/[^0-9]/g, ""), 10);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
@@ -113,7 +120,7 @@ const ProductDetail = () => {
         <div>
           <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
           <p className="text-xl text-pink-600 font-semibold mb-4">
-            Rs. {product.price.toLocaleString()}
+            Rs. {numericPrice.toLocaleString()}
           </p>
 
           <p className="text-xs mb-1">
@@ -220,7 +227,7 @@ const ProductDetail = () => {
                 className="w-full border p-2 rounded text-sm"
               />
               <textarea
-                name="address"
+                name="adress"
                 placeholder="Delivery Address"
                 value={form.adress}
                 onChange={handleFormChange}
@@ -232,7 +239,7 @@ const ProductDetail = () => {
                 <p><strong>Product:</strong> {product.title}</p>
                 <p><strong>Size:</strong> {selectedSize}</p>
                 <p><strong>Qty:</strong> {quantity}</p>
-                <p><strong>Total Price:</strong> Rs. {(product.price * quantity).toLocaleString()}</p>
+                <p><strong>Total Price:</strong> Rs. {(numericPrice * quantity).toLocaleString()}</p>
               </div>
 
               <button
