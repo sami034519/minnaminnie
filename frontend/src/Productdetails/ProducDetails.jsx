@@ -6,47 +6,47 @@ import { FaShoppingBag } from "react-icons/fa";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const product = products.find((p) => p.id === id);
+  const product = products.find((p) => String(p.id) === id); // ensure string match
 
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("");
   const [mainImage, setMainImage] = useState(product?.image);
-  const [showPopup, setShowPopup] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
     address: "",
   });
 
-  if (!product) {
-    return (
-      <div className="text-center mt-10 text-xl text-red-500">
-        Product not found.
-      </div>
-    );
-  }
+  const handleFormChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleOrderNow = () => {
     if (!selectedSize) {
       alert("Please select a size");
       return;
     }
-    setShowPopup(true);
+    setIsPopupOpen(true);
   };
 
-  const handleSubmitOrder = async (e) => {
-    e.preventDefault();
+  const handleSubmitOrder = async () => {
+    if (!form.name || !form.email || !form.phone || !form.address) {
+      alert("Please fill all fields");
+      return;
+    }
+
     setIsLoading(true);
 
     const orderData = {
-      ...formData,
-      message: `Order for ${product.title} | Size: ${selectedSize} | Qty: ${quantity} | Price: ${product.price}`,
+      ...form,
+      message: `Order for ${product.title} | Size: ${selectedSize} | Qty: ${quantity} | Price: ${product.discountPrice}`,
       product: {
         title: product.title,
-        price: product.price,
+        price: product.discountPrice,
         sizes: product.sizes,
         features: product.features,
         image: product.image,
@@ -56,30 +56,32 @@ const ProductDetail = () => {
     try {
       const res = await fetch("https://minna-m-innie-backend.vercel.app/api/order", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
       });
 
       const data = await res.json();
+
       if (res.ok) {
-        alert("Order placed successfully!");
-        setShowPopup(false);
-        setFormData({ name: "", email: "", phone: "", address: "" });
+        alert("Your order has been placed successfully!");
+        setIsPopupOpen(false);
       } else {
-        alert("Error: " + data.error);
+        alert("Failed to send order: " + data.error);
       }
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error("Error:", err);
       alert("Something went wrong.");
     } finally {
       setIsLoading(false);
     }
   };
 
+  if (!product) {
+    return <div className="text-center text-red-500 mt-10">Product not found.</div>;
+  }
+
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10 relative">
+    <div className="max-w-6xl mx-auto px-4 py-10">
       <div className="bg-mypurple text-white text-xs text-center py-2 mb-6">
         FREE SHIPPING only for prepaid orders will automatically apply on PayFast at checkout
       </div>
@@ -87,23 +89,18 @@ const ProductDetail = () => {
       <div className="text-xs text-gray-500 mb-6">Home / {product.title}</div>
 
       <div className="grid md:grid-cols-2 gap-10">
-        {/* Images */}
         <div>
           <div className="bg-productscolor p-4 rounded">
-            <img
-              src={mainImage}
-              alt={product.title}
-              className="w-full h-[500px] object-contain"
-            />
+            <img src={mainImage} alt={product.title} className="w-full h-[500px] object-contain" />
           </div>
           <div className="flex gap-2 mt-4">
             {[product.image, product.hoverImage].map((img, i) => (
               <img
                 key={i}
                 src={img}
-                alt={`Thumbnail ${i + 1}`}
+                alt={`Thumb ${i + 1}`}
                 onClick={() => setMainImage(img)}
-                className={`w-20 h-20 bg-productscolor object-contain border rounded cursor-pointer ${
+                className={`w-20 h-20 object-contain bg-productscolor border rounded cursor-pointer ${
                   mainImage === img ? "border-myPink" : "border-productscolor"
                 }`}
               />
@@ -111,26 +108,22 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Product Info */}
         <div>
-          <h1 className="text-2xl font-bold mb-2 text-gray-800">{product.title}</h1>
-          <p className="text-xl text-pink-600 font-semibold mb-4">Rs. {product.price}</p>
+          <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
+          <p className="text-xl text-pink-600 font-semibold mb-4">Rs. {product.discountPrice}</p>
 
-          <p className="text-xs text-gray-600 mb-1">
-            <span className="font-medium">NOTE:</span> Please check the{" "}
-            <span className="text-red-500 underline">Size Chart</span> in the last image.
+          <p className="text-xs mb-1">
+            <span className="font-medium">NOTE:</span> Please check the <span className="text-red-500 underline">Size Chart</span> in the last image.
           </p>
-          <p className="text-xs text-gray-600 mb-3">
+          <p className="text-xs mb-3">
             <span className="font-medium">SIZE CHART NOTE:</span> Allow 0.5 inch +/- tolerance.
           </p>
 
-          <div className="flex items-center gap-2 text-sm text-gray-700 mb-2">
-            <BsTruck className="text-pink-600" />
-            Delivery time is 3 - 5 working days after order confirmation.
+          <div className="flex items-center gap-2 text-sm mb-2">
+            <BsTruck className="text-pink-600" /> Delivery in 3 - 5 working days.
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-700 mb-4">
-            <BsGift className="text-pink-600" />
-            Gift wrapping available at cart page.
+          <div className="flex items-center gap-2 text-sm mb-4">
+            <BsGift className="text-pink-600" /> Gift wrapping available at cart page.
           </div>
 
           <div className="mb-4">
@@ -155,19 +148,9 @@ const ProductDetail = () => {
           <div className="mb-4">
             <p className="text-sm font-medium mb-1">QUANTITY</p>
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="px-2 py-1 border rounded text-sm"
-              >
-                -
-              </button>
+              <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} className="px-2 py-1 border rounded text-sm">-</button>
               <span className="text-sm">{quantity}</span>
-              <button
-                onClick={() => setQuantity((q) => q + 1)}
-                className="px-2 py-1 border rounded text-sm"
-              >
-                +
-              </button>
+              <button onClick={() => setQuantity((q) => q + 1)} className="px-2 py-1 border rounded text-sm">+</button>
             </div>
           </div>
 
@@ -177,8 +160,7 @@ const ProductDetail = () => {
             onClick={handleOrderNow}
             className="w-full py-3 bg-mypurple hover:bg-myPink text-white text-sm font-medium rounded flex items-center justify-center gap-2"
           >
-            <FaShoppingBag size={16} />
-            ORDER NOW
+            <FaShoppingBag size={16} /> Order Now
           </button>
         </div>
       </div>
@@ -186,75 +168,74 @@ const ProductDetail = () => {
       {/* Features */}
       <div className="mt-10 border-t pt-6">
         <h3 className="text-md font-medium text-gray-800 mb-3">Product Features</h3>
-        <ul className="text-sm text-gray-600 list-disc list-inside">
+        <ul className="list-disc list-inside text-sm text-gray-600">
           {product.features.map((feature, i) => (
             <li key={i}>{feature}</li>
           ))}
         </ul>
       </div>
 
-      {/* Order Popup Modal */}
-      {showPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md relative">
+      {/* Popup Modal */}
+      {isPopupOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full relative">
             <button
-              onClick={() => setShowPopup(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl"
+              className="absolute top-2 right-3 text-gray-600 text-lg"
+              onClick={() => setIsPopupOpen(false)}
             >
               &times;
             </button>
-            <h2 className="text-lg font-bold mb-4 text-center">Complete Your Order</h2>
+            <h2 className="text-xl font-semibold mb-4">Complete Your Order</h2>
 
-            <form onSubmit={handleSubmitOrder} className="space-y-3">
+            <div className="space-y-3">
               <input
                 type="text"
-                required
+                name="name"
                 placeholder="Your Name"
-                className="w-full border px-3 py-2 rounded text-sm"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                value={form.name}
+                onChange={handleFormChange}
+                className="w-full border p-2 rounded text-sm"
               />
               <input
                 type="email"
-                required
+                name="email"
                 placeholder="Your Email"
-                className="w-full border px-3 py-2 rounded text-sm"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                value={form.email}
+                onChange={handleFormChange}
+                className="w-full border p-2 rounded text-sm"
               />
               <input
                 type="tel"
-                required
+                name="phone"
                 placeholder="Phone Number"
-                className="w-full border px-3 py-2 rounded text-sm"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                value={form.phone}
+                onChange={handleFormChange}
+                className="w-full border p-2 rounded text-sm"
               />
               <textarea
-                required
+                name="address"
                 placeholder="Delivery Address"
-                className="w-full border px-3 py-2 rounded text-sm"
-                rows={3}
-                value={formData.address}
-                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                value={form.address}
+                onChange={handleFormChange}
+                rows="2"
+                className="w-full border p-2 rounded text-sm"
               />
 
-              {/* Pre-filled summary (read-only) */}
-              <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded mt-2">
+              <div className="text-sm mt-2">
                 <p><strong>Product:</strong> {product.title}</p>
                 <p><strong>Size:</strong> {selectedSize}</p>
                 <p><strong>Qty:</strong> {quantity}</p>
-                <p><strong>Total Price:</strong> Rs. {product.price * quantity}</p>
+                <p><strong>Total Price:</strong> Rs. {product.discountPrice * quantity}</p>
               </div>
 
               <button
-                type="submit"
+                onClick={handleSubmitOrder}
                 disabled={isLoading}
-                className="w-full py-2 bg-myPink text-white rounded text-sm mt-3 hover:bg-pink-700"
+                className="w-full bg-mypurple hover:bg-myPink text-white py-2 rounded text-sm font-medium"
               >
-                {isLoading ? "Placing Order..." : "Confirm Order"}
+                {isLoading ? "Placing Order..." : "Submit Order"}
               </button>
-            </form>
+            </div>
           </div>
         </div>
       )}
