@@ -18,7 +18,7 @@ const ProductDetail = () => {
     name: "",
     email: "",
     phone: "",
-    address: "",
+    adress: "",
   });
 
   const handleFormChange = (e) => {
