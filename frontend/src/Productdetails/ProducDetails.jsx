@@ -18,7 +18,7 @@ const ProductDetail = () => {
     name: "",
     email: "",
     phone: "",
-    adress: "", // intentionally keeping as 'adress'
+    adress: "",
   });
 
   const handleFormChange = (e) => {
@@ -41,7 +41,11 @@ const ProductDetail = () => {
 
     setIsLoading(true);
 
-    const numericPrice = parseInt(product.price.replace(/[^0-9]/g, ""), 10);
+    const rawPrice = product?.price;
+    const numericPrice =
+      typeof rawPrice === "number"
+        ? rawPrice
+        : parseInt(rawPrice.replace(/[^0-9]/g, ""), 10) || 0;
 
     const orderData = {
       name: form.name,
@@ -85,7 +89,11 @@ const ProductDetail = () => {
     return <div className="text-center text-red-500 mt-10">Product not found.</div>;
   }
 
-  const numericPrice = parseInt(product.price.replace(/[^0-9]/g, ""), 10);
+  const rawPrice = product?.price;
+  const numericPrice =
+    typeof rawPrice === "number"
+      ? rawPrice
+      : parseInt(rawPrice.replace(/[^0-9]/g, ""), 10) || 0;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
@@ -96,7 +104,6 @@ const ProductDetail = () => {
       <div className="text-xs text-gray-500 mb-6">Home / {product.title}</div>
 
       <div className="grid md:grid-cols-2 gap-10">
-        {/* Images */}
         <div>
           <div className="bg-productscolor p-4 rounded">
             <img src={mainImage} alt={product.title} className="w-full h-[500px] object-contain" />
@@ -116,7 +123,6 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Info */}
         <div>
           <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
           <p className="text-xl text-pink-600 font-semibold mb-4">
@@ -137,7 +143,6 @@ const ProductDetail = () => {
             <BsGift className="text-pink-600" /> Gift wrapping available at cart page.
           </div>
 
-          {/* Sizes */}
           <div className="mb-4">
             <p className="text-sm font-medium mb-1">SIZE</p>
             <div className="flex flex-wrap gap-2">
@@ -157,7 +162,6 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Quantity */}
           <div className="mb-4">
             <p className="text-sm font-medium mb-1">QUANTITY</p>
             <div className="flex items-center gap-3">
@@ -169,7 +173,6 @@ const ProductDetail = () => {
 
           <p className="text-sm text-green-600 mb-4">🟢 In stock, ready to ship</p>
 
-          {/* Order Now Button */}
           <button
             onClick={handleOrderNow}
             className="w-full py-3 bg-mypurple hover:bg-myPink text-white text-sm font-medium rounded flex items-center justify-center gap-2"
@@ -179,7 +182,6 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      {/* Product Features */}
       <div className="mt-10 border-t pt-6">
         <h3 className="text-md font-medium text-gray-800 mb-3">Product Features</h3>
         <ul className="list-disc list-inside text-sm text-gray-600">
@@ -189,7 +191,6 @@ const ProductDetail = () => {
         </ul>
       </div>
 
-      {/* Order Popup */}
       {isPopupOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full relative">
