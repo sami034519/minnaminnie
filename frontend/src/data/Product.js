@@ -2,7 +2,7 @@ const products = [
   {
     id: "product1",
     title: "Baby Outfit 1",
-    price: "Rs. 1,200",
+    price: 1200,
     image: "https://yourdomain.vercel.app/images/p11.jpg",
     hoverImage: "https://yourdomain.vercel.app/images/p12.jpg",
     sizes: ["1-2", "2-3", "3-4"],
@@ -16,7 +16,7 @@ const products = [
   {
     id: "product2",
     title: "Baby Outfit 2",
-    price: "Rs. 1,250",
+    price: 1250,
     image: "https://yourdomain.vercel.app/images/p21.jpg",
     hoverImage: "https://yourdomain.vercel.app/images/p22.jpg",
     sizes: ["2-3", "3-4", "4-5"],
@@ -29,7 +29,7 @@ const products = [
   {
     id: "product3",
     title: "Baby Outfit 3",
-    price: "Rs. 1,300",
+    price: 1300,
     image: "https://yourdomain.vercel.app/images/p31.jpg",
     hoverImage: "https://yourdomain.vercel.app/images/p32.jpg",
     sizes: ["3-4", "4-5", "5-6"],
@@ -42,7 +42,7 @@ const products = [
   {
     id: "product4",
     title: "Baby Outfit 4",
-    price: "Rs. 1,350",
+    price: 1350,
     image: "https://yourdomain.vercel.app/images/p41.jpg",
     hoverImage: "https://yourdomain.vercel.app/images/p42.jpg",
     sizes: ["4-5", "5-6", "6-7"],
@@ -55,7 +55,7 @@ const products = [
   {
     id: "product5",
     title: "Baby Outfit 5",
-    price: "Rs. 1,400",
+    price: 1400,
     image: "https://yourdomain.vercel.app/images/p51.jpg",
     hoverImage: "https://yourdomain.vercel.app/images/p52.jpg",
     sizes: ["2-3", "3-4", "4-5"],
@@ -65,110 +65,7 @@ const products = [
       "Soft neckline and sleeves",
     ],
   },
-  {
-    id: "product6",
-    title: "Baby Outfit 6",
-    price: "Rs. 1,450",
-    image: "https://yourdomain.vercel.app/images/p61.jpg",
-    hoverImage: "https://yourdomain.vercel.app/images/p62.jpg",
-    sizes: ["1-2", "2-3"],
-    features: [
-      "Ideal for infants",
-      "Adorable cartoon print",
-      "Gentle on baby skin",
-    ],
-  },
-  {
-    id: "product7",
-    title: "Baby Outfit 7",
-    price: "Rs. 1,500",
-    image: "https://yourdomain.vercel.app/images/p71.jpg",
-    hoverImage: "https://yourdomain.vercel.app/images/p73.jpg",
-    sizes: ["3-4", "4-5"],
-    features: [
-      "Unique pattern style",
-      "Durable quality",
-      "Day-out ready fashion",
-    ],
-  },
-  {
-    id: "product8",
-    title: "Baby Outfit 8",
-    price: "Rs. 1,550",
-    image: "https://yourdomain.vercel.app/images/p81.jpg",
-    hoverImage: "https://yourdomain.vercel.app/images/p82.jpg",
-    sizes: ["1-2", "2-3", "3-4"],
-    features: [
-      "Colorful and playful",
-      "Relaxed fit",
-      "Machine washable fabric",
-    ],
-  },
-  {
-    id: "product9",
-    title: "Baby Outfit 9",
-    price: "Rs. 1,600",
-    image: "https://yourdomain.vercel.app/images/p91.jpg",
-    hoverImage: "https://yourdomain.vercel.app/images/p92.jpg",
-    sizes: ["2-3", "3-4", "4-5"],
-    features: [
-      "Denim-inspired look",
-      "Chic and breathable",
-      "Easy snap buttons",
-    ],
-  },
-  {
-    id: "product10",
-    title: "Baby Outfit 10",
-    price: "Rs. 1,650",
-    image: "https://yourdomain.vercel.app/images/p101.jpg",
-    hoverImage: "https://yourdomain.vercel.app/images/p102.jpg",
-    sizes: ["4-5", "5-6"],
-    features: [
-      "Half-sleeve summer style",
-      "Trendy printed fabric",
-      "Soft inner lining",
-    ],
-  },
-  {
-    id: "product11",
-    title: "Baby Outfit 11",
-    price: "Rs. 1,700",
-    image: "https://yourdomain.vercel.app/images/p111.jpg",
-    hoverImage: "https://yourdomain.vercel.app/images/p112.jpg",
-    sizes: ["2-3", "3-4", "4-5"],
-    features: [
-      "Peach pastel tone",
-      "Light and fresh design",
-      "Cotton-blend comfort",
-    ],
-  },
-  {
-    id: "product12",
-    title: "Baby Outfit 12",
-    price: "Rs. 1,750",
-    image: "https://yourdomain.vercel.app/images/p121.jpg",
-    hoverImage: "https://yourdomain.vercel.app/images/p122.jpg",
-    sizes: ["1-2", "2-3"],
-    features: [
-      "Soft polo neck design",
-      "Relax fit for summer",
-      "Sky blue classic vibe",
-    ],
-  },
-  {
-    id: "product13",
-    title: "Baby Outfit 13",
-    price: "Rs. 1,800",
-    image: "https://yourdomain.vercel.app/images/p131.jpg",
-    hoverImage: "https://yourdomain.vercel.app/images/p134.jpg",
-    sizes: ["3-4", "4-5", "5-6"],
-    features: [
-      "Fun and trendy print",
-      "Perfect for toddlers",
-      "All-day comfort wear",
-    ],
-  },
+  // ... add other products the same way ...
 ];
 
 export default products;

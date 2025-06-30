@@ -14,10 +14,15 @@ const AllProducts = () => {
 
   const dispatch = useDispatch();
 
+  const parsePrice = (priceString) => {
+    if (typeof priceString === "string") {
+      return parseInt(priceString.replace(/Rs\.?\s?/, "").replace(/,/g, ""));
+    }
+    return priceString;
+  };
+
   const handleAddToCart = (product) => {
-    const numericPrice = parseInt(
-      product.price.replace(/Rs\.?\s?/, "").replace(/,/g, "")
-    );
+    const numericPrice = parsePrice(product.price);
     dispatch(addToCart({ ...product, price: numericPrice, quantity: 1 }));
   };
 
@@ -28,57 +33,66 @@ const AllProducts = () => {
       </h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="bg-white shadow-md rounded-lg overflow-hidden group relative transition-transform duration-300 hover:scale-[1.02]"
-          >
-            <NavLink to={`/product/${product.id}`} className="block relative">
-              <div className="relative w-full h-48 bg-productscolor">
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="w-full h-full object-contain z-10 relative transition-opacity duration-300"
-                  data-aos="fade-down"
-                />
-                <img
-                  src={product.hoverImage}
-                  alt={`${product.title} Hover`}
-                  className="w-full h-full object-contain absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none"
-                />
-              </div>
-            </NavLink>
+        {products.map((product) => {
+          const originalPrice = parsePrice(product.price);
+          const discountedPrice = originalPrice;
+          const fakeOldPrice = originalPrice + 200;
 
-            <div className="p-3 text-center">
-              <h4 className="text-sm font-semibold text-gray-800 mb-1">
-                {product.title}
-              </h4>
-              <div className="flex justify-center gap-2 text-sm mb-2">
-                <p className="line-through text-gray-400">
-                  Rs.{parseInt(product.price.replace("Rs. ", "")) + 200}
-                </p>
-                <p className="text-pink-600 font-semibold">{product.price}</p>
-              </div>
+          return (
+            <div
+              key={product.id}
+              className="bg-white shadow-md rounded-lg overflow-hidden group relative transition-transform duration-300 hover:scale-[1.02]"
+            >
+              <NavLink to={`/product/${product.id}`} className="block relative">
+                <div className="relative w-full h-48 bg-productscolor">
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="w-full h-full object-contain z-10 relative transition-opacity duration-300"
+                    data-aos="fade-down"
+                  />
+                  <img
+                    src={product.hoverImage}
+                    alt={`${product.title} Hover`}
+                    className="w-full h-full object-contain absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none"
+                  />
+                </div>
+              </NavLink>
 
-              <div className="flex flex-col gap-2 mt-3">
-                <NavLink
-                  to={`/product/${product.id}`}
-                  className="bg-mypurple hover:bg-myPink text-white px-3 py-1 rounded text-xs"
-                >
-                  View Details
-                </NavLink>
+              <div className="p-3 text-center">
+                <h4 className="text-sm font-semibold text-gray-800 mb-1">
+                  {product.title}
+                </h4>
 
-                <button
-                  onClick={() => handleAddToCart(product)}
-                  className="bg-myPink hover:bg-mypurple text-white px-3 py-1 rounded text-xs flex items-center gap-2 justify-center"
-                >
-                  <FaCartPlus size={12} />
-                  Add to Cart
-                </button>
+                <div className="flex justify-center gap-2 text-sm mb-2">
+                  <p className="line-through text-gray-400">
+                    Rs. {fakeOldPrice.toLocaleString()}
+                  </p>
+                  <p className="text-pink-600 font-semibold">
+                    Rs. {discountedPrice.toLocaleString()}
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-2 mt-3">
+                  <NavLink
+                    to={`/product/${product.id}`}
+                    className="bg-mypurple hover:bg-myPink text-white px-3 py-1 rounded text-xs"
+                  >
+                    View Details
+                  </NavLink>
+
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    className="bg-myPink hover:bg-mypurple text-white px-3 py-1 rounded text-xs flex items-center gap-2 justify-center"
+                  >
+                    <FaCartPlus size={12} />
+                    Add to Cart
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
