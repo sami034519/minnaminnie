@@ -5,6 +5,7 @@ import Home from './Home';
 import ScrollToTop from './Scrolltop';
 import Footer from './Footer/Footer';
 import AllProducts from './All garments/Allgarments';
+import ProductDetail from './Productdetails/ProducDetails';
 function App() {
   return (
     <>
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/allgarments" element={<AllProducts />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
       </Routes>
       <Footer/>
     </>
