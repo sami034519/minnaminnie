@@ -87,8 +87,7 @@ const Footer = () => {
       {/* Bottom Line */}
       <div
         className="mt-10 border-t border-gray-300 pt-4 text-sm text-gray-700 flex flex-col md:flex-row justify-between items-center gap-2"
-        data-aos="fade-up"
-        data-aos-delay="300"
+       
       >
         <p>© {new Date().getFullYear()} Sami Ullah. All rights reserved.</p>
         <div className="flex gap-4">
