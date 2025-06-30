@@ -222,7 +222,7 @@ const ProductDetail = () => {
               <textarea
                 name="address"
                 placeholder="Delivery Address"
-                value={form.address}
+                value={form.adress}
                 onChange={handleFormChange}
                 rows="2"
                 className="w-full border p-2 rounded text-sm"
