@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import { addToCart } from "../redux/CartSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import products from "../data/Product"; // imported images already used inside each product
+import products from "../data/Product";
 
 const AllProducts = () => {
   useEffect(() => {
@@ -15,10 +15,11 @@ const AllProducts = () => {
   const dispatch = useDispatch();
 
   const handleAddToCart = (product) => {
-  const numericPrice = parseInt(product.price.replace(/Rs\.?\s?/, "").replace(/,/g, ""));
-  dispatch(addToCart({ ...product, price: numericPrice, quantity: 1 }));
-};
-
+    const numericPrice = parseInt(
+      product.price.replace(/Rs\.?\s?/, "").replace(/,/g, "")
+    );
+    dispatch(addToCart({ ...product, price: numericPrice, quantity: 1 }));
+  };
 
   return (
     <div className="px-4 md:px-10 py-10 max-w-7xl mx-auto">
@@ -32,7 +33,6 @@ const AllProducts = () => {
             key={product.id}
             className="bg-white shadow-md rounded-lg overflow-hidden group relative transition-transform duration-300 hover:scale-[1.02]"
           >
-            {/* Image with Hover Effect */}
             <NavLink to={`/product/${product.id}`} className="block relative">
               <div className="relative w-full h-48 bg-productscolor">
                 <img
@@ -49,7 +49,6 @@ const AllProducts = () => {
               </div>
             </NavLink>
 
-            {/* Product Info */}
             <div className="p-3 text-center">
               <h4 className="text-sm font-semibold text-gray-800 mb-1">
                 {product.title}

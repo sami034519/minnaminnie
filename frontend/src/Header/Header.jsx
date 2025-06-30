@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import logo from "../images/minnaminnilogo.jpg";
-import herovideo from "../videos/topvideo1.mp4";
-import heroFallback from "../images/Mob-banner2.jpg";
 import {
   ShoppingCart,
   Search,
@@ -78,7 +75,7 @@ function Header() {
             <div className="flex-1 flex justify-center md:justify-start items-center relative">
               <NavLink to="/" onClick={closeMenus}>
                 <img
-                  src={logo}
+                  src="/images/minnaminnilogo.jpg"
                   alt="Minna Minni Logo"
                   className="w-20 sm:w-20 md:w-24 h-auto rounded-full"
                 />
@@ -227,11 +224,11 @@ function Header() {
       {/* Cart Drawer */}
       <Cart isOpen={showCart} onClose={() => setShowCart(false)} />
 
-      {/* Hero Section with Top Padding */}
+      {/* Hero Section with Video */}
       <div className="relative w-full lg:h-screen h-[70vh] overflow-hidden pt-[132px] animate__animated animate__zoomIn">
         {!videoLoaded && (
           <img
-            src={heroFallback}
+            src="/images/Mob-banner2.jpg"
             alt="Hero Fallback"
             className="absolute w-full h-full object-cover z-0"
           />
@@ -243,7 +240,7 @@ function Header() {
           className={`w-full h-[70vh] lg:h-full object-cover mt-32 lg:mt-36 absolute top-0 left-0 transition-opacity duration-500 ${
             videoLoaded ? "opacity-100 z-0" : "opacity-0"
           }`}
-          src={herovideo}
+          src="/videos/topvideo1.mp4"
           autoPlay
           loop
           muted

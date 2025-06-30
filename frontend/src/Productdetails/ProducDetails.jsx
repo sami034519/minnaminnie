@@ -22,7 +22,7 @@ const ProductDetail = () => {
     setIsLoading(true);
 
     const orderData = {
-      name: "Sami Ullah", // Replace with dynamic form inputs later
+      name: "Sami Ullah", // Replace with dynamic inputs later
       email: "sami@example.com",
       phone: "03001234567",
       adress: "Lahore, Pakistan",
@@ -61,7 +61,11 @@ const ProductDetail = () => {
   };
 
   if (!product) {
-    return <div className="text-center mt-10 text-xl text-red-500">Product not found.</div>;
+    return (
+      <div className="text-center mt-10 text-xl text-red-500">
+        Product not found.
+      </div>
+    );
   }
 
   return (
@@ -100,13 +104,14 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Info */}
+        {/* Info Section */}
         <div>
           <h1 className="text-2xl font-bold mb-2 text-gray-800">{product.title}</h1>
           <p className="text-xl text-pink-600 font-semibold mb-4">{product.price}</p>
 
           <p className="text-xs text-gray-600 mb-1">
-            <span className="font-medium">NOTE:</span> Please check the <span className="text-red-500 underline">Size Chart</span> in the last image.
+            <span className="font-medium">NOTE:</span> Please check the{" "}
+            <span className="text-red-500 underline">Size Chart</span> in the last image.
           </p>
           <p className="text-xs text-gray-600 mb-3">
             <span className="font-medium">SIZE CHART NOTE:</span> Allow 0.5 inch +/- tolerance.

@@ -3,19 +3,15 @@ import { FaChevronRight, FaChevronLeft, FaCartPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/CartSlice"; // Adjust path if needed
-import p11 from "../images/p11.jpg";
-import p21 from "../images/p22.jpg";
-import p31 from "../images/p31.jpg";
-import p41 from "../images/p71.jpg";
-import p51 from "../images/p81.jpg";
-import p61 from "../images/p61.jpg";
 import AOS from "aos";
+import "aos/dist/aos.css";
 
+// Images now come from public/images via full URL
 const products = [
   {
     id: 21,
     title: "Infant Girls Cotton Shirt - Blue",
-    image: p11,
+    image: "https://minnaminnie.vercel.app/images/p11.jpg",
     price: 1395,
     discountPrice: 999,
     sale: true,
@@ -23,7 +19,7 @@ const products = [
   {
     id: 22,
     title: "Infant Boys Casual Shirt - Green",
-    image: p21,
+    image: "https://minnaminnie.vercel.app/images/p22.jpg",
     price: 1395,
     discountPrice: 1099,
     sale: false,
@@ -31,7 +27,7 @@ const products = [
   {
     id: 23,
     title: "Infant Boys Pajama Set - Red",
-    image: p31,
+    image: "https://minnaminnie.vercel.app/images/p31.jpg",
     price: 1499,
     discountPrice: 1199,
     sale: true,
@@ -39,7 +35,7 @@ const products = [
   {
     id: 24,
     title: "Traditional Girls Printed Skirt - Purple",
-    image: p41,
+    image: "https://minnaminnie.vercel.app/images/p71.jpg",
     price: 1199,
     discountPrice: 899,
     sale: false,
@@ -47,7 +43,7 @@ const products = [
   {
     id: 25,
     title: "Baby Check Shirt Linings - Soft",
-    image: p51,
+    image: "https://minnaminnie.vercel.app/images/p81.jpg",
     price: 1599,
     discountPrice: 1299,
     sale: true,
@@ -55,7 +51,7 @@ const products = [
   {
     id: 26,
     title: "Boys White T-Shirts Set - Pack",
-    image: p61,
+    image: "https://minnaminnie.vercel.app/images/p61.jpg",
     price: 499,
     discountPrice: 399,
     sale: false,
@@ -101,19 +97,18 @@ const BabyGarments = () => {
   );
 
   const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
+    dispatch(addToCart({ ...product, quantity: 1 }));
   };
 
   return (
     <div className="w-full py-8 my-10">
-      {/* Heading */}
       <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
-        <h1 className="text-3xl mb-5 font-extrabold  text-myPink">
+        <h1 className="text-3xl mb-5 font-extrabold text-myPink">
           BABY GARMENTS
         </h1>
       </div>
 
-      {/* Carousel with Arrows */}
+      {/* Carousel */}
       <div className="flex items-center justify-center gap-2">
         <button
           onClick={prevSlide}
@@ -132,23 +127,23 @@ const BabyGarments = () => {
                   isActive ? "scale-100 z-10" : "scale-100"
                 }`}
               >
-                {/* SALE Badge */}
+                {/* SALE badge */}
                 {product.sale && (
                   <div className="absolute top-2 left-2 bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
                     SALE
                   </div>
                 )}
 
-                {/* Image */}
+                {/* Product image */}
                 <NavLink to={`/product/${product.id}`} data-aos="fade-left">
                   <img
                     src={product.image}
                     alt={product.title}
-                    className=" bg-productscolor lg:object-contain w-60 h-48 object-cover rounded-t-md"
+                    className="bg-productscolor lg:object-contain w-60 h-48 object-cover rounded-t-md"
                   />
                 </NavLink>
 
-                {/* Info + Add to Cart */}
+                {/* Info and add to cart */}
                 <div className="p-2 text-xs text-center">
                   <h3 className="font-medium text-gray-800">{product.title}</h3>
                   <div className="flex justify-center items-center gap-2 mt-1">
@@ -179,14 +174,15 @@ const BabyGarments = () => {
         </button>
       </div>
 
-      {/* View All Button */}
+      {/* View All button */}
       <div className="text-center mt-6">
-        <button
+        <NavLink
+          to="/allgarments"
           className="bg-mypurple lg:w-[30%] w-[80%] hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex justify-center items-center gap-2"
           data-aos="fade-right"
         >
           VIEW ALL <FaChevronRight size={14} />
-        </button>
+        </NavLink>
       </div>
     </div>
   );

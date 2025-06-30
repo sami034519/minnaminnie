@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { FaChevronRight, FaChevronLeft, FaCartPlus } from "react-icons/fa";
-import herovideo from "../videos/Toysvideo.mp4";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/CartSlice"; // ✅ adjust the path if needed
-import t1 from "../images/t1animal-removebg-preview.png";
-import t2 from "../images/t5racingcar.webp";
-import t3 from "../images/t3duck__2_-removebg-preview.png";
-import t4 from "../images/t4teadtbear1-removebg-preview.png";
-import t5 from "../images/t5boxes.png";
-import t6 from "../images/t6tractor-removebg-preview.png";
+import { addToCart } from "../redux/CartSlice";
 import AOS from "aos";
+import "aos/dist/aos.css";
+
+// Video from public/videos (use relative path)
+const videoPath = "/videos/Toysvideo.mp4";
 
 const toys = [
   {
     id: 41,
     title: "Mini Animal Toy Set Pack",
-    image: t1,
+    image: "/images/t1animal-removebg-preview.png",
     price: 1299,
     discountPrice: 899,
     sale: true,
@@ -24,7 +21,7 @@ const toys = [
   {
     id: 42,
     title: "Colorful Advanced Racing-Cars",
-    image: t2,
+    image: "/images/t5racingcar.webp",
     price: 1699,
     discountPrice: 1199,
     sale: false,
@@ -32,7 +29,7 @@ const toys = [
   {
     id: 43,
     title: "Mini Ducks Toy Set Brown",
-    image: t3,
+    image: "/images/t3duck__2_-removebg-preview.png",
     price: 1499,
     discountPrice: 999,
     sale: true,
@@ -40,7 +37,7 @@ const toys = [
   {
     id: 44,
     title: "Mini Teddy Bear Soft Set",
-    image: t4,
+    image: "/images/t4teadtbear1-removebg-preview.png",
     price: 899,
     discountPrice: 699,
     sale: false,
@@ -48,7 +45,7 @@ const toys = [
   {
     id: 45,
     title: "Educational Wooden Puzzle Board",
-    image: t5,
+    image: "/images/t5boxes.png",
     price: 1199,
     discountPrice: 799,
     sale: true,
@@ -56,7 +53,7 @@ const toys = [
   {
     id: 46,
     title: "Baby Tractor Toy Vehicle Set",
-    image: t6,
+    image: "/images/t6tractor-removebg-preview.png",
     price: 599,
     discountPrice: 499,
     sale: false,
@@ -92,7 +89,7 @@ const ToysSection = () => {
   const visibleToys = [...toys, ...toys].slice(index, index + visibleCount);
 
   const handleAddToCart = (toy) => {
-    dispatch(addToCart(toy));
+    dispatch(addToCart({ ...toy, quantity: 1, price: toy.discountPrice }));
   };
 
   return (
@@ -102,20 +99,18 @@ const ToysSection = () => {
         <div className="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
         <video
           className="w-full h-full object-contain lg:object-cover"
-          src={herovideo}
+          src={videoPath}
           autoPlay
           loop
           muted
           playsInline
         />
         <div className="absolute bottom-10 w-full z-20 flex items-center justify-center text-white text-center px-4">
-          <div>
-            <NavLink>
-              <button className="border-[3px]  px-3 py-1 mt-3 border-white">
-                SHOP NOW
-              </button>
-            </NavLink>
-          </div>
+          <NavLink to="/toys">
+            <button className="border-[3px] px-3 py-1 mt-3 border-white hover:bg-white hover:text-black transition-all">
+              SHOP NOW
+            </button>
+          </NavLink>
         </div>
       </div>
 
@@ -125,9 +120,9 @@ const ToysSection = () => {
           className="flex justify-center space-x-4 mb-6"
           data-aos="fade-down"
         >
-          <button className="text-3xl  mb-5 font-extrabold text-myPink ">
+          <h2 className="text-3xl mb-5 font-extrabold text-myPink">
             TOYS COLLECTION
-          </button>
+          </h2>
         </div>
 
         <div className="flex items-center justify-center gap-2">
@@ -160,7 +155,7 @@ const ToysSection = () => {
                     <img
                       src={toy.image}
                       alt={toy.title}
-                      className="bg-slate-100 w-60 h-48 lg:object-contain object-contain rounded-t-md"
+                      className="bg-slate-100 w-60 h-48 object-contain rounded-t-md"
                     />
                   </NavLink>
 
@@ -195,14 +190,16 @@ const ToysSection = () => {
           </button>
         </div>
 
-        {/* View All */}
-        <div className="text-center mt-4 lg:mt-6">
-          <button
-            className="bg-mypurple lg:w-[30%] w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2"
-            data-aos="fade-right"
-          >
-            VIEW ALL <FaChevronRight size={14} />
-          </button>
+        {/* View All Button */}
+        <div className="text-center mt-6">
+          <NavLink to="/toys">
+            <button
+              className="bg-mypurple lg:w-[30%] w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2"
+              data-aos="fade-right"
+            >
+              VIEW ALL <FaChevronRight size={14} />
+            </button>
+          </NavLink>
         </div>
       </div>
     </>

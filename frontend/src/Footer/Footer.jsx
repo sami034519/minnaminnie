@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTwitter,
+  FaYoutube,
+} from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import logo from "../images/minnaminnilogo-removebg-preview.png";
 
 const Footer = () => {
   useEffect(() => {
@@ -11,18 +15,22 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className=" text-center bg-gradient-to-b to-pink-50 from-purple-50 text-gray-800 py-10 px-4">
+    <footer className="text-center bg-gradient-to-b to-pink-50 from-purple-50 text-gray-800 py-10 px-4">
       {/* Logo */}
       <div data-aos="fade-up">
         <NavLink
           to="/"
-          className=" w-full flex justify-center text-4xl font-extrabold text-gray-900"
+          className="w-full flex justify-center text-4xl font-extrabold text-gray-900"
         >
-          <img src={logo} className="max-w-[100px]" alt="" />
+          <img
+            src="/images/minnaminnilogo-removebg-preview.png"
+            className="max-w-[100px]"
+            alt="Minna Minnie Logo"
+          />
         </NavLink>
       </div>
 
-      {/* Role Title */}
+      {/* Brand Name */}
       <div data-aos="fade-up" data-aos-delay="100" className="mt-4">
         <h2 className="text-xl font-extrabold">
           <span className="text-myPink">MINNA</span>{" "}
@@ -36,7 +44,7 @@ const Footer = () => {
         </p>
       </div>
 
-      {/* Social Links */}
+      {/* Social Media Icons */}
       <div
         className="flex justify-center gap-5 mt-6 text-2xl"
         data-aos="fade-down"
@@ -46,7 +54,7 @@ const Footer = () => {
           href="https://www.facebook.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-700 transition"
+          className="text-blue-700 transition hover:scale-110"
         >
           <FaFacebookF />
         </a>
@@ -54,7 +62,7 @@ const Footer = () => {
           href="https://www.instagram.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-pink-600 transition"
+          className="text-pink-600 transition hover:scale-110"
         >
           <FaInstagram />
         </a>
@@ -62,7 +70,7 @@ const Footer = () => {
           href="https://twitter.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-500 transition"
+          className="text-blue-500 transition hover:scale-110"
         >
           <FaTwitter />
         </a>
@@ -70,7 +78,7 @@ const Footer = () => {
           href="https://www.youtube.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-red-500 transition"
+          className="text-red-500 transition hover:scale-110"
         >
           <FaYoutube />
         </a>
@@ -78,17 +86,17 @@ const Footer = () => {
 
       {/* Bottom Line */}
       <div
-        className="mt-10 border-t lg:px-10 border-gray-400 pt-4 text-sm text-gray-700 flex flex-col md:flex-row justify-between items-center gap-2"
-        
+        className="mt-10 border-t border-gray-300 pt-4 text-sm text-gray-700 flex flex-col md:flex-row justify-between items-center gap-2"
+        data-aos="fade-up"
         data-aos-delay="300"
       >
         <p>© {new Date().getFullYear()} Sami Ullah. All rights reserved.</p>
         <div className="flex gap-4">
           <NavLink to="/privacy" className="hover:underline">
-            Privacy-Policy
+            Privacy Policy
           </NavLink>
           <NavLink to="/terms" className="hover:underline">
-            Terms and Conditions
+            Terms & Conditions
           </NavLink>
         </div>
       </div>
