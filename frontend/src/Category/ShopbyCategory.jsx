@@ -59,7 +59,7 @@ function ShopbyCategory() {
                 src={item.image}
                 alt={item.title}
                 className="w-full h-52 object-cover"
-                data-aos="fade-up"
+                data-aos="fade-left"
               />
               <h1 className="text-center text-lg font-semibold py-4 uppercase">
                 {item.title}
