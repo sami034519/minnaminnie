@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { sportswear } from "../data/Product"; // Update path as needed
+import { sportswear } from "../data/Product";
 import { BsTruck, BsGift } from "react-icons/bs";
 import { FaShoppingBag } from "react-icons/fa";
 
@@ -9,7 +9,7 @@ const SportwearDetail = () => {
   const product = sportswear.find((p) => String(p.id) === id);
 
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState("Free Size");
+  const [selectedSize, setSelectedSize] = useState("");
   const [mainImage, setMainImage] = useState(product?.image);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +26,10 @@ const SportwearDetail = () => {
   };
 
   const handleOrderNow = () => {
+    if (!selectedSize) {
+      alert("Please select a size");
+      return;
+    }
     setIsPopupOpen(true);
   };
 
@@ -51,8 +55,8 @@ const SportwearDetail = () => {
       product: {
         title: product.title,
         price: `PKR ${numericPrice.toLocaleString()}`,
-        size: selectedSize,
-        quantity: quantity,
+        sizes: [selectedSize],
+        features: product.features || ["Comfortable sportswear for kids aged 1-12 years"],
         image: product.image,
       },
     };
@@ -89,11 +93,24 @@ const SportwearDetail = () => {
     );
   }
 
+  const sizeOptions = [
+    "1-2 Years",
+    "2-3 Years",
+    "3-4 Years",
+    "4-5 Years",
+    "5-6 Years",
+    "6-7 Years",
+    "7-8 Years",
+    "8-9 Years",
+    "9-10 Years",
+    "10-11 Years",
+    "11-12 Years",
+  ];
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <div className="bg-mypurple text-white text-xs text-center py-2 mb-6">
-        FREE SHIPPING only for prepaid orders will automatically apply on
-        PayFast at checkout
+        FREE SHIPPING only for prepaid orders will automatically apply on PayFast at checkout
       </div>
 
       <div className="text-xs text-gray-500 mb-6">Home / {product.title}</div>
@@ -131,28 +148,29 @@ const SportwearDetail = () => {
           </p>
 
           <div className="flex items-center gap-2 text-sm mb-2">
-            <BsTruck className="text-pink-600" /> Delivery in 3 - 5 working
-            days.
+            <BsTruck className="text-pink-600" /> Delivery in 3 - 5 working days.
           </div>
           <div className="flex items-center gap-2 text-sm mb-4">
-            <BsGift className="text-pink-600" /> Gift wrapping available at cart
-            page.
+            <BsGift className="text-pink-600" /> Gift wrapping available at cart page.
           </div>
 
-          {/* Size (Fixed or One Size) */}
+          {/* Size options */}
           <div className="mb-4">
             <p className="text-sm font-medium mb-1">SIZE</p>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setSelectedSize("Free Size")}
-                className={`px-4 py-2 border rounded text-sm ${
-                  selectedSize === "Free Size"
-                    ? "bg-myPink text-white border-myPink"
-                    : "text-gray-600 hover:bg-gray-100"
-                }`}
-              >
-                Free Size
-              </button>
+            <div className="flex flex-wrap gap-2">
+              {sizeOptions.map((size) => (
+                <button
+                  key={size}
+                  onClick={() => setSelectedSize(size)}
+                  className={`px-3 py-1 border rounded text-sm ${
+                    selectedSize === size
+                      ? "bg-myPink text-white border-myPink"
+                      : "text-gray-600 hover:bg-gray-100"
+                  }`}
+                >
+                  {size}
+                </button>
+              ))}
             </div>
           </div>
 
