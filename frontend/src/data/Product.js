@@ -1,4 +1,161 @@
-const products = [
+export const toys = [
+  {
+    id: 41,
+    title: "Mini Animal Toy Set Pack",
+    image: "https://minnaminnie.vercel.app/images/t1animal-removebg-preview.png",
+    price: 1299,
+    discountPrice: 899,
+    sale: true,
+  },
+  {
+    id: 42,
+    title: "Colorful Advanced Racing-Cars",
+    image: "https://minnaminnie.vercel.app/images/t5racingcar.webp",
+    price: 1699,
+    discountPrice: 1199,
+    sale: false,
+  },
+  {
+    id: 43,
+    title: "Mini Ducks Toy Set Brown",
+    image: "https://minnaminnie.vercel.app/images/t3duck__2_-removebg-preview.png",
+    price: 1499,
+    discountPrice: 999,
+    sale: true,
+  },
+  {
+    id: 44,
+    title: "Mini Teddy Bear Soft Set",
+    image: "https://minnaminnie.vercel.app/images/t4teadtbear1-removebg-preview.png",
+    price: 899,
+    discountPrice: 699,
+    sale: false,
+  },
+  {
+    id: 45,
+    title: "Educational Wooden Puzzle Board",
+    image: "https://minnaminnie.vercel.app/images/t5boxes.png",
+    price: 1199,
+    discountPrice: 799,
+    sale: true,
+  },
+  {
+    id: 46,
+    title: "Baby Tractor Toy Vehicle Set",
+    image: "https://minnaminnie.vercel.app/images/t6tractor-removebg-preview.png",
+    price: 599,
+    discountPrice: 499,
+    sale: false,
+  },
+];
+export const shoes = [
+  {
+    id: 31,
+    title: "Boys Sneakers Casual - Navy Blue",
+    image: "https://minnaminnie.vercel.app/images/shoe1-removebg-preview.png",
+    price: 2599,
+    discountPrice: 2099,
+    sale: true,
+  },
+  {
+    id: 32,
+    title: "Girls Glitter Pumps - Pink Shine",
+    image: "https://minnaminnie.vercel.app/images/shoe2-removebg-preview.png",
+    price: 2399,
+    discountPrice: 1899,
+    sale: true,
+  },
+  {
+    id: 33,
+    title: "Unisex Slip-on Shoes - Grey Sport",
+    image: "https://minnaminnie.vercel.app/images/shoe3-removebg-preview.png",
+    price: 1999,
+    discountPrice: 1599,
+    sale: false,
+  },
+  {
+    id: 34,
+    title: "Kids Velcro Sandals - Black Edition",
+    image: "https://minnaminnie.vercel.app/images/shoe4-removebg-preview.png",
+    price: 1399,
+    discountPrice: 1199,
+    sale: false,
+  },
+  {
+    id: 35,
+    title: "Girls Ballerina Flats - Purple Charm",
+    image: "https://minnaminnie.vercel.app/images/shoe5-removebg-preview.png",
+    price: 2199,
+    discountPrice: 1799,
+    sale: true,
+  },
+  {
+    id: 36,
+    title: "Kids Canvas Shoes - Multicolor Pack",
+    image: "https://minnaminnie.vercel.app/images/shoe6-removebg-preview.png",
+    price: 1899,
+    discountPrice: 1499,
+    sale: false,
+  },
+];
+
+// products.js
+
+export const sportswear = [
+  {
+    id: 11,
+    title: "Boys Athletic Tracksuit Set - Navy",
+    image: "https://minnaminnie.vercel.app/images/sp1-removebg-preview.png",
+    price: 2499,
+    discountPrice: 1999,
+    sale: true,
+  },
+  {
+    id: 12,
+    title: "Girls Activewear Outfit Set - Peach",
+    image: "https://minnaminnie.vercel.app/images/sp2-removebg-preview.png",
+    price: 2299,
+    discountPrice: 1799,
+    sale: true,
+  },
+  {
+    id: 13,
+    title: "Unisex Kids Joggers Set - Grey",
+    image: "https://minnaminnie.vercel.app/images/sp3-removebg-preview.png",
+    price: 1799,
+    discountPrice: 1499,
+    sale: false,
+  },
+  {
+    id: 14,
+    title: "Boys Sleeveless Tank Top - Blue",
+    image: "https://minnaminnie.vercel.app/images/sp4-removebg-preview.png",
+    price: 899,
+    discountPrice: 749,
+    sale: false,
+  },
+  {
+    id: 15,
+    title: "Girls Yoga Outfit Set - Purple",
+    image: "https://minnaminnie.vercel.app/images/sp5-removebg-preview.png",
+    price: 1999,
+    discountPrice: 1599,
+    sale: true,
+  },
+  {
+    id: 16,
+    title: "Kids Sports T-Shirt Pack - Multicolor",
+    image: "https://minnaminnie.vercel.app/images/sp6-removebg-preview.png",
+    price: 1299,
+    discountPrice: 1099,
+    sale: false,
+  },
+];
+
+
+
+// products.js
+export const garments = [
   {
     id: "product1",
     title: "Baby Outfit 1",
@@ -169,6 +326,7 @@ const products = [
       "All-day comfort wear",
     ],
   },
+  // ... (rest of the products up to product13)
 ];
 
-export default products;
+

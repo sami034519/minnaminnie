@@ -5,6 +5,8 @@ import {
   FaInstagram,
   FaTwitter,
   FaYoutube,
+  FaPhoneAlt,
+  FaEnvelope,
 } from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -23,17 +25,18 @@ const Footer = () => {
           className="w-full flex justify-center text-4xl font-extrabold text-gray-900"
         >
           <img
-            src="/images/minnaminnilogo-removebg-preview.png"
-            className="max-w-[100px]"
+            src="/images/minnalogo.png"
+            className="max-w-[120px]"
             alt="Minna Minnie Logo"
           />
         </NavLink>
       </div>
 
       {/* Brand Name */}
-      <div data-aos="fade-up" data-aos-delay="100" className="mt-4">
+      <div data-aos="fade-up" data-aos-delay="100" className="mt-1">
         <h2 className="text-xl font-extrabold">
           <span className="text-myPink">MINNA</span>{" "}
+          <span className="text-black">&</span>{" "}
           <span className="text-mypurple">MINNIE</span>
         </h2>
         <p className="max-w-xl mx-auto text-xs mt-2 text-gray-500">
@@ -42,6 +45,22 @@ const Footer = () => {
           accessories, shoes, and more. Designed with care and built using
           modern web technologies.
         </p>
+      </div>
+
+      {/* Contact Info */}
+      <div
+        className="mt-6 flex justify-center gap-6 text-sm text-gray-700"
+        data-aos="fade-up"
+        data-aos-delay="150"
+      >
+        <a href="tel:03328205786" className="flex items-center gap-2 hover:underline">
+          <FaPhoneAlt className="text-pink-600" />
+          0332 8205786
+        </a>
+        <a href="mailto:minnaandminnie4u@gmail.com" className="flex items-center gap-2 hover:underline">
+          <FaEnvelope className="text-mypurple" />
+          minnaandminnie4u@gmail.com
+        </a>
       </div>
 
       {/* Social Media Icons */}
@@ -87,7 +106,6 @@ const Footer = () => {
       {/* Bottom Line */}
       <div
         className="mt-10 border-t border-gray-300 pt-4 text-sm text-gray-700 flex flex-col md:flex-row justify-between items-center gap-2"
-       
       >
         <p>© {new Date().getFullYear()} Sami Ullah. All rights reserved.</p>
         <div className="flex gap-4">

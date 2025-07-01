@@ -1,8 +1,8 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { removeFromCart, clearCart } from '../redux/CartSlice';
-import { FaTimes } from 'react-icons/fa';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { removeFromCart, clearCart } from "../redux/CartSlice";
+import { FaTimes } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 const Cart = ({ isOpen, onClose }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -17,7 +17,7 @@ const Cart = ({ isOpen, onClose }) => {
   return (
     <div
       className={`fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
-        isOpen ? 'translate-x-0' : 'translate-x-full'
+        isOpen ? "translate-x-0" : "translate-x-full"
       }`}
     >
       {/* Header */}
@@ -49,7 +49,16 @@ const Cart = ({ isOpen, onClose }) => {
               key={item.id}
               className="flex items-start gap-3 mb-4 border-b pb-3"
             >
-              <NavLink to={`/product/${item.id}`} onClick={onClose}>
+              <NavLink  to={
+    item.type === "toy"
+      ? `/toy/${item.id}`
+      : item.type === "shoe"
+      ? `/shoe/${item.id}`
+      : item.type === "sportswear"
+      ? `/sportswear/${item.id}`
+      : `/product/${item.id}` // default: garments
+  }
+  onClick={onClose}>
                 <img
                   src={item.image}
                   alt={item.title}
@@ -58,7 +67,18 @@ const Cart = ({ isOpen, onClose }) => {
               </NavLink>
 
               <div className="flex-1">
-                <NavLink to={`/product/${item.id}`} onClick={onClose}>
+                <NavLink
+                 to={
+    item.type === "toy"
+      ? `/toy/${item.id}`
+      : item.type === "shoe"
+      ? `/shoes/${item.id}`
+      : item.type === "sportswear"
+      ? `/sports/${item.id}`
+      : `/product/${item.id}` // default: garments
+  }
+  onClick={onClose}
+                >
                   <h4 className="text-sm font-medium text-gray-800 hover:underline">
                     {item.title}
                   </h4>
@@ -72,7 +92,8 @@ const Cart = ({ isOpen, onClose }) => {
               </div>
 
               <button
-                onClick={() => dispatch(removeFromCart(item.id))}
+                onClick={() => dispatch(removeFromCart({ id: item.id, type: item.type }))}
+
                 className="text-red-500 text-xs"
               >
                 Remove

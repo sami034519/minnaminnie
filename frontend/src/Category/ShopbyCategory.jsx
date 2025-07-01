@@ -23,12 +23,12 @@ const categories = [
   {
     title: 'SPORT WEARS',
     image: '/images/sportswears.jpeg',
-    path: '/sport-wears',
+    path: '/sportwears',
   },
   {
     title: 'BABY SHOES',
     image: '/images/Boy_shoes_1024x1024.jpg',
-    path: '/baby-shoes',
+    path: '/shoes',
   },
   {
     title: 'BABY CARE',

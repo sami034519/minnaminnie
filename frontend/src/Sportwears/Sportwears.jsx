@@ -1,61 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { FaChevronRight, FaChevronLeft, FaCartPlus } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaChevronLeft, FaChevronRight, FaCartPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/CartSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
-const sportswearProducts = [
-  {
-    id: 11,
-    title: "Boys Athletic Tracksuit Set - Navy",
-    image: "/images/sp1-removebg-preview.png",
-    price: 2499,
-    discountPrice: 1999,
-    sale: true,
-  },
-  {
-    id: 12,
-    title: "Girls Activewear Outfit Set - Peach",
-    image: "/images/sp2-removebg-preview.png",
-    price: 2299,
-    discountPrice: 1799,
-    sale: true,
-  },
-  {
-    id: 13,
-    title: "Unisex Kids Joggers Set - Grey",
-    image: "/images/sp3-removebg-preview.png",
-    price: 1799,
-    discountPrice: 1499,
-    sale: false,
-  },
-  {
-    id: 14,
-    title: "Boys Sleeveless Tank Top - Blue",
-    image: "/images/sp4-removebg-preview.png",
-    price: 899,
-    discountPrice: 749,
-    sale: false,
-  },
-  {
-    id: 15,
-    title: "Girls Yoga Outfit Set - Purple",
-    image: "/images/sp5-removebg-preview.png",
-    price: 1999,
-    discountPrice: 1599,
-    sale: true,
-  },
-  {
-    id: 16,
-    title: "Kids Sports T-Shirt Pack - Multicolor",
-    image: "/images/sp6-removebg-preview.png",
-    price: 1299,
-    discountPrice: 1099,
-    sale: false,
-  },
-];
+import { sportswear } from "../data/Product"; // ✅ Imported sportswear array
 
 const KidsSportswear = () => {
   const dispatch = useDispatch();
@@ -76,21 +26,28 @@ const KidsSportswear = () => {
 
   const prevSlide = () => {
     setIndex((prev) =>
-      prev === 0 ? sportswearProducts.length - visibleCount : prev - 1
+      prev === 0 ? sportswear.length - visibleCount : prev - 1
     );
   };
 
   const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % sportswearProducts.length);
+    setIndex((prev) => (prev + 1) % sportswear.length);
   };
 
-  const visibleProducts = [...sportswearProducts, ...sportswearProducts].slice(
+  const visibleProducts = [...sportswear, ...sportswear].slice(
     index,
     index + visibleCount
   );
 
-  const handleAddToCart = (product) => {
-    dispatch(addToCart({ ...product, quantity: 1, price: product.discountPrice }));
+  const handleAddToCart = (item) => {
+    dispatch(
+      addToCart({
+        ...item,
+        quantity: 1,
+        price: item.discountPrice,
+        type: "sportswear", // Required for order logic
+      })
+    );
   };
 
   return (
@@ -111,7 +68,7 @@ const KidsSportswear = () => {
         </button>
 
         <div className="flex gap-4 overflow-hidden">
-          {visibleProducts.map((product, idx) => (
+          {visibleProducts.map((product) => (
             <div
               key={product.id}
               className="relative bg-white rounded-md shadow w-[260px] flex flex-col transition-transform duration-500"
@@ -122,7 +79,7 @@ const KidsSportswear = () => {
                 </div>
               )}
 
-              <NavLink to={`/product/${product.id}`} data-aos="fade-left">
+              <NavLink to={`/sportswear/${product.id}`} data-aos="fade-left">
                 <img
                   src={product.image}
                   alt={product.title}
@@ -133,13 +90,16 @@ const KidsSportswear = () => {
               <div className="p-2 text-xs text-center">
                 <h3 className="font-medium text-gray-800">{product.title}</h3>
                 <div className="flex justify-center items-center gap-2 mt-1">
-                  <p className="text-gray-400 line-through text-sm">
-                    Rs.{product.price.toLocaleString()}
-                  </p>
+                  {product.sale && (
+                    <p className="text-gray-400 line-through text-sm">
+                      Rs.{product.price.toLocaleString()}
+                    </p>
+                  )}
                   <p className="text-pink-600 font-semibold text-sm">
                     Rs.{product.discountPrice.toLocaleString()}
                   </p>
                 </div>
+
                 <button
                   onClick={() => handleAddToCart(product)}
                   className="mt-2 text-white bg-pink-600 hover:bg-pink-700 text-xs py-1 px-3 rounded flex items-center justify-center gap-2"
@@ -161,7 +121,7 @@ const KidsSportswear = () => {
 
       {/* View All Button */}
       <div className="text-center mt-6">
-        <NavLink to="/sport-wears">
+        <NavLink to="/sportwears">
           <button
             className="bg-mypurple lg:w-[30%] w-[80%] justify-center hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center gap-2"
             data-aos="fade-right"

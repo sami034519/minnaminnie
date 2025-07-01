@@ -1,62 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { FaChevronRight, FaChevronLeft, FaCartPlus } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaCartPlus, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/CartSlice"; // Adjust path if needed
+import { addToCart } from "../redux/CartSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
-// Images now come from public/images via full URL
-const products = [
-  {
-    id: 21,
-    title: "Infant Girls Cotton Shirt - Blue",
-    image: "https://minnaminnie.vercel.app/images/p11.jpg",
-    price: 1395,
-    discountPrice: 999,
-    sale: true,
-  },
-  {
-    id: 22,
-    title: "Infant Boys Casual Shirt - Green",
-    image: "https://minnaminnie.vercel.app/images/p22.jpg",
-    price: 1395,
-    discountPrice: 1099,
-    sale: false,
-  },
-  {
-    id: 23,
-    title: "Infant Boys Pajama Set - Red",
-    image: "https://minnaminnie.vercel.app/images/p31.jpg",
-    price: 1499,
-    discountPrice: 1199,
-    sale: true,
-  },
-  {
-    id: 24,
-    title: "Traditional Girls Printed Skirt - Purple",
-    image: "https://minnaminnie.vercel.app/images/p71.jpg",
-    price: 1199,
-    discountPrice: 899,
-    sale: false,
-  },
-  {
-    id: 25,
-    title: "Baby Check Shirt Linings - Soft",
-    image: "https://minnaminnie.vercel.app/images/p81.jpg",
-    price: 1599,
-    discountPrice: 1299,
-    sale: true,
-  },
-  {
-    id: 26,
-    title: "Boys White T-Shirts Set - Pack",
-    image: "https://minnaminnie.vercel.app/images/p61.jpg",
-    price: 499,
-    discountPrice: 399,
-    sale: false,
-  },
-];
+import { garments } from "../data/Product"; // updated
 
 const BabyGarments = () => {
   const dispatch = useDispatch();
@@ -67,38 +16,53 @@ const BabyGarments = () => {
     AOS.init({ duration: 1000 });
   }, []);
 
+  // Responsive slide count
   useEffect(() => {
     const updateVisibleCount = () => {
       if (window.innerWidth >= 1024) {
         setVisibleCount(4);
+      } else if (window.innerWidth >= 768) {
+        setVisibleCount(3);
       } else {
         setVisibleCount(2);
       }
     };
-
     updateVisibleCount();
     window.addEventListener("resize", updateVisibleCount);
     return () => window.removeEventListener("resize", updateVisibleCount);
   }, []);
 
+  const handleAddToCart = (product) => {
+  const numericPrice =
+    typeof product.price === "string"
+      ? parseInt(product.price.replace(/Rs\.?\s?/, "").replace(/,/g, ""))
+      : product.price;
+
+  dispatch(
+    addToCart({
+      ...product,
+      price: numericPrice,
+      quantity: 1,
+      type: "garments", // <-- set product type explicitly here
+    })
+  );
+};
+
+
   const prevSlide = () => {
     setIndex((prev) =>
-      prev === 0 ? products.length - visibleCount : prev - 1
+      prev === 0 ? garments.length - visibleCount : prev - 1
     );
   };
 
   const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % products.length);
+    setIndex((prev) => (prev + 1) % garments.length);
   };
 
-  const visibleProducts = [...products, ...products].slice(
+  const visibleProducts = [...garments, ...garments].slice(
     index,
     index + visibleCount
   );
-
-  const handleAddToCart = (product) => {
-    dispatch(addToCart({ ...product, quantity: 1 }));
-  };
 
   return (
     <div className="w-full py-8 my-10">
@@ -108,8 +72,9 @@ const BabyGarments = () => {
         </h1>
       </div>
 
-      {/* Carousel */}
+      {/* Carousel controls + items */}
       <div className="flex items-center justify-center gap-2">
+        {/* Prev button */}
         <button
           onClick={prevSlide}
           className="bg-pink-600 text-white p-1 rounded-full shadow hover:bg-pink-700"
@@ -117,55 +82,64 @@ const BabyGarments = () => {
           <FaChevronLeft />
         </button>
 
+        {/* Products */}
         <div className="flex gap-4 overflow-hidden">
-          {visibleProducts.map((product, idx) => {
-            const isActive = idx === 0;
-            return (
-              <div
-                key={product.id}
-                className={`relative bg-white rounded-md shadow w-[260px] flex flex-col transition-transform duration-500 ${
-                  isActive ? "scale-100 z-10" : "scale-100"
-                }`}
-              >
-                {/* SALE badge */}
-                {product.sale && (
-                  <div className="absolute top-2 left-2 bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
-                    SALE
-                  </div>
-                )}
-
-                {/* Product image */}
-                <NavLink to={`/product/${product.id}`} data-aos="fade-left">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="bg-productscolor lg:object-contain w-60 h-48 object-cover rounded-t-md"
-                  />
-                </NavLink>
-
-                {/* Info and add to cart */}
-                <div className="p-2 text-xs text-center">
-                  <h3 className="font-medium text-gray-800">{product.title}</h3>
-                  <div className="flex justify-center items-center gap-2 mt-1">
-                    <p className="text-gray-400 line-through text-sm">
-                      Rs.{product.price.toLocaleString()}
-                    </p>
-                    <p className="text-pink-600 font-semibold text-sm">
-                      Rs.{product.discountPrice.toLocaleString()}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="mt-2 text-white bg-pink-600 hover:bg-pink-700 text-xs py-1 px-3 rounded flex items-center justify-center gap-2"
-                  >
-                    <FaCartPlus size={14} /> Add to Cart
-                  </button>
+          {visibleProducts.map((product) => (
+            <div
+              key={product.id}
+              className="relative bg-white rounded-md shadow w-[260px] flex flex-col transition-transform duration-500 overflow-hidden group"
+            >
+              {/* SALE badge */}
+              {product.sale && (
+                <div className="absolute top-2 left-2 bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
+                  SALE
                 </div>
+              )}
+
+              {/* Image with hover and NavLink */}
+              <NavLink
+                to={`/product/${product.id}`}
+                className="relative bg-productscolor"
+              >
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="w-full h-48 object-contain relative z-10 transition-opacity duration-300"
+                  data-aos='fade-left'
+                />
+                {product.hoverImage && (
+                  <img
+                    src={product.hoverImage}
+                    alt={`${product.title} Hover`}
+                    className="absolute top-0 left-0 w-full h-48 object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none"
+                  />
+                )}
+              </NavLink>
+
+              {/* Info */}
+              <div className="p-2 text-xs text-center">
+                <h3 className="font-medium text-gray-800">{product.title}</h3>
+                <div className="flex justify-center items-center gap-2 mt-1 text-sm">
+                  <p className="text-gray-400 line-through">
+                    Rs.{(product.price + 200).toLocaleString()}
+                  </p>
+                  <p className="text-pink-600 font-semibold">
+                    Rs.{product.price.toLocaleString()}
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  className="mt-2 text-white bg-myPink hover:bg-mypurple text-xs py-1 px-3 rounded flex items-center justify-center gap-2"
+                >
+                  <FaCartPlus size={14} /> Add to Cart
+                </button>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
 
+        {/* Next button */}
         <button
           onClick={nextSlide}
           className="bg-pink-600 text-white p-1 rounded-full shadow hover:bg-pink-700"
@@ -174,7 +148,7 @@ const BabyGarments = () => {
         </button>
       </div>
 
-      {/* View All button */}
+      {/* View All Link */}
       <div className="text-center mt-6">
         <NavLink
           to="/allgarments"

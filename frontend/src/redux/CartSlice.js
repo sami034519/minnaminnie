@@ -10,23 +10,38 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const incoming = action.payload;
-      const existing = state.cartItems.find(item => item.id === incoming.id);
+
+      // Match by both id and type to avoid conflicts between similar ids
+      const existing = state.cartItems.find(
+        item => item.id === incoming.id && item.type === incoming.type
+      );
 
       if (existing) {
         existing.quantity += incoming.quantity || 1;
       } else {
-        state.cartItems.push({ ...incoming, quantity: incoming.quantity || 1 });
+        state.cartItems.push({
+          ...incoming,
+          quantity: incoming.quantity || 1,
+        });
       }
     },
+
     removeFromCart: (state, action) => {
-      state.cartItems = state.cartItems.filter(item => item.id !== action.payload);
+      // Remove item by id AND type for accuracy
+      state.cartItems = state.cartItems.filter(
+        item => item.id !== action.payload.id || item.type !== action.payload.type
+      );
     },
+
     clearCart: (state) => {
       state.cartItems = [];
     },
+
     updateQuantity: (state, action) => {
-      const { id, quantity } = action.payload;
-      const item = state.cartItems.find(item => item.id === id);
+      const { id, type, quantity } = action.payload;
+      const item = state.cartItems.find(
+        item => item.id === id && item.type === type
+      );
       if (item && quantity > 0) {
         item.quantity = quantity;
       }
@@ -34,5 +49,13 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, clearCart, updateQuantity } = cartSlice.actions;
+// Export actions
+export const {
+  addToCart,
+  removeFromCart,
+  clearCart,
+  updateQuantity,
+} = cartSlice.actions;
+
+// Export reducer
 export default cartSlice.reducer;

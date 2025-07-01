@@ -89,8 +89,17 @@ const ToysSection = () => {
   const visibleToys = [...toys, ...toys].slice(index, index + visibleCount);
 
   const handleAddToCart = (toy) => {
-    dispatch(addToCart({ ...toy, quantity: 1, price: toy.discountPrice }));
-  };
+  dispatch(
+    addToCart({
+      ...toy,
+      quantity: 1,
+      price: toy.discountPrice,
+      type: "toy", // 👈 YES! This is critical
+    })
+  );
+};
+
+
 
   return (
     <>
@@ -151,7 +160,8 @@ const ToysSection = () => {
                     </div>
                   )}
 
-                  <NavLink to={`/product/${toy.id}`} data-aos="fade-left">
+                  <NavLink to={`/toy/${toy.id}`} data-aos="fade-left">
+
                     <img
                       src={toy.image}
                       alt={toy.title}
