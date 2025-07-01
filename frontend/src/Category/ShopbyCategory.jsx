@@ -33,7 +33,7 @@ const categories = [
   {
     title: 'BABY CARE',
     image: '/images/Baby_Care_1024x1024.jpg',
-    path: '/baby-care',
+    path: '/babycare',
   },
 ];
 
