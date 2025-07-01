@@ -39,17 +39,17 @@ function Header() {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-
-
       setSearchQuery("");
       setSearchOpen(false);
     }
   };
 
   const navLinkStyle =
-    "cursor-pointer hover:underline decoration-2 underline-offset-4 decoration-mypurple";
+    "cursor-pointer border-b-2 border-transparent hover:border-mypurple";
   const getActiveLink = ({ isActive }) =>
-    isActive ? `${navLinkStyle} underline decoration-2` : navLinkStyle;
+    isActive
+      ? `${navLinkStyle} border-mypurple`
+      : `${navLinkStyle} border-transparent`;
 
   return (
     <>
@@ -93,7 +93,7 @@ function Header() {
                 <img
                   src="/images/minnalogo.png"
                   alt="Minna Minni Logo"
-                  className="w-28 sm:w-28  md:w-28 h-auto "
+                  className="w-28 md:w-28 h-auto"
                 />
               </NavLink>
 
@@ -118,28 +118,74 @@ function Header() {
 
             {/* Desktop Nav */}
             <ul className="hidden md:flex items-center space-x-6 font-medium text-base ml-auto">
-              <li><NavLink to="/allgarments" className={getActiveLink}>Baby Garments</NavLink></li>
-              <li className="relative"
+              <li>
+                <NavLink to="/allgarments" className={getActiveLink}>
+                  Baby Garments
+                </NavLink>
+              </li>
+              <li
+                className="relative"
                 onMouseEnter={() => setAccessoriesOpen(true)}
                 onMouseLeave={() => setAccessoriesOpen(false)}
               >
-                <span className={navLinkStyle}>Accessories</span>
+                <span className="cursor-pointer border-b-2 border-transparent hover:border-mypurple">
+                  Accessories
+                </span>
                 {accessoriesOpen && (
                   <ul className="absolute bg-myPink text-white top-5 left-0 py-2 shadow-md rounded z-20">
-                    <li><NavLink to="/accessories/fiddle" className="px-4 py-1 block hover:bg-mypurple">FIDDLE</NavLink></li>
-                    <li><NavLink to="/accessories/prams" className="px-4 py-1 block hover:bg-mypurple">PRAMS</NavLink></li>
-                    <li><NavLink to="/accessories/walkers" className="px-4 py-1 block hover:bg-mypurple">WALKERS</NavLink></li>
+                    <li>
+                      <NavLink
+                        to="/accessories/fiddle"
+                        className="px-4 py-1 block hover:bg-mypurple"
+                      >
+                        FIDDLE
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/accessories/prams"
+                        className="px-4 py-1 block hover:bg-mypurple"
+                      >
+                        PRAMS
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/accessories/walkers"
+                        className="px-4 py-1 block hover:bg-mypurple"
+                      >
+                        WALKERS
+                      </NavLink>
+                    </li>
                   </ul>
                 )}
               </li>
-              <li><NavLink to="/toys" className={getActiveLink}>Toys</NavLink></li>
-              <li><NavLink to="/sportwears" className={getActiveLink}>Sport Wears</NavLink></li>
-              <li><NavLink to="/shoes" className={getActiveLink}>Baby Shoes</NavLink></li>
-              <li className="cursor-pointer hover:text-mypurple" onClick={() => setSearchOpen(!searchOpen)}>
+              <li>
+                <NavLink to="/toys" className={getActiveLink}>
+                  Toys
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/sportwears" className={getActiveLink}>
+                  Sport Wears
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/shoes" className={getActiveLink}>
+                  Baby Shoes
+                </NavLink>
+              </li>
+              <li
+                className="cursor-pointer"
+                onClick={() => setSearchOpen(!searchOpen)}
+              >
                 <Search size={24} />
               </li>
               <li>
-                <button onClick={() => setShowCart(true)} className="relative text-pink-600">
+                <button
+                  onClick={() => setShowCart(true)}
+                  className="relative text-pink-600"
+                >
                   <ShoppingCart size={22} />
                   {itemCount > 0 && (
                     <span className="absolute -top-2 -right-2 bg-pink-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -153,7 +199,10 @@ function Header() {
 
           {/* Search Bar */}
           {searchOpen && (
-            <form onSubmit={handleSearchSubmit} className="p-3 bg-pink-50 shadow-md">
+            <form
+              onSubmit={handleSearchSubmit}
+              className="p-3 bg-pink-50 shadow-md"
+            >
               <input
                 type="text"
                 placeholder="Search products..."
@@ -167,11 +216,19 @@ function Header() {
           {/* Mobile Dropdown */}
           {mobileMenuOpen && (
             <div className="md:hidden bg-myPink text-white px-4 py-4 space-y-2 text-sm font-medium">
-              <NavLink to="/allgarments" className={getActiveLink} onClick={closeMenus}>
+              <NavLink
+                to="/allgarments"
+                onClick={closeMenus}
+                className={({ isActive }) =>
+                  `border-b-2 py-1 ${
+                    isActive ? "border-mypurple" : "border-white"
+                  }`
+                }
+              >
                 Baby Garments
               </NavLink>
               <div
-                className="flex justify-between items-center cursor-pointer hover:underline underline-offset-4 decoration-white"
+                className="flex justify-between items-center cursor-pointer"
                 onClick={() => setAccessoriesOpen(!accessoriesOpen)}
               >
                 <span>Accessories</span>
@@ -179,14 +236,76 @@ function Header() {
               </div>
               {accessoriesOpen && (
                 <div className="pl-4 space-y-1 flex flex-col gap-1">
-                  <NavLink to="/accessories/fiddle" className={getActiveLink} onClick={closeMenus}>Fiddle</NavLink>
-                  <NavLink to="/accessories/prams" className={getActiveLink} onClick={closeMenus}>Prams</NavLink>
-                  <NavLink to="/accessories/walkers" className={getActiveLink} onClick={closeMenus}>Walkers</NavLink>
+                  <NavLink
+                    to="/accessories/fiddle"
+                    onClick={closeMenus}
+                    className={({ isActive }) =>
+                      `border-b-2 py-1 ${
+                        isActive ? "border-mypurple" : "border-white"
+                      }`
+                    }
+                  >
+                    Fiddle
+                  </NavLink>
+                  <NavLink
+                    to="/accessories/prams"
+                    onClick={closeMenus}
+                    className={({ isActive }) =>
+                      `border-b-2 py-1 ${
+                        isActive ? "border-mypurple" : "border-white"
+                      }`
+                    }
+                  >
+                    Prams
+                  </NavLink>
+                  <NavLink
+                    to="/accessories/walkers"
+                    onClick={closeMenus}
+                    className={({ isActive }) =>
+                      `border-b-2 py-1 ${
+                        isActive ? "border-mypurple" : "border-white"
+                      }`
+                    }
+                  >
+                    Walkers
+                  </NavLink>
                 </div>
               )}
-              <NavLink to="/toys" className={getActiveLink} onClick={closeMenus}>Toys</NavLink>
-              <NavLink to="/sportwears" className={getActiveLink} onClick={closeMenus}>Sport Wears</NavLink>
-              <NavLink to="/shoes" className={getActiveLink} onClick={closeMenus}>Baby Shoes</NavLink>
+              <div className="flex-col gap-y-2 flex">
+                <NavLink
+                  to="/toys"
+                  onClick={closeMenus}
+                  className={({ isActive }) =>
+                    `border-b-2 py-1 ${
+                      isActive ? "border-mypurple" : "border-white"
+                    }`
+                  }
+                >
+                  Toys
+                </NavLink>
+                <NavLink
+                  to="/sportwears"
+                  onClick={closeMenus}
+                  className={({ isActive }) =>
+                    `border-b-2 py-1 ${
+                      isActive ? "border-mypurple" : "border-white"
+                    }`
+                  }
+                >
+                  Sport Wears
+                </NavLink>
+                <NavLink
+                  to="/shoes"
+                  onClick={closeMenus}
+                  className={({ isActive }) =>
+                    `border-b-2 py-1 ${
+                      isActive ? "border-mypurple" : "border-white"
+                    }`
+                  }
+                >
+                  Baby Shoes
+                </NavLink>
+              </div>
             </div>
           )}
         </nav>
@@ -208,7 +327,9 @@ function Header() {
         <div className="absolute top-0 bottom-0 w-full bg-black bg-opacity-40 z-10"></div>
 
         <video
-          className={`w-full h-[70vh] lg:h-full object-cover mt-32 lg:mt-36 absolute top-0 left-0 transition-opacity duration-500 ${videoLoaded ? "opacity-100 z-0" : "opacity-0"}`}
+          className={`w-full h-[70vh] lg:h-full object-cover mt-32 lg:mt-36 absolute top-0 left-0 transition-opacity duration-500 ${
+            videoLoaded ? "opacity-100 z-0" : "opacity-0"
+          }`}
           src="/videos/topvideo1.mp4"
           autoPlay
           loop
@@ -219,9 +340,13 @@ function Header() {
 
         <div className="absolute bottom-10 flex items-center w-full justify-center text-white text-center px-4 z-20">
           <div>
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">SUMMER'2025</h1>
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">
+              SUMMER'2025
+            </h1>
             <NavLink to="/shop" onClick={closeMenus}>
-              <button className="border-[3px] px-3 py-1 mt-3 border-white">SHOP NOW</button>
+              <button className="border-[3px] px-3 py-1 mt-3 border-white">
+                SHOP NOW
+              </button>
             </NavLink>
           </div>
         </div>
@@ -232,7 +357,7 @@ function Header() {
         href="https://wa.me/923328205786?text=Greetings%20to%20Minna%20%26%20Minnie."
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-20 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition duration-300"
+        className="fixed bottom-6 lg:right-20 right-3 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition duration-300"
         title="Chat with us on WhatsApp"
       >
         <FaWhatsapp size={24} />

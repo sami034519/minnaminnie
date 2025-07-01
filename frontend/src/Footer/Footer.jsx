@@ -49,7 +49,7 @@ const Footer = () => {
 
       {/* Contact Info */}
       <div
-        className="mt-6 flex justify-center gap-6 text-sm text-gray-700"
+        className="mt-6 lg:flex-row flex-col justify-items-center justify-center lg:gap-6 text-sm text-gray-700"
         data-aos="fade-up"
         data-aos-delay="150"
       >
@@ -57,7 +57,7 @@ const Footer = () => {
           <FaPhoneAlt className="text-pink-600" />
           0332 8205786
         </a>
-        <a href="mailto:minnaandminnie4u@gmail.com" className="flex items-center gap-2 hover:underline">
+        <a href="mailto:minnaandminnie4u@gmail.com" className="flex lg:mt-0 mt-2 items-center gap-2 hover:underline">
           <FaEnvelope className="text-mypurple" />
           minnaandminnie4u@gmail.com
         </a>
