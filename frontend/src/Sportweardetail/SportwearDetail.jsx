@@ -12,6 +12,7 @@ const SportwearDetail = () => {
   const [selectedSize, setSelectedSize] = useState("");
   const [mainImage, setMainImage] = useState(product?.image);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [form, setForm] = useState({
@@ -94,17 +95,8 @@ const SportwearDetail = () => {
   }
 
   const sizeOptions = [
-    "1-2 Years",
-    "2-3 Years",
-    "3-4 Years",
-    "4-5 Years",
-    "5-6 Years",
-    "6-7 Years",
-    "7-8 Years",
-    "8-9 Years",
-    "9-10 Years",
-    "10-11 Years",
-    "11-12 Years",
+    "1-2 Years", "2-3 Years", "3-4 Years", "4-5 Years", "5-6 Years",
+    "6-7 Years", "7-8 Years", "8-9 Years", "9-10 Years", "10-11 Years", "11-12 Years",
   ];
 
   return (
@@ -145,6 +137,21 @@ const SportwearDetail = () => {
           <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
           <p className="text-xl text-pink-600 font-semibold mb-4">
             Rs. {product.discountPrice.toLocaleString()}
+          </p>
+
+          {/* Size Chart Notice */}
+          <p className="text-xs mb-1">
+            <span className="font-medium">NOTE:</span> Please check the{" "}
+            <span
+              className="text-red-500 underline cursor-pointer"
+              onClick={() => setIsSizeChartOpen(true)}
+            >
+              Size Chart
+            </span>
+            .
+          </p>
+          <p className="text-xs mb-3">
+            <span className="font-medium">SIZE CHART NOTE:</span> Allow 0.5 inch +/- tolerance.
           </p>
 
           <div className="flex items-center gap-2 text-sm mb-2">
@@ -207,6 +214,32 @@ const SportwearDetail = () => {
         </div>
       </div>
 
+      {/* Size Chart Modal */}
+      {isSizeChartOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center"
+          onClick={() => setIsSizeChartOpen(false)}
+        >
+          <div
+            className="bg-white p-4 rounded relative max-w-xl w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="absolute top-2 right-3 text-gray-700 text-xl"
+              onClick={() => setIsSizeChartOpen(false)}
+            >
+              &times;
+            </button>
+            <h2 className="text-lg font-semibold mb-3 text-center">Size Chart</h2>
+            <img
+              src="/images/sizechart.jpg"
+              alt="Size Chart"
+              className="w-full h-auto object-contain"
+            />
+          </div>
+        </div>
+      )}
+
       {/* Order Form Popup */}
       {isPopupOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
@@ -254,19 +287,10 @@ const SportwearDetail = () => {
               />
 
               <div className="text-sm mt-2">
-                <p>
-                  <strong>Product:</strong> {product.title}
-                </p>
-                <p>
-                  <strong>Size:</strong> {selectedSize}
-                </p>
-                <p>
-                  <strong>Qty:</strong> {quantity}
-                </p>
-                <p>
-                  <strong>Total Price:</strong> Rs.{" "}
-                  {(product.discountPrice * quantity).toLocaleString()}
-                </p>
+                <p><strong>Product:</strong> {product.title}</p>
+                <p><strong>Size:</strong> {selectedSize}</p>
+                <p><strong>Qty:</strong> {quantity}</p>
+                <p><strong>Total Price:</strong> Rs. {(product.discountPrice * quantity).toLocaleString()}</p>
               </div>
 
               <button

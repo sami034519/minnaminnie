@@ -16,6 +16,8 @@ import SearchPage from './Searchpage/Searchpage';
 import TermsAndConditions from './TermsAndCondition/Terms';
 import PrivacyPolicy from './Privacypolicy/Privacy';
 import Babycare from './BABYcare/Babycare';
+import GirlsApparel from './Girlsapparel/Girlsapparel';
+import BoysApparel from './boyapparel/BoysApparel';
 function App() {
   return (
     <>
@@ -35,6 +37,8 @@ function App() {
          <Route path="/terms" element={<TermsAndConditions />} />
          <Route path="/privacy" element={<PrivacyPolicy/>} />
          <Route path="/babycare" element={<Babycare/>} />
+         <Route path="/girlsapparel" element={<GirlsApparel/>} />
+         <Route path="/boysapparel" element={<BoysApparel/>} />
 
 
 

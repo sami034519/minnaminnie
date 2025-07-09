@@ -36,7 +36,7 @@ const Footer = () => {
       <div data-aos="fade-up" data-aos-delay="100" className="mt-1">
         <h2 className="text-xl font-extrabold">
           <span className="text-myPink">MINNA</span>{" "}
-          <span className="text-black">&</span>{" "}
+          <span className="text-mypurple">&</span>{" "}
           <span className="text-mypurple">MINNIE</span>
         </h2>
         <p className="max-w-xl mx-auto text-xs mt-2 text-gray-500">
@@ -57,7 +57,7 @@ const Footer = () => {
           <FaPhoneAlt className="text-pink-600" />
           0332 8205786
         </a>
-        <a href="mailto:minnaandminnie4u@gmail.com" className="flex lg:mt-0 mt-2 items-center gap-2 hover:underline">
+        <a href="mailto:minnaandminnie4u@gmail.com" className="flex lg:mt-0 mt-2 items-center lowercase gap-2 hover:underline">
           <FaEnvelope className="text-mypurple" />
           minnaandminnie4u@gmail.com
         </a>

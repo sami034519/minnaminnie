@@ -4,14 +4,16 @@ import { garments } from "../data/Product";
 import { BsTruck, BsGift } from "react-icons/bs";
 import { FaShoppingBag } from "react-icons/fa";
 
+
 const ProductDetail = () => {
   const { id } = useParams();
-  const product = garments.find((p) => String(p.id) === id); // ✅ use garments
+  const product = garments.find((p) => String(p.id) === id);
 
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("");
   const [mainImage, setMainImage] = useState(product?.image);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [form, setForm] = useState({
@@ -102,6 +104,7 @@ const ProductDetail = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
+   
       <div className="bg-mypurple text-white text-xs text-center py-2 mb-6">
         FREE SHIPPING only for prepaid orders will automatically apply on
         PayFast at checkout
@@ -143,8 +146,13 @@ const ProductDetail = () => {
 
           <p className="text-xs mb-1">
             <span className="font-medium">NOTE:</span> Please check the{" "}
-            <span className="text-red-500 underline">Size Chart</span> in the
-            last image.
+            <span
+              className="text-red-500 underline cursor-pointer"
+              onClick={() => setIsSizeChartOpen(true)}
+            >
+              Size Chart
+            </span>{" "}
+            in the last image.
           </p>
           <p className="text-xs mb-3">
             <span className="font-medium">SIZE CHART NOTE:</span> Allow 0.5 inch
@@ -224,6 +232,25 @@ const ProductDetail = () => {
           ))}
         </ul>
       </div>
+
+      {/* Size Chart Modal */}
+      {isSizeChartOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded relative max-w-xl w-full">
+            <button
+              className="absolute top-2 right-3 bg-red-500 px-2 rounded-full text-white  text-3xl"
+              onClick={() => setIsSizeChartOpen(false)}
+            >
+              &times;
+            </button>
+            <img
+              src="/images/sizechart.jpg"
+              alt="Size Chart"
+              className="w-full h-auto object-contain"
+            />
+          </div>
+        </div>
+      )}
 
       {/* Order Form Popup */}
       {isPopupOpen && (

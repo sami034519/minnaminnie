@@ -138,7 +138,7 @@ function Header() {
                         to="/accessories/fiddle"
                         className="px-4 py-1 block hover:bg-mypurple"
                       >
-                        FIDDLE
+                        FIDDRE
                       </NavLink>
                     </li>
                     <li>
@@ -245,7 +245,7 @@ function Header() {
                       }`
                     }
                   >
-                    Fiddle
+                    FiddRe
                   </NavLink>
                   <NavLink
                     to="/accessories/prams"
@@ -339,11 +339,16 @@ function Header() {
         />
 
         <div className="absolute bottom-10 flex items-center w-full justify-center text-white text-center px-4 z-20">
-          <div>
+          <div >
+            <div className="flex gap-5">
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">
               SUMMER'2025
             </h1>
-            <NavLink to="/shop" onClick={closeMenus}>
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">
+              WINTER'2025
+            </h1>
+            </div>
+            <NavLink to="/allgarments" onClick={closeMenus}>
               <button className="border-[3px] px-3 py-1 mt-3 border-white">
                 SHOP NOW
               </button>

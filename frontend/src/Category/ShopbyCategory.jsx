@@ -8,12 +8,12 @@ const categories = [
   {
     title: 'GIRLS APPAREL',
     image: '/images/Girls_Apparel_1024x1024.jpg',
-    path: '/allgarments',
+    path: '/girlsapparel',
   },
   {
     title: 'BOYS APPAREL',
     image: '/images/Boys_Apparel_1024x1024.jpg',
-    path: '/allgarments',
+    path: '/boysapparel',
   },
   {
     title: 'TOYS',
