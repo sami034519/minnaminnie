@@ -340,7 +340,7 @@ function Header() {
 
         <div className="absolute bottom-10 flex items-center w-full justify-center text-white text-center px-4 z-20">
           <div >
-            <div className="flex gap-5">
+            <div className=" flex lg:flex-row flex-col gap-5">
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">
               SUMMER'2025
             </h1>
