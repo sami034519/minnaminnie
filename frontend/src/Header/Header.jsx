@@ -20,6 +20,11 @@ function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [showAdminPopup, setShowAdminPopup] = useState(false);
+  const [adminUsername, setAdminUsername] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
+  const [adminError, setAdminError] = useState("");
+
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -53,7 +58,6 @@ function Header() {
 
   return (
     <>
-      {/* Fixed Header */}
       <div className="fixed top-0 left-0 w-full z-50">
         {/* Marquee */}
         <div className="w-full bg-myPink overflow-hidden whitespace-nowrap">
@@ -80,7 +84,7 @@ function Header() {
         {/* Navbar */}
         <nav className="bg-white text-gray-700 p-2 uppercase shadow-md w-full">
           <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Menu */}
             <div className="md:hidden flex items-center">
               <button onClick={toggleMobileMenu}>
                 {mobileMenuOpen ? <X size={24} /> : <Menu size={28} />}
@@ -97,15 +101,12 @@ function Header() {
                 />
               </NavLink>
 
-              {/* Mobile Cart + Search */}
+              {/* Mobile Icons */}
               <div className="absolute right-0 md:hidden flex items-center gap-4">
                 <button onClick={() => setSearchOpen(!searchOpen)}>
                   <Search size={22} />
                 </button>
-                <button
-                  onClick={() => setShowCart(true)}
-                  className="relative text-pink-600"
-                >
+                <button onClick={() => setShowCart(true)} className="relative text-pink-600">
                   <ShoppingCart size={22} />
                   {itemCount > 0 && (
                     <span className="absolute -top-2 -right-2 bg-pink-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -116,76 +117,29 @@ function Header() {
               </div>
             </div>
 
-            {/* Desktop Nav */}
+            {/* Desktop Menu */}
             <ul className="hidden md:flex items-center space-x-6 font-medium text-base ml-auto">
-              <li>
-                <NavLink to="/allgarments" className={getActiveLink}>
-                  Baby Garments
-                </NavLink>
-              </li>
+              <li><NavLink to="/allgarments" className={getActiveLink}>Baby Garments</NavLink></li>
               <li
                 className="relative"
                 onMouseEnter={() => setAccessoriesOpen(true)}
                 onMouseLeave={() => setAccessoriesOpen(false)}
               >
-                <span className="cursor-pointer border-b-2 border-transparent hover:border-mypurple">
-                  Accessories
-                </span>
+                <span className={navLinkStyle}>Accessories</span>
                 {accessoriesOpen && (
                   <ul className="absolute bg-myPink text-white top-5 left-0 py-2 shadow-md rounded z-20">
-                    <li>
-                      <NavLink
-                        to="/accessories/fiddle"
-                        className="px-4 py-1 block hover:bg-mypurple"
-                      >
-                        FIDDRE
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="/accessories/prams"
-                        className="px-4 py-1 block hover:bg-mypurple"
-                      >
-                        PRAMS
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="/accessories/walkers"
-                        className="px-4 py-1 block hover:bg-mypurple"
-                      >
-                        WALKERS
-                      </NavLink>
-                    </li>
+                    <li><NavLink to="/accessories/fiddle" className="px-4 py-1 block hover:bg-mypurple">FIDDRE</NavLink></li>
+                    <li><NavLink to="/accessories/prams" className="px-4 py-1 block hover:bg-mypurple">PRAMS</NavLink></li>
+                    <li><NavLink to="/accessories/walkers" className="px-4 py-1 block hover:bg-mypurple">WALKERS</NavLink></li>
                   </ul>
                 )}
               </li>
+              <li><NavLink to="/toys" className={getActiveLink}>Toys</NavLink></li>
+              <li><NavLink to="/sportwears" className={getActiveLink}>Sport Wears</NavLink></li>
+              <li><NavLink to="/shoes" className={getActiveLink}>Baby Shoes</NavLink></li>
+              <li><button onClick={() => setSearchOpen(!searchOpen)}><Search size={24} /></button></li>
               <li>
-                <NavLink to="/toys" className={getActiveLink}>
-                  Toys
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/sportwears" className={getActiveLink}>
-                  Sport Wears
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/shoes" className={getActiveLink}>
-                  Baby Shoes
-                </NavLink>
-              </li>
-              <li
-                className="cursor-pointer"
-                onClick={() => setSearchOpen(!searchOpen)}
-              >
-                <Search size={24} />
-              </li>
-              <li>
-                <button
-                  onClick={() => setShowCart(true)}
-                  className="relative text-pink-600"
-                >
+                <button onClick={() => setShowCart(true)} className="relative text-pink-600">
                   <ShoppingCart size={22} />
                   {itemCount > 0 && (
                     <span className="absolute -top-2 -right-2 bg-pink-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -194,15 +148,125 @@ function Header() {
                   )}
                 </button>
               </li>
+              <li>
+                <button
+                  onClick={() => setShowAdminPopup(true)}
+                  className="border px-2 py-1 rounded text-sm text-mypurple border-mypurple hover:bg-mypurple hover:text-white"
+                >
+                  Admin
+                </button>
+              </li>
             </ul>
           </div>
+{/* Mobile Dropdown Menu */}
+{mobileMenuOpen && (
+  <div className="md:hidden bg-myPink text-white px-4 py-4 space-y-2 text-sm font-medium"
+  onClick={toggleMobileMenu}
+  >
+    <NavLink
+      to="/allgarments"
+      onClick={closeMenus}
+      className={({ isActive }) =>
+        `block border-b-2 py-1 ${
+          isActive ? "border-mypurple" : "border-white"
+        }`
+      }
+    >
+      Baby Garments
+    </NavLink>
+
+    {/* Accessories Toggle */}
+    <div
+      className="flex justify-between items-center cursor-pointer"
+      onClick={() => setAccessoriesOpen(!accessoriesOpen)}
+    >
+      <span>Accessories</span>
+      {accessoriesOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+    </div>
+
+    {accessoriesOpen && (
+      <div className="pl-4 space-y-1 flex flex-col gap-1">
+        <NavLink
+          to="/accessories/fiddle"
+          onClick={closeMenus}
+          className={({ isActive }) =>
+            `block border-b-2 py-1 ${
+              isActive ? "border-mypurple" : "border-white"
+            }`
+          }
+        >
+          FiddRe
+        </NavLink>
+        <NavLink
+          to="/accessories/prams"
+          onClick={closeMenus}
+          className={({ isActive }) =>
+            `block border-b-2 py-1 ${
+              isActive ? "border-mypurple" : "border-white"
+            }`
+          }
+        >
+          Prams
+        </NavLink>
+        <NavLink
+          to="/accessories/walkers"
+          onClick={closeMenus}
+          className={({ isActive }) =>
+            `block border-b-2 py-1 ${
+              isActive ? "border-mypurple" : "border-white"
+            }`
+          }
+        >
+          Walkers
+        </NavLink>
+      </div>
+    )}
+
+    <NavLink
+      to="/toys"
+      onClick={closeMenus}
+      className={({ isActive }) =>
+        `block border-b-2 py-1 ${
+          isActive ? "border-mypurple" : "border-white"
+        }`
+      }
+    >
+      Toys
+    </NavLink>
+    <NavLink
+      to="/sportwears"
+      onClick={closeMenus}
+      className={({ isActive }) =>
+        `block border-b-2 py-1 ${
+          isActive ? "border-mypurple" : "border-white"
+        }`
+      }
+    >
+      Sport Wears
+    </NavLink>
+    <NavLink
+      to="/shoes"
+      onClick={closeMenus}
+      className={({ isActive }) =>
+        `block border-b-2 py-1 ${
+          isActive ? "border-mypurple" : "border-white"
+        }`
+      }
+    >
+      Baby Shoes
+    </NavLink>
+    <button
+      onClick={() => setShowAdminPopup(true)}
+      className="block w-full text-left border-b-2 py-1 border-white hover:border-mypurple"
+    >
+      Admin
+    </button>
+  </div>
+)}
 
           {/* Search Bar */}
           {searchOpen && (
-            <form
-              onSubmit={handleSearchSubmit}
-              className="p-3 bg-pink-50 shadow-md"
-            >
+            <form onSubmit={handleSearchSubmit} className="p-3 bg-pink-50 shadow-md">
               <input
                 type="text"
                 placeholder="Search products..."
@@ -212,104 +276,55 @@ function Header() {
               />
             </form>
           )}
-
-          {/* Mobile Dropdown */}
-          {mobileMenuOpen && (
-            <div className="md:hidden bg-myPink text-white px-4 py-4 space-y-2 text-sm font-medium">
-              <NavLink
-                to="/allgarments"
-                onClick={closeMenus}
-                className={({ isActive }) =>
-                  `border-b-2 py-1 ${
-                    isActive ? "border-mypurple" : "border-white"
-                  }`
-                }
-              >
-                Baby Garments
-              </NavLink>
-              <div
-                className="flex justify-between items-center cursor-pointer"
-                onClick={() => setAccessoriesOpen(!accessoriesOpen)}
-              >
-                <span>Accessories</span>
-                {accessoriesOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-              </div>
-              {accessoriesOpen && (
-                <div className="pl-4 space-y-1 flex flex-col gap-1">
-                  <NavLink
-                    to="/accessories/fiddle"
-                    onClick={closeMenus}
-                    className={({ isActive }) =>
-                      `border-b-2 py-1 ${
-                        isActive ? "border-mypurple" : "border-white"
-                      }`
-                    }
-                  >
-                    FiddRe
-                  </NavLink>
-                  <NavLink
-                    to="/accessories/prams"
-                    onClick={closeMenus}
-                    className={({ isActive }) =>
-                      `border-b-2 py-1 ${
-                        isActive ? "border-mypurple" : "border-white"
-                      }`
-                    }
-                  >
-                    Prams
-                  </NavLink>
-                  <NavLink
-                    to="/accessories/walkers"
-                    onClick={closeMenus}
-                    className={({ isActive }) =>
-                      `border-b-2 py-1 ${
-                        isActive ? "border-mypurple" : "border-white"
-                      }`
-                    }
-                  >
-                    Walkers
-                  </NavLink>
-                </div>
-              )}
-              <div className="flex-col gap-y-2 flex">
-                <NavLink
-                  to="/toys"
-                  onClick={closeMenus}
-                  className={({ isActive }) =>
-                    `border-b-2 py-1 ${
-                      isActive ? "border-mypurple" : "border-white"
-                    }`
-                  }
-                >
-                  Toys
-                </NavLink>
-                <NavLink
-                  to="/sportwears"
-                  onClick={closeMenus}
-                  className={({ isActive }) =>
-                    `border-b-2 py-1 ${
-                      isActive ? "border-mypurple" : "border-white"
-                    }`
-                  }
-                >
-                  Sport Wears
-                </NavLink>
-                <NavLink
-                  to="/shoes"
-                  onClick={closeMenus}
-                  className={({ isActive }) =>
-                    `border-b-2 py-1 ${
-                      isActive ? "border-mypurple" : "border-white"
-                    }`
-                  }
-                >
-                  Baby Shoes
-                </NavLink>
-              </div>
-            </div>
-          )}
         </nav>
       </div>
+
+      {/* Admin Login Popup */}
+      {showAdminPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg w-96 shadow-lg relative">
+            <h2 className="text-xl font-semibold text-center text-mypurple mb-4">Admin Login</h2>
+
+            {adminError && <p className="text-red-500 text-sm text-center mb-2">{adminError}</p>}
+
+            <input
+              type="text"
+              placeholder="Username"
+              value={adminUsername}
+              onChange={(e) => setAdminUsername(e.target.value)}
+              className="w-full p-2 border rounded mb-3"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={adminPassword}
+              onChange={(e) => setAdminPassword(e.target.value)}
+              className="w-full p-2 border rounded mb-4"
+            />
+            <button
+              onClick={() => {
+                if (adminUsername === "usman" && adminPassword === "12345") {
+                  setShowAdminPopup(false);
+                  setAdminError("");
+                  navigate("/dashboard");
+                } else {
+                  setAdminError("❌ Invalid username or password");
+                }
+              }}
+              className="w-full bg-mypurple text-white py-2 rounded"
+            >
+              Login
+            </button>
+
+            <button
+              onClick={() => setShowAdminPopup(false)}
+              className="absolute top-2 right-3 text-gray-400 hover:text-red-600 text-xl"
+            >
+              &times;
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Cart Drawer */}
       <Cart isOpen={showCart} onClose={() => setShowCart(false)} />
@@ -323,9 +338,7 @@ function Header() {
             className="absolute w-full h-full object-cover z-0"
           />
         )}
-
         <div className="absolute top-0 bottom-0 w-full bg-black bg-opacity-40 z-10"></div>
-
         <video
           className={`w-full h-[70vh] lg:h-full object-cover mt-32 lg:mt-36 absolute top-0 left-0 transition-opacity duration-500 ${
             videoLoaded ? "opacity-100 z-0" : "opacity-0"
@@ -337,21 +350,14 @@ function Header() {
           playsInline
           onLoadedData={() => setVideoLoaded(true)}
         />
-
         <div className="absolute bottom-10 flex items-center w-full justify-center text-white text-center px-4 z-20">
-          <div >
-            <div className=" flex lg:flex-row flex-col gap-5">
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">
-              SUMMER'2025
-            </h1>
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">
-              WINTER'2025
-            </h1>
+          <div>
+            <div className="flex lg:flex-row flex-col gap-5">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">SUMMER'2025</h1>
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">WINTER'2025</h1>
             </div>
             <NavLink to="/allgarments" onClick={closeMenus}>
-              <button className="border-[3px] px-3 py-1 mt-3 border-white">
-                SHOP NOW
-              </button>
+              <button className="border-[3px] px-3 py-1 mt-3 border-white">SHOP NOW</button>
             </NavLink>
           </div>
         </div>
