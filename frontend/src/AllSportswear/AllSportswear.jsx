@@ -1,26 +1,52 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { addToCart } from "../redux/CartSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { sportswear } from "../data/Product"; // ✅ Import your sportswear array
 
 const AllSportswear = () => {
-  useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
-
+  const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
 
-  const handleAddToCart = (item) => {
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+
+    const fetchSportswear = async () => {
+      try {
+        const res = await fetch(
+          "https://minnaminnie.com/minnaminniebackend/get_products_by_category.php?category=Sportswear"
+        );
+        const data = await res.json();
+        if (data.status === "success" && Array.isArray(data.products)) {
+          setProducts(data.products);
+        } else {
+          console.error("Failed to fetch sportswear:", data.message);
+        }
+      } catch (err) {
+        console.error("Error fetching sportswear:", err);
+      }
+    };
+
+    fetchSportswear();
+  }, []);
+
+  const parsePrice = (priceString) => {
+    if (typeof priceString === "string") {
+      return parseInt(priceString.replace(/Rs\.?\s?/, "").replace(/,/g, ""));
+    }
+    return priceString;
+  };
+
+  const handleAddToCart = (product) => {
+    const numericPrice = parsePrice(product.discount_price || product.price);
     dispatch(
       addToCart({
-        ...item,
+        ...product,
+        price: numericPrice,
         quantity: 1,
-        price: item.discountPrice,
-        type: "sportswear", // 👈 Important for route handling
+        type: "sportswear",
       })
     );
   };
@@ -32,22 +58,22 @@ const AllSportswear = () => {
       </h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-        {sportswear.map((product) => {
-          const fakeOldPrice = product.price;
+        {products.map((product) => {
+          const originalPrice = parsePrice(product.discount_price || product.price);
+          const fakeOldPrice = parsePrice(product.price);
 
           return (
             <div
               key={product.id}
               className="bg-white shadow-md rounded-lg overflow-hidden group relative transition-transform duration-300 hover:scale-[1.02]"
             >
-              {/* SALE Badge */}
-              {product.sale && (
+              {product.discount_price && (
                 <div className="absolute top-2 left-2 bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
                   SALE
                 </div>
               )}
 
-              <NavLink to={`/sportswear/${product.id}`} className="block relative">
+              <NavLink to={`/product/${product.id}`} className="block relative">
                 <div className="relative w-full h-48 bg-productscolor">
                   <img
                     src={product.image}
@@ -64,19 +90,19 @@ const AllSportswear = () => {
                 </h4>
 
                 <div className="flex justify-center gap-2 text-sm mb-2">
-                  {product.sale && (
+                  {product.discount_price && (
                     <p className="line-through text-gray-400">
                       Rs. {fakeOldPrice.toLocaleString()}
                     </p>
                   )}
                   <p className="text-pink-600 font-semibold">
-                    Rs. {product.discountPrice.toLocaleString()}
+                    Rs. {originalPrice.toLocaleString()}
                   </p>
                 </div>
 
                 <div className="flex flex-col gap-2 mt-3">
                   <NavLink
-                    to={`/sportswear/${product.id}`}
+                    to={`/product/${product.id}`}
                     className="bg-mypurple hover:bg-myPink text-white px-3 py-1 rounded text-xs"
                   >
                     View Details

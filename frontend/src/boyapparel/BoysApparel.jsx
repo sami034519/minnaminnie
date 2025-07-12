@@ -1,24 +1,48 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { addToCart } from "../redux/CartSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { boyspparel } from "../data/Product"; // ✅ use the updated array
 
 const BoysApparel = () => {
+  const dispatch = useDispatch();
+  const [products, setProducts] = useState([]);
+  const baseUrl = "https://minnaminnie.com/minnaminniebackend/";
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
+
+    const fetchBoysApparel = async () => {
+      try {
+        const res = await fetch(
+          "https://minnaminnie.com/minnaminniebackend/get_products_by_category.php?category=Boys%27%20Apparel"
+        );
+        const data = await res.json();
+        if (data.status === "success" && Array.isArray(data.products)) {
+          setProducts(data.products);
+        } else {
+          console.error("Failed to fetch boys apparel:", data.message);
+        }
+      } catch (err) {
+        console.error("Error fetching boys apparel:", err);
+      }
+    };
+
+    fetchBoysApparel();
   }, []);
 
-  const dispatch = useDispatch();
-
   const handleAddToCart = (product) => {
+    const numericPrice =
+      typeof product.discount_price === "string"
+        ? parseInt(product.discount_price.replace(/Rs\.?\s?/, "").replace(/,/g, ""))
+        : product.discount_price || product.price;
+
     dispatch(
       addToCart({
         ...product,
-        price: product.price, // Already numeric
+        price: numericPrice,
         quantity: 1,
         type: "garment",
       })
@@ -28,12 +52,13 @@ const BoysApparel = () => {
   return (
     <div className="px-4 md:px-10 py-10 max-w-7xl mx-auto">
       <h2 className="text-3xl font-bold text-myPink text-center mb-10">
-        ALL BABY GARMENTS
+        BOYS APPAREL
       </h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-        {boyspparel.map((product) => {
-          const fakeOldPrice = product.price + 200;
+        {products.map((product) => {
+          const actualPrice = parseInt(product.discount_price || product.price);
+          const fakeOldPrice = parseInt(product.price) + 200;
 
           return (
             <div
@@ -48,9 +73,13 @@ const BoysApparel = () => {
                     className="w-full h-full object-contain z-10 relative transition-opacity duration-300"
                     data-aos="fade-down"
                   />
-                  {product.hoverImage && (
+                  {product.hover_image && (
                     <img
-                      src={product.hoverImage}
+                      src={
+                        product.hover_image.startsWith("http")
+                          ? product.hover_image
+                          : baseUrl + product.hover_image
+                      }
                       alt={`${product.title} Hover`}
                       className="w-full h-full object-contain absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none"
                     />
@@ -64,11 +93,13 @@ const BoysApparel = () => {
                 </h4>
 
                 <div className="flex justify-center gap-2 text-sm mb-2">
-                  <p className="line-through text-gray-400">
-                    Rs. {fakeOldPrice.toLocaleString()}
-                  </p>
+                  {product.discount_price && (
+                    <p className="line-through text-gray-400">
+                      Rs. {fakeOldPrice.toLocaleString()}
+                    </p>
+                  )}
                   <p className="text-pink-600 font-semibold">
-                    Rs. {product.price.toLocaleString()}
+                    Rs. {actualPrice.toLocaleString()}
                   </p>
                 </div>
 

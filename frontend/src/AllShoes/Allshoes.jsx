@@ -1,18 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { addToCart } from "../redux/CartSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { shoes } from "../data/Product";
 
 const AllShoes = () => {
+  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
-  }, []);
 
-  const dispatch = useDispatch();
+    const fetchShoes = async () => {
+      try {
+        const res = await fetch(
+          "https://minnaminnie.com/minnaminniebackend/get_products_by_category.php?category=Shoes"
+        );
+        const data = await res.json();
+        if (data.status === "success" && Array.isArray(data.products)) {
+          setProducts(data.products);
+        } else {
+          console.error("Failed to fetch shoes:", data.message);
+        }
+      } catch (err) {
+        console.error("Error fetching shoes:", err);
+      }
+    };
+
+    fetchShoes();
+  }, []);
 
   const parsePrice = (priceString) => {
     if (typeof priceString === "string") {
@@ -22,13 +40,13 @@ const AllShoes = () => {
   };
 
   const handleAddToCart = (product) => {
-    const numericPrice = parsePrice(product.discountPrice);
+    const numericPrice = parsePrice(product.discount_price || product.price);
     dispatch(
       addToCart({
         ...product,
         price: numericPrice,
         quantity: 1,
-        type: "shoe", // <-- explicitly set type
+        type: "shoe",
       })
     );
   };
@@ -40,8 +58,8 @@ const AllShoes = () => {
       </h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-        {shoes.map((product) => {
-          const originalPrice = parsePrice(product.discountPrice);
+        {products.map((product) => {
+          const originalPrice = parsePrice(product.discount_price || product.price);
           const fakeOldPrice = parsePrice(product.price);
 
           return (
@@ -49,7 +67,7 @@ const AllShoes = () => {
               key={product.id}
               className="bg-white shadow-md rounded-lg overflow-hidden group relative transition-transform duration-300 hover:scale-[1.02]"
             >
-              <NavLink to={`/shoe/${product.id}`} className="block relative">
+              <NavLink to={`/product/${product.id}`} className="block relative">
                 <div className="relative w-full h-48 bg-productscolor">
                   <img
                     src={product.image}
@@ -66,7 +84,7 @@ const AllShoes = () => {
                 </h4>
 
                 <div className="flex justify-center gap-2 text-sm mb-2">
-                  {product.sale && (
+                  {product.discount_price && (
                     <p className="line-through text-gray-400">
                       Rs. {fakeOldPrice.toLocaleString()}
                     </p>

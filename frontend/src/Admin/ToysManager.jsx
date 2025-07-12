@@ -16,22 +16,31 @@ const ToysManager = ({ onClose }) => {
       });
   }, []);
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this product?')) return;
+ const handleDelete = async (id) => {
+  if (!window.confirm('Are you sure you want to delete this product?')) return;
 
-    try {
-      const res = await fetch(`https://minnaminnie.com/minnaminniebackend/delete_product.php?id=${id}`);
-      const data = await res.json();
-      if (data.status === 'success') {
-        setProducts(prev => prev.filter(p => p.id !== id));
-        alert('Product deleted successfully');
-      } else {
-        alert('Delete failed: ' + data.message);
-      }
-    } catch (err) {
-      alert('Delete request failed');
+  try {
+    const formData = new FormData();
+    formData.append('id', id); // ✅ Send ID as POST
+
+    const res = await fetch(`https://minnaminnie.com/minnaminniebackend/delete_product.php`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await res.json();
+
+    if (data.status === 'success') {
+      setProducts(prev => prev.filter(p => p.id !== id));
+      alert('Product deleted successfully');
+    } else {
+      alert('Delete failed: ' + data.message);
     }
-  };
+  } catch (err) {
+    alert('Delete request failed');
+    console.error(err);
+  }
+};
 
   const handleUpdate = (product) => {
     setSelectedProduct(product);
@@ -62,11 +71,11 @@ const ToysManager = ({ onClose }) => {
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {products.map(product => (
-            <div key={product.id} className="border rounded shadow p-3 bg-gray-50">
+            <div key={product.id} className="border rounded shadow p-3 bg-productscolor">
               <img src={product.image} alt={product.title} className="h-32 w-full object-contain mb-2" />
               <h3 className="font-bold text-sm">{product.title}</h3>
               <p className="text-xs">Stock: {product.stock}</p>
-              <div className="flex mt-2 gap-2">
+              <div className="flex flex-col mt-2 gap-2">
                 <button
                   className="bg-mypurple text-white text-xs px-3 py-1 rounded hover:bg-myPink"
                   onClick={() => handleUpdate(product)}

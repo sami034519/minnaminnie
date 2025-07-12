@@ -47,7 +47,7 @@ const [showShoesPopup, setShowShoesPopup] = useState(false);
   const handleCardClick = (title) => {
     if (title === "Girls' Apparel") setShowGirlsPopup(true);
     if (title === "Boys' Apparel") setShowBoysPopup(true);
-     if (title === "Sportswear") setShowSportswearPopup(true);
+     if (title === "Sports' wear") setShowSportswearPopup(true);
      if (title === "Toys") setShowToysPopup(true);
   if (title === "Shoes") setShowShoesPopup(true);
     // In future you can add other categories here
@@ -121,7 +121,7 @@ const [showShoesPopup, setShowShoesPopup] = useState(false);
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 <Card icon={<FaTshirt />} title="Girls' Apparel" count="120" onClick={handleCardClick} />
                 <Card icon={<FaChild />} title="Boys' Apparel" count="98" onClick={handleCardClick} />
-                <Card icon={<FaRunning />} title="Sportswear" count="75" onClick={handleCardClick} />
+                <Card icon={<FaRunning />} title="Sports' wear" count="75" onClick={handleCardClick} />
                 <Card icon={<FaPuzzlePiece />} title="Toys" count="60" onClick={handleCardClick} />
                 <Card icon={<FaShoePrints />} title="Shoes" count="110" onClick={handleCardClick} />
               </div>

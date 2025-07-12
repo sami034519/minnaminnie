@@ -112,7 +112,7 @@ const Footer = () => {
           <NavLink to="/privacy" className="hover:underline">
             Privacy Policy
           </NavLink>
-          <NavLink to="/terms" className="hover:underline">
+          <NavLink to="/terms" className=" z-50 hover:underline">
             Terms & Conditions
           </NavLink>
         </div>

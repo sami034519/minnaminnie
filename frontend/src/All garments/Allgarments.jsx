@@ -1,18 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { addToCart } from "../redux/CartSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { garments } from "../data/Product";
 
 const AllProducts = () => {
+  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
+    fetch("https://minnaminnie.com/minnaminniebackend/get_products.php")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          setProducts(data.products);
+        } else {
+          alert("Failed to fetch products");
+        }
+      })
+      .catch(() => {
+        alert("Something went wrong while fetching products.");
+      });
   }, []);
-
-  const dispatch = useDispatch();
 
   const parsePrice = (priceString) => {
     if (typeof priceString === "string") {
@@ -22,17 +34,16 @@ const AllProducts = () => {
   };
 
   const handleAddToCart = (product) => {
-  const numericPrice = parsePrice(product.price);
-  dispatch(
-    addToCart({
-      ...product,
-      price: numericPrice,
-      quantity: 1,
-      type: "garment", // <-- explicitly set type
-    })
-  );
-};
-
+    const numericPrice = parsePrice(product.discount_price || product.price);
+    dispatch(
+      addToCart({
+        ...product,
+        price: numericPrice,
+        quantity: 1,
+        type: "garment",
+      })
+    );
+  };
 
   return (
     <div className="px-4 md:px-10 py-10 max-w-7xl mx-auto">
@@ -41,9 +52,9 @@ const AllProducts = () => {
       </h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-        {garments.map((product) => {
+        {products.map((product) => {
           const originalPrice = parsePrice(product.price);
-          const discountedPrice = originalPrice;
+          const discountedPrice = parsePrice(product.discount_price) || originalPrice;
           const fakeOldPrice = originalPrice + 200;
 
           return (
@@ -59,13 +70,7 @@ const AllProducts = () => {
                     className="w-full h-full object-contain z-10 relative transition-opacity duration-300"
                     data-aos="fade-down"
                   />
-                  {product.hoverImage && (
-                    <img
-                      src={product.hoverImage}
-                      alt={`${product.title} Hover`}
-                      className="w-full h-full object-contain absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none"
-                    />
-                  )}
+                  {/* Hover image logic can be added if available */}
                 </div>
               </NavLink>
 

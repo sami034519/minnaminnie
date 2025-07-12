@@ -6,67 +6,35 @@ import { addToCart } from "../redux/CartSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-// Video from public/videos (use relative path)
-const videoPath = "/videos/Toysvideo.mp4";
-
-const toys = [
-  {
-    id: 41,
-    title: "Mini Animal Toy Set Pack",
-    image: "/images/t1animal-removebg-preview.png",
-    price: 1299,
-    discountPrice: 899,
-    sale: true,
-  },
-  {
-    id: 42,
-    title: "Colorful Advanced Racing-Cars",
-    image: "/images/t5racingcar.webp",
-    price: 1699,
-    discountPrice: 1199,
-    sale: false,
-  },
-  {
-    id: 43,
-    title: "Mini Ducks Toy Set Brown",
-    image: "/images/t3duck__2_-removebg-preview.png",
-    price: 1499,
-    discountPrice: 999,
-    sale: true,
-  },
-  {
-    id: 44,
-    title: "Mini Teddy Bear Soft Set",
-    image: "/images/t4teadtbear1-removebg-preview.png",
-    price: 899,
-    discountPrice: 699,
-    sale: false,
-  },
-  {
-    id: 45,
-    title: "Educational Wooden Puzzle Board",
-    image: "/images/t5boxes.png",
-    price: 1199,
-    discountPrice: 799,
-    sale: true,
-  },
-  {
-    id: 46,
-    title: "Baby Tractor Toy Vehicle Set",
-    image: "/images/t6tractor-removebg-preview.png",
-    price: 599,
-    discountPrice: 499,
-    sale: false,
-  },
-];
+const videoPath = "/videos/Toysvideo.mp4"; // Relative path from public
 
 const ToysSection = () => {
   const dispatch = useDispatch();
+  const [toys, setToys] = useState([]);
   const [index, setIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(2);
+  const baseUrl = "https://minnaminnie.com/minnaminniebackend/";
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
+
+    const fetchToys = async () => {
+      try {
+        const res = await fetch(
+          `${baseUrl}get_products_by_category.php?category=Toys`
+        );
+        const data = await res.json();
+        if (data.status === "success" && Array.isArray(data.products)) {
+          setToys(data.products);
+        } else {
+          console.error("Failed to fetch toys:", data.message);
+        }
+      } catch (err) {
+        console.error("Error fetching toys:", err);
+      }
+    };
+
+    fetchToys();
   }, []);
 
   useEffect(() => {
@@ -89,17 +57,20 @@ const ToysSection = () => {
   const visibleToys = [...toys, ...toys].slice(index, index + visibleCount);
 
   const handleAddToCart = (toy) => {
-  dispatch(
-    addToCart({
-      ...toy,
-      quantity: 1,
-      price: toy.discountPrice,
-      type: "toy", // 👈 YES! This is critical
-    })
-  );
-};
+    const numericPrice =
+      typeof toy.discount_price === "string"
+        ? parseInt(toy.discount_price.replace(/Rs\.?\s?/, "").replace(/,/g, ""))
+        : toy.discount_price || toy.price;
 
-
+    dispatch(
+      addToCart({
+        ...toy,
+        price: numericPrice,
+        quantity: 1,
+        type: "toy",
+      })
+    );
+  };
 
   return (
     <>
@@ -123,12 +94,9 @@ const ToysSection = () => {
         </div>
       </div>
 
-      {/* Toys Section */}
+      {/* Toys Carousel Section */}
       <div className="w-full my-10 py-8">
-        <div
-          className="flex justify-center space-x-4 mb-6"
-          data-aos="fade-down"
-        >
+        <div className="flex justify-center space-x-4 mb-6" data-aos="fade-down">
           <h2 className="text-3xl mb-5 font-extrabold text-myPink">
             TOYS COLLECTION
           </h2>
@@ -150,33 +118,43 @@ const ToysSection = () => {
               return (
                 <div
                   key={toy.id}
-                  className={`relative bg-white rounded-md shadow h-[330px] w-[260px] flex flex-col transition-transform duration-500 ${
+                  className={`relative bg-white rounded-md shadow h-[330px] w-[260px] flex flex-col transition-transform duration-500 overflow-hidden group ${
                     isActive ? "scale-100 z-10" : "scale-100"
                   }`}
                 >
-                  {toy.sale && (
+                  {toy.discount_price && (
                     <div className="absolute top-2 left-2 bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
                       SALE
                     </div>
                   )}
 
-                  <NavLink to={`/toy/${toy.id}`} data-aos="fade-left">
-
+                  <NavLink to={`/product/${toy.id}`} data-aos="fade-left" className="relative">
                     <img
                       src={toy.image}
                       alt={toy.title}
-                      className="bg-slate-100 w-60 h-48 object-contain rounded-t-md"
+                      className="bg-slate-100 w-full h-48 object-contain rounded-t-md z-10 relative"
                     />
+                    {toy.hover_image && (
+                      <img
+                        src={
+                          toy.hover_image.startsWith("http")
+                            ? toy.hover_image
+                            : baseUrl + toy.hover_image
+                        }
+                        alt={`${toy.title} Hover`}
+                        className="absolute top-0 left-0 w-full h-48 object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none"
+                      />
+                    )}
                   </NavLink>
 
                   <div className="p-2 text-xs text-center">
                     <h3 className="font-medium text-gray-800">{toy.title}</h3>
                     <div className="flex justify-center items-center gap-2 mt-1">
                       <p className="text-gray-400 line-through text-sm">
-                        Rs.{toy.price.toLocaleString()}
+                        Rs.{parseInt(toy.price).toLocaleString()}
                       </p>
                       <p className="text-pink-600 font-semibold text-sm">
-                        Rs.{toy.discountPrice.toLocaleString()}
+                        Rs.{parseInt(toy.discount_price || toy.price).toLocaleString()}
                       </p>
                     </div>
                     <button

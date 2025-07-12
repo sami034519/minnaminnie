@@ -9,7 +9,9 @@ const AddProductPopup = ({ onClose }) => {
     stock: "",
     category: "",
   });
+
   const [image, setImage] = useState(null);
+  const [hoverImage, setHoverImage] = useState(null);
   const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
@@ -21,16 +23,21 @@ const AddProductPopup = ({ onClose }) => {
     setImage(e.target.files[0]);
   };
 
+  const handleHoverImageChange = (e) => {
+    setHoverImage(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!image) {
-      setMessage("❌ Please upload an image.");
+    if (!image || !hoverImage) {
+      setMessage("❌ Please upload both images.");
       return;
     }
 
     const data = new FormData();
     Object.entries(formData).forEach(([key, val]) => data.append(key, val));
     data.append("image", image);
+    data.append("hover_image", hoverImage);
 
     try {
       const response = await fetch(
@@ -54,6 +61,7 @@ const AddProductPopup = ({ onClose }) => {
           category: "",
         });
         setImage(null);
+        setHoverImage(null);
       }
     } catch (err) {
       setMessage("❌ Failed to add product");
@@ -138,6 +146,9 @@ const AddProductPopup = ({ onClose }) => {
             <option value="Shoes">Shoes</option>
           </select>
 
+          <label className="block text-sm font-medium text-gray-700">
+            Main Image
+          </label>
           <input
             type="file"
             accept="image/*"
@@ -145,6 +156,18 @@ const AddProductPopup = ({ onClose }) => {
             required
             className="w-full border p-2 rounded"
           />
+
+          <label className="block text-sm font-medium text-gray-700">
+            Hover Image
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleHoverImageChange}
+            required
+            className="w-full border p-2 rounded"
+          />
+
           <button
             type="submit"
             className="w-full bg-mypurple text-white p-2 rounded hover:bg-myPink transition"

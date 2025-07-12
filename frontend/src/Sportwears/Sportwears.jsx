@@ -5,18 +5,43 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/CartSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { sportswear } from "../data/Product"; // ✅ Imported sportswear array
 
 const KidsSportswear = () => {
   const dispatch = useDispatch();
+  const [products, setProducts] = useState([]);
   const [index, setIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(2);
+  const baseUrl = "https://minnaminnie.com/minnaminniebackend/";
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
 
+    const fetchSportswear = async () => {
+      try {
+        const response = await fetch(
+          `${baseUrl}get_products_by_category.php?category=Sportswear`
+        );
+        const data = await response.json();
+        if (data.status === "success" && Array.isArray(data.products)) {
+          setProducts(data.products);
+        } else {
+          console.error("Failed to fetch sportswear:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching sportswear:", error);
+      }
+    };
+
+    fetchSportswear();
+  }, []);
+
+  useEffect(() => {
     const updateVisibleCount = () => {
-      setVisibleCount(window.innerWidth >= 1024 ? 4 : 2);
+      if (window.innerWidth >= 1024) {
+        setVisibleCount(4);
+      } else {
+        setVisibleCount(2);
+      }
     };
 
     updateVisibleCount();
@@ -25,27 +50,27 @@ const KidsSportswear = () => {
   }, []);
 
   const prevSlide = () => {
-    setIndex((prev) =>
-      prev === 0 ? sportswear.length - visibleCount : prev - 1
-    );
+    setIndex((prev) => (prev === 0 ? products.length - visibleCount : prev - 1));
   };
 
   const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % sportswear.length);
+    setIndex((prev) => (prev + 1) % products.length);
   };
 
-  const visibleProducts = [...sportswear, ...sportswear].slice(
-    index,
-    index + visibleCount
-  );
+  const visibleProducts = [...products, ...products].slice(index, index + visibleCount);
 
-  const handleAddToCart = (item) => {
+  const handleAddToCart = (product) => {
+    const numericPrice =
+      typeof product.discount_price === "string"
+        ? parseInt(product.discount_price.replace(/Rs\.?\s?/, "").replace(/,/g, ""))
+        : product.discount_price || product.price;
+
     dispatch(
       addToCart({
-        ...item,
+        ...product,
+        price: numericPrice,
         quantity: 1,
-        price: item.discountPrice,
-        type: "sportswear", // Required for order logic
+        type: "sportswear",
       })
     );
   };
@@ -71,32 +96,43 @@ const KidsSportswear = () => {
           {visibleProducts.map((product) => (
             <div
               key={product.id}
-              className="relative bg-white rounded-md shadow w-[260px] flex flex-col transition-transform duration-500"
+              className="relative bg-white rounded-md shadow w-[260px] flex flex-col transition-transform duration-500 overflow-hidden group"
             >
-              {product.sale && (
+              {product.discount_price && (
                 <div className="absolute top-2 left-2 bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
                   SALE
                 </div>
               )}
 
-              <NavLink to={`/sportswear/${product.id}`} data-aos="fade-left">
+              <NavLink to={`/product/${product.id}`} data-aos="fade-left" className="relative">
                 <img
                   src={product.image}
                   alt={product.title}
-                  className="bg-slate-100 w-60 h-48 object-contain rounded-t-md"
+                  className="bg-slate-100 w-full h-48 object-contain z-10 transition-opacity duration-300"
                 />
+                {product.hover_image && (
+                  <img
+                    src={
+                      product.hover_image.startsWith("http")
+                        ? product.hover_image
+                        : baseUrl + product.hover_image
+                    }
+                    alt={`${product.title} Hover`}
+                    className="absolute top-0 left-0 w-full h-48 object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none"
+                  />
+                )}
               </NavLink>
 
               <div className="p-2 text-xs text-center">
                 <h3 className="font-medium text-gray-800">{product.title}</h3>
                 <div className="flex justify-center items-center gap-2 mt-1">
-                  {product.sale && (
+                  {product.discount_price && (
                     <p className="text-gray-400 line-through text-sm">
-                      Rs.{product.price.toLocaleString()}
+                      Rs.{parseInt(product.price).toLocaleString()}
                     </p>
                   )}
                   <p className="text-pink-600 font-semibold text-sm">
-                    Rs.{product.discountPrice.toLocaleString()}
+                    Rs.{parseInt(product.discount_price || product.price).toLocaleString()}
                   </p>
                 </div>
 

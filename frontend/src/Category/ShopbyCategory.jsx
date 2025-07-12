@@ -3,7 +3,6 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { NavLink } from 'react-router-dom';
 
-// Public images are now accessed via /images/filename.jpg (hosted from public folder)
 const categories = [
   {
     title: 'GIRLS APPAREL',
@@ -42,6 +41,12 @@ function ShopbyCategory() {
     AOS.init({ duration: 1000 });
   }, []);
 
+  // Group categories into rows of 4
+  const groupedRows = [];
+  for (let i = 0; i < categories.length; i += 4) {
+    groupedRows.push(categories.slice(i, i + 4));
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <h2
@@ -51,21 +56,32 @@ function ShopbyCategory() {
         Shop By Category
       </h2>
 
-      <div className="grid gap-6 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {categories.map((item, index) => (
-          <NavLink to={item.path} key={index}>
-            <div className="bg-white shadow-lg rounded overflow-hidden hover:shadow-xl transition duration-300">
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-52 object-cover"
-                data-aos="fade-left"
-              />
-              <h1 className="text-center text-lg font-semibold py-4 uppercase">
-                {item.title}
-              </h1>
-            </div>
-          </NavLink>
+      <div className="space-y-6">
+        {groupedRows.map((row, rowIndex) => (
+          <div
+            key={rowIndex}
+            className={`grid gap-6 ${
+              row.length === 4
+                ? 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+                : `grid-cols-${row.length} justify-center lg:w-[70%] lg:pl-[30%]`
+            }`}
+          >
+            {row.map((item, index) => (
+              <NavLink to={item.path} key={index}>
+                <div className="bg-white shadow-lg rounded overflow-hidden hover:shadow-xl transition duration-300 h-full flex flex-col justify-center items-center text-center">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-52 object-cover"
+                    data-aos="fade-left"
+                  />
+                  <h1 className="text-lg font-semibold py-4 uppercase">
+                    {item.title}
+                  </h1>
+                </div>
+              </NavLink>
+            ))}
+          </div>
         ))}
       </div>
     </div>

@@ -119,7 +119,7 @@ function Header() {
 
             {/* Desktop Menu */}
             <ul className="hidden md:flex items-center space-x-6 font-medium text-base ml-auto">
-              <li><NavLink to="/allgarments" className={getActiveLink}>Baby Garments</NavLink></li>
+              <li><NavLink to="/allgarments" className={getActiveLink}>All Products</NavLink></li>
               <li
                 className="relative"
                 onMouseEnter={() => setAccessoriesOpen(true)}
@@ -151,7 +151,7 @@ function Header() {
               <li>
                 <button
                   onClick={() => setShowAdminPopup(true)}
-                  className="border px-2 py-1 rounded text-sm text-mypurple border-mypurple hover:bg-mypurple hover:text-white"
+                  className="border px-2 py-1 bg-myPink  rounded text-sm text-white border-mypurple hover:bg-mypurple hover:text-white"
                 >
                   Admin
                 </button>
@@ -172,7 +172,7 @@ function Header() {
         }`
       }
     >
-      Baby Garments
+      All Products
     </NavLink>
 
     {/* Accessories Toggle */}
@@ -257,7 +257,7 @@ function Header() {
     </NavLink>
     <button
       onClick={() => setShowAdminPopup(true)}
-      className="block w-full text-left border-b-2 py-1 border-white hover:border-mypurple"
+      className="block w-full text-center rounded bg-mypurple px-2   py-1 "
     >
       Admin
     </button>
@@ -364,15 +364,16 @@ function Header() {
       </div>
 
       {/* WhatsApp Button */}
-      <a
-        href="https://wa.me/923328205786?text=Greetings%20to%20Minna%20%26%20Minnie."
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 lg:right-20 right-3 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition duration-300"
-        title="Chat with us on WhatsApp"
-      >
-        <FaWhatsapp size={24} />
-      </a>
+     <a
+  href="https://wa.me/923328205786?text=Greetings%20to%20Minna%20%26%20Minnie."
+  target="_blank"
+  rel="noopener noreferrer"
+  className="fixed bottom-6 lg:right-5 right-3 z-20 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 transition duration-300"
+  title="Chat with us on WhatsApp"
+>
+  <FaWhatsapp size={20} />
+  <span className="sm:inline text-sm font-medium">Contact Us</span>
+</a>
     </>
   );
 }

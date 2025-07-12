@@ -51,11 +51,11 @@ const Cart = ({ isOpen, onClose }) => {
             >
               <NavLink  to={
     item.type === "toy"
-      ? `/toy/${item.id}`
+      ? `/product/${item.id}`
       : item.type === "shoe"
-      ? `/shoe/${item.id}`
+      ? `/product/${item.id}`
       : item.type === "sportswear"
-      ? `/sportswear/${item.id}`
+      ? `/product/${item.id}`
       : `/product/${item.id}` // default: garments
   }
   onClick={onClose}>

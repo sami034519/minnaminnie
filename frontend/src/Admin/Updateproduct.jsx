@@ -100,7 +100,7 @@ const UpdateProductPopup = ({ onClose }) => {
         {products.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {products.map(product => (
-              <div key={product.id} className="border p-3 rounded bg-gray-100 relative">
+              <div key={product.id} className="border p-3 rounded bg-productscolor relative">
                 <img src={product.image} alt={product.title} className="w-full h-32 object-contain rounded" />
                 <h3 className="font-bold mt-2">{product.title}</h3>
                 <p className="text-sm">Stock: {product.stock}</p>

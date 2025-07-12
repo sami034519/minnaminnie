@@ -1,24 +1,43 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { addToCart } from "../redux/CartSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { girlsapparel } from "../data/Product"; // ✅ use the updated array
 
 const GirlsApparel = () => {
+  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const baseUrl = "https://minnaminnie.com/minnaminniebackend/";
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
-  }, []);
 
-  const dispatch = useDispatch();
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(
+          "https://minnaminnie.com/minnaminniebackend/get_products_by_category.php?category=Girls%27%20Apparel"
+        );
+        const data = await response.json();
+        if (data.status === "success" && Array.isArray(data.products)) {
+          setProducts(data.products);
+        } else {
+          console.error("Failed to fetch products:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const handleAddToCart = (product) => {
     dispatch(
       addToCart({
         ...product,
-        price: product.price, // Already numeric
+        price: product.price,
         quantity: 1,
         type: "garment",
       })
@@ -28,11 +47,11 @@ const GirlsApparel = () => {
   return (
     <div className="px-4 md:px-10 py-10 max-w-7xl mx-auto">
       <h2 className="text-3xl font-bold text-myPink text-center mb-10">
-        ALL BABY GARMENTS
+        GIRLS APPAREL
       </h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-        {girlsapparel.map((product) => {
+        {products.map((product) => {
           const fakeOldPrice = product.price + 200;
 
           return (
@@ -48,9 +67,13 @@ const GirlsApparel = () => {
                     className="w-full h-full object-contain z-10 relative transition-opacity duration-300"
                     data-aos="fade-down"
                   />
-                  {product.hoverImage && (
+                  {product.hover_image && (
                     <img
-                      src={product.hoverImage}
+                      src={
+                        product.hover_image.startsWith("http")
+                          ? product.hover_image
+                          : baseUrl + product.hover_image
+                      }
                       alt={`${product.title} Hover`}
                       className="w-full h-full object-contain absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none"
                     />

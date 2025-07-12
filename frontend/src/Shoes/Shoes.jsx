@@ -5,15 +5,34 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/CartSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { shoes } from "../data/Product";
 
 const KidsShoes = () => {
   const dispatch = useDispatch();
+  const [products, setProducts] = useState([]);
   const [index, setIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(2);
+  const baseUrl = "https://minnaminnie.com/minnaminniebackend/";
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
+
+    const fetchShoes = async () => {
+      try {
+        const res = await fetch(
+          `${baseUrl}get_products_by_category.php?category=Shoes`
+        );
+        const data = await res.json();
+        if (data.status === "success" && Array.isArray(data.products)) {
+          setProducts(data.products);
+        } else {
+          console.error("Failed to fetch shoes:", data.message);
+        }
+      } catch (err) {
+        console.error("Error fetching shoes:", err);
+      }
+    };
+
+    fetchShoes();
   }, []);
 
   useEffect(() => {
@@ -33,9 +52,9 @@ const KidsShoes = () => {
 
   const handleAddToCart = (product) => {
     const numericPrice =
-      typeof product.price === "string"
-        ? parseInt(product.price.replace(/Rs\.?\s?/, "").replace(/,/g, ""))
-        : product.price;
+      typeof product.discount_price === "string"
+        ? parseInt(product.discount_price.replace(/Rs\.?\s?/, "").replace(/,/g, ""))
+        : product.discount_price || product.price;
 
     dispatch(
       addToCart({
@@ -48,14 +67,14 @@ const KidsShoes = () => {
   };
 
   const prevSlide = () => {
-    setIndex((prev) => (prev === 0 ? shoes.length - visibleCount : prev - 1));
+    setIndex((prev) => (prev === 0 ? products.length - visibleCount : prev - 1));
   };
 
   const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % shoes.length);
+    setIndex((prev) => (prev + 1) % products.length);
   };
 
-  const visibleProducts = [...shoes, ...shoes].slice(index, index + visibleCount);
+  const visibleProducts = [...products, ...products].slice(index, index + visibleCount);
 
   return (
     <div className="w-full py-8 my-10">
@@ -77,14 +96,14 @@ const KidsShoes = () => {
               key={product.id}
               className="relative bg-white rounded-md shadow w-[260px] flex flex-col transition-transform duration-500 overflow-hidden group"
             >
-              {product.sale && (
+              {product.discount_price && (
                 <div className="absolute top-2 left-2 bg-red-600 text-white text-[11px] font-bold px-2 py-1 rounded-full z-10">
                   SALE
                 </div>
               )}
 
               <NavLink
-                to={`/shoe/${product.id}`}
+                to={`/product/${product.id}`}
                 className="relative bg-productscolor"
               >
                 <img
@@ -93,16 +112,29 @@ const KidsShoes = () => {
                   className="w-full h-48 object-contain relative z-10 transition-opacity duration-300"
                   data-aos="fade-left"
                 />
+                {product.hover_image && (
+                  <img
+                    src={
+                      product.hover_image.startsWith("http")
+                        ? product.hover_image
+                        : baseUrl + product.hover_image
+                    }
+                    alt={`${product.title} Hover`}
+                    className="absolute top-0 left-0 w-full h-48 object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none"
+                  />
+                )}
               </NavLink>
 
               <div className="p-2 text-xs text-center">
                 <h3 className="font-medium text-gray-800">{product.title}</h3>
                 <div className="flex justify-center items-center gap-2 mt-1 text-sm">
-                  <p className="text-gray-400 line-through">
-                    Rs.{(product.price + 200).toLocaleString()}
-                  </p>
+                  {product.discount_price && (
+                    <p className="text-gray-400 line-through">
+                      Rs.{parseInt(product.price).toLocaleString()}
+                    </p>
+                  )}
                   <p className="text-pink-600 font-semibold">
-                    Rs.{product.discountPrice.toLocaleString()}
+                    Rs.{parseInt(product.discount_price || product.price).toLocaleString()}
                   </p>
                 </div>
 
@@ -128,7 +160,7 @@ const KidsShoes = () => {
       <div className="text-center mt-6">
         <NavLink
           to="/allshoes"
-          className="bg-mypurple lg:w-[30%] w-[80%] hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex justify-center items-center gap-2"
+          className="bg-mypurple lg:w-[30%] w-[80%] hover:bg-myPink text-white px-6 py-2 text-sm font-semibold rounded inline-flex items-center justify-center gap-2"
           data-aos="fade-right"
         >
           VIEW ALL <FaChevronRight size={14} />
