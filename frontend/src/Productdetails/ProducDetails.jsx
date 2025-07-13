@@ -9,7 +9,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("");
   const [mainImage, setMainImage] = useState("");
-  const [images, setImages] = useState([]);
+  
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,14 +31,12 @@ const ProductDetail = () => {
         if (json.status === "success") {
           const p = json.product;
           p.features = p.description.split(/\r?\n/).filter(l => l.trim());
-          p.sizes = p.sizes || ["S", "M", "L", "XL"];
-
           const imageList = [p.image];
           if (p.hover_image) imageList.push(p.hover_image);
 
           setProduct(p);
           setMainImage(p.image);
-          setImages(imageList);
+          
         } else {
           setProduct(null);
         }
@@ -84,7 +82,6 @@ const ProductDetail = () => {
       product: {
         title: product.title,
         price: `PKR ${numericPrice.toLocaleString()}`,
-        sizes: product.sizes,
         features: product.features,
         image: product.image,
       },
@@ -127,40 +124,22 @@ const ProductDetail = () => {
       <div className="text-xs text-gray-500 mb-6">Home / {product.title}</div>
 
       <div className="grid md:grid-cols-2 gap-10">
-        {/* Product Image Section */}
-       {/* Product Image Section */}
-<div>
-  <div className="bg-productscolor p-4 rounded">
-    <img
-      src={mainImage}
-      alt={product.title}
-      className="w-full h-[500px] object-contain"
-    />
-  </div>
+        {/* Image Section */}
+        <div>
+          <div className="bg-productscolor p-4 rounded">
+            <img src={mainImage} alt={product.title} className="w-full h-[500px] object-contain" />
+          </div>
+          <div className="flex gap-2 mt-4">
+            {mainImage !== product.image && (
+              <img src={product.image} alt="Main" onClick={() => setMainImage(product.image)} className="w-20 h-20 object-contain bg-productscolor border rounded cursor-pointer border-productscolor hover:border-myPink" />
+            )}
+            {mainImage !== product.hover_image && product.hover_image && (
+              <img src={product.hover_image} alt="Hover" onClick={() => setMainImage(product.hover_image)} className="w-20 h-20 object-contain bg-productscolor border rounded cursor-pointer border-productscolor hover:border-myPink" />
+            )}
+          </div>
+        </div>
 
-  <div className="flex gap-2 mt-4">
-    {/* Render the alternate image as a thumbnail */}
-    {mainImage !== product.image && (
-      <img
-        src={product.image}
-        alt="Main"
-        onClick={() => setMainImage(product.image)}
-        className="w-20 h-20 object-contain bg-productscolor border rounded cursor-pointer border-productscolor hover:border-myPink"
-      />
-    )}
-    {mainImage !== product.hover_image && product.hover_image && (
-      <img
-        src={product.hover_image}
-        alt="Hover"
-        onClick={() => setMainImage(product.hover_image)}
-        className="w-20 h-20 object-contain bg-productscolor border rounded cursor-pointer border-productscolor hover:border-myPink"
-      />
-    )}
-  </div>
-</div>
-
-
-        {/* Product Info Section */}
+        {/* Info Section */}
         <div>
           <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
           <p className="text-xl text-pink-600 font-semibold mb-4">
@@ -175,7 +154,7 @@ const ProductDetail = () => {
             >
               Size Chart
             </span>{" "}
-            in the last image.
+            for accurate measurements.
           </p>
           <p className="text-xs mb-3">
             <span className="font-medium">SIZE CHART NOTE:</span> Allow 0.5 inch +/- tolerance.
@@ -188,52 +167,30 @@ const ProductDetail = () => {
             <BsGift className="text-pink-600" /> Gift wrapping available at cart page.
           </div>
 
-          {/* Size Buttons */}
+          {/* Size Chart Selector */}
           <div className="mb-4">
             <p className="text-sm font-medium mb-1">SIZE</p>
-            <div className="flex flex-wrap gap-2">
-              {product.sizes.map((size) => (
-                <button
-                  key={size}
-                  onClick={() => setSelectedSize(size)}
-                  className={`px-4 py-2 border rounded text-sm ${
-                    selectedSize === size
-                      ? "bg-myPink text-white border-myPink"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
+            <button
+              onClick={() => setIsSizeChartOpen(true)}
+              className="px-4 py-2 border rounded text-sm text-gray-700 hover:bg-gray-100"
+            >
+              {selectedSize ? `Selected: ${selectedSize}` : "Select Size"}
+            </button>
           </div>
 
           {/* Quantity Selector */}
           <div className="mb-4">
             <p className="text-sm font-medium mb-1">QUANTITY</p>
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="px-2 py-1 border rounded text-sm"
-              >
-                -
-              </button>
+              <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} className="px-2 py-1 border rounded text-sm">-</button>
               <span className="text-sm">{quantity}</span>
-              <button
-                onClick={() => setQuantity((q) => q + 1)}
-                className="px-2 py-1 border rounded text-sm"
-              >
-                +
-              </button>
+              <button onClick={() => setQuantity((q) => q + 1)} className="px-2 py-1 border rounded text-sm">+</button>
             </div>
           </div>
 
           <p className="text-sm text-green-600 mb-4">🟢 In stock, ready to ship</p>
 
-          <button
-            onClick={handleOrderNow}
-            className="w-full py-3 bg-mypurple hover:bg-myPink text-white text-sm font-medium rounded flex items-center justify-center gap-2"
-          >
+          <button onClick={handleOrderNow} className="w-full py-3 bg-mypurple hover:bg-myPink text-white text-sm font-medium rounded flex items-center justify-center gap-2">
             <FaShoppingBag size={16} /> Order Now
           </button>
         </div>
@@ -252,19 +209,55 @@ const ProductDetail = () => {
       {/* Size Chart Modal */}
       {isSizeChartOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded relative max-w-xl w-full">
+          <div className="bg-white p-6 rounded-lg max-w-2xl w-full overflow-auto max-h-[90vh] relative">
             <button
-              className="absolute top-2 right-3 bg-red-500 px-2 rounded-full text-white text-3xl"
+              className="absolute top-2 right-3 text-gray-600 text-3xl"
               onClick={() => setIsSizeChartOpen(false)}
             >
               &times;
             </button>
-            <img src="/images/sizechart.jpg" alt="Size Chart" className="w-full h-auto object-contain" />
+            <h2 className="text-lg font-semibold mb-4">Select Size</h2>
+            <table className="w-full text-sm text-center border border-gray-300">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="border p-2">Size</th>
+                  <th className="border p-2">Shirt Length</th>
+                  <th className="border p-2">Short Length</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["1-2 year", 15, 12],
+                  ["2-3 year", 16, 13],
+                  ["3-4 year", 18, 14],
+                  ["4_5 year", 19, 14],
+                  ["5_6 year", 20, 14],
+                  ["7_8 year", 21, 17],
+                  ["9_10 year", 22, 18],
+                ].map(([size, shirt, short]) => (
+                  <tr
+                    key={size}
+                    onClick={() => {
+                      setSelectedSize(size);
+                      setIsSizeChartOpen(false);
+                    }}
+                    className={`cursor-pointer hover:bg-myPink hover:text-white ${
+                      selectedSize === size ? "bg-myPink text-white" : ""
+                    }`}
+                  >
+                    <td className="border p-2">{size}</td>
+                    <td className="border p-2">{shirt}</td>
+                    <td className="border p-2">{short}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="text-xs text-gray-500 mt-3">Allow 0.5 inch +/- tolerance.</p>
           </div>
         </div>
       )}
 
-      {/* Order Popup */}
+      {/* Order Form Popup */}
       {isPopupOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full relative">
