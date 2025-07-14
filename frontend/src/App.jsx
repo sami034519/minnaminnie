@@ -19,6 +19,7 @@ import Babycare from './BABYcare/Babycare';
 import GirlsApparel from './Girlsapparel/Girlsapparel';
 import BoysApparel from './boyapparel/BoysApparel';
 import Dashboard from './Admin/Dashboard';
+import AllWatches from './AllWatches';
 
 function App() {
   const location = useLocation();
@@ -51,6 +52,7 @@ function App() {
         <Route path="/babycare" element={<Babycare />} />
         <Route path="/girlsapparel" element={<GirlsApparel />} />
         <Route path="/boysapparel" element={<BoysApparel />} />
+        <Route path="/watches" element={<AllWatches />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
 

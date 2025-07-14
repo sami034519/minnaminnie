@@ -56,6 +56,8 @@ const Cart = ({ isOpen, onClose }) => {
       ? `/product/${item.id}`
       : item.type === "sportswear"
       ? `/product/${item.id}`
+      : item.type === "Watches"
+      ? `/product/${item.id}`
       : `/product/${item.id}` // default: garments
   }
   onClick={onClose}>

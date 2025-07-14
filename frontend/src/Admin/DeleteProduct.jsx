@@ -6,6 +6,7 @@ const categoryOptions = [
   "Sportswear",
   "Toys",
   "Shoes",
+  "Watches"
 ];
 
 const DeleteProductPopup = ({ onClose }) => {

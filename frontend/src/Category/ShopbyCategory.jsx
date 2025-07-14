@@ -34,6 +34,11 @@ const categories = [
     image: '/images/Baby_Care_1024x1024.jpg',
     path: '/babycare',
   },
+   {
+    title: 'BABY WatchES',
+    image: '/images/watch6.jpg',
+    path: '/watches',
+  },
 ];
 
 function ShopbyCategory() {
@@ -59,13 +64,13 @@ function ShopbyCategory() {
       <div className="space-y-6">
         {groupedRows.map((row, rowIndex) => (
           <div
-            key={rowIndex}
-            className={`grid gap-6 ${
-              row.length === 4
-                ? 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
-                : `grid-cols-${row.length} justify-center lg:w-[70%] lg:pl-[30%]`
-            }`}
-          >
+  key={rowIndex}
+  className={`grid gap-6 ${
+    rowIndex === 0
+      ? 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+      : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 justify-center lg:w-[70%] lg:pl-[20%]'
+  }`}
+>
             {row.map((item, index) => (
               <NavLink to={item.path} key={index}>
                 <div className="bg-white shadow-lg rounded overflow-hidden hover:shadow-xl transition duration-300 h-full flex flex-col justify-center items-center text-center">

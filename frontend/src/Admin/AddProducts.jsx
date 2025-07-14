@@ -13,6 +13,8 @@ const AddProductPopup = ({ onClose }) => {
   const [image, setImage] = useState(null);
   const [hoverImage, setHoverImage] = useState(null);
   const [message, setMessage] = useState("");
+  const [buttonText, setButtonText] = useState("Add Product");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +42,9 @@ const AddProductPopup = ({ onClose }) => {
     data.append("hover_image", hoverImage);
 
     try {
+      setIsSubmitting(true);
+      setButtonText("Adding product...");
+
       const response = await fetch(
         "https://minnaminnie.com/minnaminniebackend/add_product.php",
         {
@@ -52,6 +57,7 @@ const AddProductPopup = ({ onClose }) => {
       setMessage(result.message);
 
       if (result.status === "success") {
+        setButtonText("✅ Product Added");
         setFormData({
           title: "",
           description: "",
@@ -62,15 +68,25 @@ const AddProductPopup = ({ onClose }) => {
         });
         setImage(null);
         setHoverImage(null);
+
+        // Reset button after 2 seconds
+        setTimeout(() => {
+          setButtonText("Add Product");
+        }, 2000);
+      } else {
+        setButtonText("Add Product");
       }
     } catch (err) {
       setMessage("❌ Failed to add product");
+      setButtonText("Add Product");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex items-center justify-center">
-      <div className="bg-white w-[90%] max-w-lg p-6 rounded-lg shadow-lg relative">
+    <div className="fixed h-screen inset-0 z-50 bg-black bg-opacity-40 flex items-center justify-center">
+      <div className="bg-white w-[90%] max-w-lg px-2 py-1 rounded-lg shadow-lg relative">
         <button
           onClick={onClose}
           className="absolute top-2 right-3 text-gray-500 text-2xl"
@@ -85,7 +101,7 @@ const AddProductPopup = ({ onClose }) => {
           <p className="mb-2 text-sm text-center text-red-500">{message}</p>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-2">
           <input
             type="text"
             name="title"
@@ -144,6 +160,7 @@ const AddProductPopup = ({ onClose }) => {
             <option value="Sportswear">Sportswear</option>
             <option value="Toys">Toys</option>
             <option value="Shoes">Shoes</option>
+            <option value="Watches">Watches</option>
           </select>
 
           <label className="block text-sm font-medium text-gray-700">
@@ -170,9 +187,14 @@ const AddProductPopup = ({ onClose }) => {
 
           <button
             type="submit"
-            className="w-full bg-mypurple text-white p-2 rounded hover:bg-myPink transition"
+            disabled={isSubmitting}
+            className={`w-full p-2 rounded text-white transition ${
+              isSubmitting
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-mypurple hover:bg-myPink"
+            }`}
           >
-            Add Product
+            {buttonText}
           </button>
         </form>
       </div>

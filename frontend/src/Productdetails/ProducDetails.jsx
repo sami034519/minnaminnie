@@ -9,7 +9,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("");
   const [mainImage, setMainImage] = useState("");
-  
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,13 +30,13 @@ const ProductDetail = () => {
 
         if (json.status === "success") {
           const p = json.product;
+            console.log("Fetched product from API:", p);
           p.features = p.description.split(/\r?\n/).filter(l => l.trim());
           const imageList = [p.image];
           if (p.hover_image) imageList.push(p.hover_image);
 
           setProduct(p);
           setMainImage(p.image);
-          
         } else {
           setProduct(null);
         }
@@ -56,12 +56,21 @@ const ProductDetail = () => {
   };
 
   const handleOrderNow = () => {
-    if (!selectedSize) {
+  if (!selectedSize) {
+    if (
+      category?.includes("girls") ||
+      category?.includes("boys") ||
+      category?.includes("shoes")
+    ) {
       alert("Please select a size");
       return;
+    } else {
+      setSelectedSize("N/A"); // 🔧 Auto-fill size as "N/A" for toys, watches, etc.
     }
-    setIsPopupOpen(true);
-  };
+  }
+  setIsPopupOpen(true);
+};
+
 
   const handleSubmitOrder = async () => {
     if (!form.name || !form.email || !form.phone || !form.adress) {
@@ -113,7 +122,46 @@ const ProductDetail = () => {
   if (loadingProduct) return <div className="text-center py-10">Loading product...</div>;
   if (!product) return <div className="text-center text-red-500 mt-10">Product not found.</div>;
 
+  const category = product?.category?.toLowerCase();
   const numericPrice = parseInt(product.discount_price || product.price) || 0;
+
+  const sizeCharts = {
+    girls: [
+      ["1-2 year", 15, 12],
+      ["2-3 year", 16, 13],
+      ["3-4 year", 18, 14],
+      ["4-5 year", 19, 14],
+      ["5-6 year", 20, 14],
+      ["7-8 year", 21, 17],
+      ["9-10 year", 22, 18],
+    ],
+    boys: [
+      ["1-2 year", 16, 13],
+      ["2-3 year", 17, 14],
+      ["3-4 year", 18, 15],
+      ["4-5 year", 19, 16],
+      ["5-6 year", 20, 17],
+      ["7-8 year", 21, 18],
+      ["9-10 year", 22, 19],
+    ],
+    shoes: [
+      ["EU 21", "13.5 cm"],
+      ["EU 22", "14.0 cm"],
+      ["EU 23", "14.5 cm"],
+      ["EU 24", "15.0 cm"],
+      ["EU 25", "15.5 cm"],
+      ["EU 26", "16.0 cm"],
+    ],
+  };
+
+  const getSizeChart = () => {
+    if (category?.includes("girls' apparel")) return sizeCharts.girls;
+    if (category?.includes("boys' apparel")) return sizeCharts.boys;
+    if (category?.includes("shoes")) return sizeCharts.shoes;
+    console.log(category);
+    return [];
+    
+  };
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
@@ -124,7 +172,6 @@ const ProductDetail = () => {
       <div className="text-xs text-gray-500 mb-6">Home / {product.title}</div>
 
       <div className="grid md:grid-cols-2 gap-10">
-        {/* Image Section */}
         <div>
           <div className="bg-productscolor p-4 rounded">
             <img src={mainImage} alt={product.title} className="w-full h-[500px] object-contain" />
@@ -139,7 +186,6 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Info Section */}
         <div>
           <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
           <p className="text-xl text-pink-600 font-semibold mb-4">
@@ -167,7 +213,6 @@ const ProductDetail = () => {
             <BsGift className="text-pink-600" /> Gift wrapping available at cart page.
           </div>
 
-          {/* Size Chart Selector */}
           <div className="mb-4">
             <p className="text-sm font-medium mb-1">SIZE</p>
             <button
@@ -178,7 +223,6 @@ const ProductDetail = () => {
             </button>
           </div>
 
-          {/* Quantity Selector */}
           <div className="mb-4">
             <p className="text-sm font-medium mb-1">QUANTITY</p>
             <div className="flex items-center gap-3">
@@ -196,7 +240,6 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      {/* Features */}
       <div className="mt-10 border-t pt-6">
         <h3 className="text-md font-medium text-gray-800 mb-3">Product Features</h3>
         <ul className="list-disc list-inside text-sm text-gray-600">
@@ -206,7 +249,6 @@ const ProductDetail = () => {
         </ul>
       </div>
 
-      {/* Size Chart Modal */}
       {isSizeChartOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg max-w-2xl w-full overflow-auto max-h-[90vh] relative">
@@ -221,33 +263,29 @@ const ProductDetail = () => {
               <thead className="bg-gray-100">
                 <tr>
                   <th className="border p-2">Size</th>
-                  <th className="border p-2">Shirt Length</th>
-                  <th className="border p-2">Short Length</th>
+                  <th className="border p-2">
+                    {category?.includes("shoe") ? "Foot Length" : "Shirt Length"}
+                  </th>
+                  {!category?.includes("shoe") && (
+                    <th className="border p-2">Short Length</th>
+                  )}
                 </tr>
               </thead>
               <tbody>
-                {[
-                  ["1-2 year", 15, 12],
-                  ["2-3 year", 16, 13],
-                  ["3-4 year", 18, 14],
-                  ["4_5 year", 19, 14],
-                  ["5_6 year", 20, 14],
-                  ["7_8 year", 21, 17],
-                  ["9_10 year", 22, 18],
-                ].map(([size, shirt, short]) => (
+                {getSizeChart().map((row, i) => (
                   <tr
-                    key={size}
+                    key={i}
                     onClick={() => {
-                      setSelectedSize(size);
+                      setSelectedSize(row[0]);
                       setIsSizeChartOpen(false);
                     }}
                     className={`cursor-pointer hover:bg-myPink hover:text-white ${
-                      selectedSize === size ? "bg-myPink text-white" : ""
+                      selectedSize === row[0] ? "bg-myPink text-white" : ""
                     }`}
                   >
-                    <td className="border p-2">{size}</td>
-                    <td className="border p-2">{shirt}</td>
-                    <td className="border p-2">{short}</td>
+                    <td className="border p-2">{row[0]}</td>
+                    <td className="border p-2">{row[1]}</td>
+                    {row.length === 3 && <td className="border p-2">{row[2]}</td>}
                   </tr>
                 ))}
               </tbody>
@@ -257,7 +295,6 @@ const ProductDetail = () => {
         </div>
       )}
 
-      {/* Order Form Popup */}
       {isPopupOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full relative">

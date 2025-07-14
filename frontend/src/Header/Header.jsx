@@ -49,12 +49,13 @@ function Header() {
     }
   };
 
-  const navLinkStyle =
-    "cursor-pointer border-b-2 border-transparent hover:border-mypurple";
-  const getActiveLink = ({ isActive }) =>
-    isActive
-      ? `${navLinkStyle} border-mypurple`
-      : `${navLinkStyle} border-transparent`;
+ 
+  const navLinkStyle ="cursor-pointer border-b-[3px] rounded border-transparent transition-colors duration-300";
+
+const getActiveLink = ({ isActive }) =>
+  isActive
+    ? `${navLinkStyle} border-myPink` // Active = Pink border
+    : `${navLinkStyle} hover:border-mypurple`; // Inactive = hover shows Purple border
 
   return (
     <>
@@ -121,7 +122,7 @@ function Header() {
             </div>
 
             {/* Desktop Menu */}
-            <ul className="hidden md:flex items-center space-x-6 font-medium text-base ml-auto">
+            <ul className="hidden md:flex items-center space-x-3 font-medium text-sm ml-auto">
               <li>
                 <NavLink to="/allgarments" className={getActiveLink}>
                   All Products
@@ -182,17 +183,24 @@ function Header() {
                   Sport Wears
                 </NavLink>
               </li>
+                            <li>
+                <NavLink to="/watches" className={getActiveLink}>
+                  Baby Watches
+                </NavLink>
+              </li>
               <li>
                 <NavLink to="/shoes" className={getActiveLink}>
                   Baby Shoes
                 </NavLink>
               </li>
-              <li>
+              </ul>
+              <div className=" hidden lg:flex gap-x-2 lg:pl-10">
+              
                 <button onClick={() => setSearchOpen(!searchOpen)}>
                   <Search size={24} />
                 </button>
-              </li>
-              <li>
+              
+              
                 <button
                   onClick={() => setShowCart(true)}
                   className="relative text-pink-600"
@@ -204,16 +212,16 @@ function Header() {
                     </span>
                   )}
                 </button>
-              </li>
-              <li>
+              
+              
                 <button
                   onClick={() => setShowAdminPopup(true)}
                   className="border px-2 py-1 bg-myPink  rounded text-sm text-white border-mypurple hover:bg-mypurple hover:text-white"
                 >
                   Admin
                 </button>
-              </li>
-            </ul>
+              
+            </div>
           </div>
          {/* Mobile Dropdown Menu */}
 {mobileMenuOpen && (
@@ -320,6 +328,15 @@ function Header() {
       }
     >
       Baby Shoes
+    </NavLink>
+     <NavLink
+      to="/watches"
+      onClick={closeMenus}
+      className={({ isActive }) =>
+        `block border-b-2 py-1 ${isActive ? "border-mypurple" : "border-white"}`
+      }
+    >
+      Baby Watches
     </NavLink>
 
     <button

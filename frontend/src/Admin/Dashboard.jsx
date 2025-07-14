@@ -8,10 +8,11 @@ import BoysApparelManager from './BoysApparelManager';
 import SportswearManager from './SportsApparelManager';
 import ToysManager from './ToysManager';
 import ShoesManager from './ShoesManager';
+import WatchesManager from './WatchesManager';
 
 import {
   FaTshirt, FaPuzzlePiece, FaChild, FaRunning, FaShoePrints,
-  FaPlus, FaSync, FaClipboardList, FaBars, FaTimes, FaTrash,
+  FaPlus, FaSync,  FaBars, FaTimes, FaTrash,
   FaShoppingCart, FaHome
 } from 'react-icons/fa';
 
@@ -33,6 +34,7 @@ const Dashboard = () => {
   const [showSportswearPopup, setShowSportswearPopup] = useState(false);
   const [showToysPopup, setShowToysPopup] = useState(false);
 const [showShoesPopup, setShowShoesPopup] = useState(false);
+const [showWatchesPopup, setShowWatchesPopup] = useState(false);
 
  // For Girls Apparel
 
@@ -50,6 +52,7 @@ const [showShoesPopup, setShowShoesPopup] = useState(false);
      if (title === "Sports' wear") setShowSportswearPopup(true);
      if (title === "Toys") setShowToysPopup(true);
   if (title === "Shoes") setShowShoesPopup(true);
+  if (title === "Watches") setShowWatchesPopup(true);
     // In future you can add other categories here
   };
 
@@ -63,6 +66,7 @@ const [showShoesPopup, setShowShoesPopup] = useState(false);
         {showSportswearPopup && <SportswearManager onClose={() => setShowSportswearPopup(false)} />}
             {showToysPopup && <ToysManager onClose={() => setShowToysPopup(false)} />}
 {showShoesPopup && <ShoesManager onClose={() => setShowShoesPopup(false)} />}
+  {showWatchesPopup && <WatchesManager onClose={() => setShowWatchesPopup(false)} />}
 
 
 
@@ -124,6 +128,7 @@ const [showShoesPopup, setShowShoesPopup] = useState(false);
                 <Card icon={<FaRunning />} title="Sports' wear" count="75" onClick={handleCardClick} />
                 <Card icon={<FaPuzzlePiece />} title="Toys" count="60" onClick={handleCardClick} />
                 <Card icon={<FaShoePrints />} title="Shoes" count="110" onClick={handleCardClick} />
+                 <Card icon={<FaShoePrints />} title="Watches" count="110" onClick={handleCardClick} />
               </div>
 
               <div className="grid md:grid-cols-3 gap-4">
@@ -169,10 +174,6 @@ const Card = ({ icon, title, count, onClick }) => (
   </div>
 );
 
-const Button = ({ icon, label }) => (
-  <button className="flex items-center justify-center gap-2 p-3 bg-mypurple text-white font-semibold rounded shadow hover:bg-myPink transition duration-300">
-    {icon} {label}
-  </button>
-);
+
 
 export default Dashboard;
