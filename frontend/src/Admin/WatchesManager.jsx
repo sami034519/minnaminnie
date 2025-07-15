@@ -6,7 +6,7 @@ const WatchesManager = ({ onClose }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const fetchProducts = () => {
-    fetch(`https://minnaminnie.com/minnaminniebackend/get_products_by_category.php?category=Watches`)
+    fetch(`https://myapi.minnaminnie.com/get_products_by_category.php?category=Watches`)
       .then(res => res.json())
       .then(data => setProducts(data.products || []))
       .catch(err => {
@@ -26,7 +26,7 @@ const WatchesManager = ({ onClose }) => {
       const formData = new FormData();
       formData.append('id', id);
 
-      const res = await fetch(`https://minnaminnie.com/minnaminniebackend/delete_product.php`, {
+      const res = await fetch(`https://myapi.minnaminnie.com/delete_product.php`, {
         method: 'POST',
         body: formData,
       });

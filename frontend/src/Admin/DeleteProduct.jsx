@@ -24,7 +24,7 @@ const DeleteProductPopup = ({ onClose }) => {
     }
 
     try {
-      const res = await fetch(`https://minnaminnie.com/minnaminniebackend/get_products_by_category.php?category=${encodeURIComponent(category)}`);
+      const res = await fetch(`https://myapi.minnaminnie.com/get_products_by_category.php?category=${encodeURIComponent(category)}`);
       const data = await res.json();
       if (data.products) {
         setProducts(data.products);
@@ -43,7 +43,7 @@ const DeleteProductPopup = ({ onClose }) => {
       const formData = new FormData();
       formData.append('id', id);
 
-      const response = await fetch('https://minnaminnie.com/minnaminniebackend/delete_product.php', {
+      const response = await fetch('https://myapi.minnaminnie.com/delete_product.php', {
         method: 'POST',
         body: formData,
       });

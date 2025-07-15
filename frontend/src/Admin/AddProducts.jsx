@@ -46,7 +46,7 @@ const AddProductPopup = ({ onClose }) => {
       setButtonText("Adding product...");
 
       const response = await fetch(
-        "https://minnaminnie.com/minnaminniebackend/add_product.php",
+        "https://myapi.minnaminnie.com/add_product.php",
         {
           method: "POST",
           body: data,
@@ -77,6 +77,7 @@ const AddProductPopup = ({ onClose }) => {
         setButtonText("Add Product");
       }
     } catch (err) {
+      console.log(err);
       setMessage("❌ Failed to add product");
       setButtonText("Add Product");
     } finally {

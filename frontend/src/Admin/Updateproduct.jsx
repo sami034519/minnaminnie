@@ -21,7 +21,7 @@ const UpdateProductPopup = ({ onClose }) => {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch(`https://minnaminnie.com/minnaminniebackend/get_products_by_category.php?category=${encodeURIComponent(category)}`);
+      const res = await fetch(`https://myapi.minnaminnie.com/get_products_by_category.php?category=${encodeURIComponent(category)}`);
       const data = await res.json();
       if (data.products) {
         setProducts(data.products);
@@ -59,7 +59,7 @@ const UpdateProductPopup = ({ onClose }) => {
         formData.append(key, updateData[key]);
       }
 
-      const response = await fetch('https://minnaminnie.com/minnaminniebackend/update_product.php', {
+      const response = await fetch('https://myapi.minnaminnie.com/update_product.php', {
         method: 'POST',
         body: formData,
       });

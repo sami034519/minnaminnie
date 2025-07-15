@@ -7,7 +7,7 @@ const ToysManager = ({ onClose }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
-    fetch(`https://minnaminnie.com/minnaminniebackend/get_products_by_category.php?category=Toys`)
+    fetch(`https://myapi.minnaminnie.com/get_products_by_category.php?category=Toys`)
       .then(res => res.json())
       .then(data => setProducts(data.products || []))
       .catch(err => {
@@ -23,7 +23,7 @@ const ToysManager = ({ onClose }) => {
     const formData = new FormData();
     formData.append('id', id); // ✅ Send ID as POST
 
-    const res = await fetch(`https://minnaminnie.com/minnaminniebackend/delete_product.php`, {
+    const res = await fetch(`https://myapi.minnaminnie.com/delete_product.php`, {
       method: 'POST',
       body: formData,
     });
