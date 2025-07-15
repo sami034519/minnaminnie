@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { BsTruck, BsGift } from "react-icons/bs";
 import { FaShoppingBag } from "react-icons/fa";
 
-
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -31,8 +30,11 @@ const ProductDetail = () => {
 
         if (json.status === "success") {
           const p = json.product;
-            console.log("Fetched product from API:", p);
-          p.features = p.description.split(/\r?\n/).filter(l => l.trim());
+          console.log("Fetched product from API:", p);
+
+          // Safe parsing of features from description
+          p.features = p.description ? p.description.split(/\r?\n/).filter(l => l.trim()) : [];
+
           const imageList = [p.image];
           if (p.hover_image) imageList.push(p.hover_image);
 
@@ -57,22 +59,21 @@ const ProductDetail = () => {
   };
 
   const handleOrderNow = () => {
-  if (!selectedSize) {
-    if (
-      category?.includes("girls") ||
-      category?.includes("boys") ||
-      category?.includes("shoes")||
-      category?.includes("sportswear")
-    ) {
-      alert("Please select a size");
-      return;
-    } else {
-      setSelectedSize("N/A"); // 🔧 Auto-fill size as "N/A" for toys, watches, etc.
+    if (!selectedSize) {
+      if (
+        category?.includes("girls") ||
+        category?.includes("boys") ||
+        category?.includes("shoes") ||
+        category?.includes("sportswear")
+      ) {
+        alert("Please select a size");
+        return;
+      } else {
+        setSelectedSize("N/A");
+      }
     }
-  }
-  setIsPopupOpen(true);
-};
-
+    setIsPopupOpen(true);
+  };
 
   const handleSubmitOrder = async () => {
     if (!form.name || !form.email || !form.phone || !form.adress) {
@@ -81,22 +82,24 @@ const ProductDetail = () => {
     }
 
     setIsLoading(true);
-
     const numericPrice = parseInt(product.discount_price || product.price) || 0;
 
     const orderData = {
-      name: form.name,
-      email: form.email,
-      phone: form.phone,
-      adress: form.adress,
-      message: `Order for ${product.title} - Size: ${selectedSize} - Qty: ${quantity}`,
-      product: {
-        title: product.title,
-        price: `PKR ${numericPrice.toLocaleString()}`,
-        features: product.features,
-        image: product.image,
-      },
-    };
+  name: form.name,
+  email: form.email,
+  phone: form.phone,
+  adress: form.adress,
+  message: `Order for ${product.title} - Size: ${selectedSize} - Qty: ${quantity}`,
+  product: {
+    title: product.title,
+    price: `PKR ${numericPrice.toLocaleString()}`,
+    features: product.features,
+    image: product.image,
+    sizes: [selectedSize],       // ✅ send size as an array for backend .join()
+    quantity: quantity           // ✅ optional: include for backend display/logs
+  },
+};
+
 
     try {
       const res = await fetch("https://minna-m-innie-backend.vercel.app/api/order", {
@@ -106,12 +109,14 @@ const ProductDetail = () => {
       });
 
       const data = await res.json();
+      console.log("ORDER RESPONSE", res.status, data);
 
       if (res.ok) {
         alert("Your order has been placed successfully!");
         setIsPopupOpen(false);
       } else {
         alert("Failed to send order: " + data.error);
+        console.log(data.error);
       }
     } catch (err) {
       console.error("Error:", err);
@@ -170,9 +175,7 @@ const ProductDetail = () => {
     if (category?.includes("boys' apparel")) return sizeCharts.boys;
     if (category?.includes("shoes")) return sizeCharts.shoes;
     if (category?.includes("sportswear")) return sizeCharts.sportswear;
-    console.log(category);
     return [];
-    
   };
 
   return (

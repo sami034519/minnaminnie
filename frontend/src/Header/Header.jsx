@@ -453,9 +453,7 @@ const getActiveLink = ({ isActive }) =>
               <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">
                 SUMMER'2025
               </h1>
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">
-                WINTER'2025
-              </h1>
+             
             </div>
             <NavLink to="/allgarments" onClick={closeMenus}>
               <button className="border-[3px] px-3 py-1 mt-3 border-white">
