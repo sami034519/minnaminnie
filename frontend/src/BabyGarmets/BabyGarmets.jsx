@@ -17,7 +17,7 @@ const BabyGarments = () => {
 
     const fetchProducts = async () => {
       try {
-        const res = await fetch("https://minnaminnie.com/minnaminniebackend/get_products.php");
+        const res = await fetch("https://myapi.minnaminnie.com/get_products.php");
         const data = await res.json();
         if (data.status === "success" && Array.isArray(data.products)) {
           setProducts(data.products);

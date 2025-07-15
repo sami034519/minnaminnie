@@ -11,7 +11,7 @@ import AllToys from './AllToys/AllToys';
 import AllSportswear from './AllSportswear/AllSportswear';
 import SportswearDetail from './Sportweardetail/SportwearDetail';
 import AllShoes from './AllShoes/Allshoes';
-import ShoeDetail from './ShoeDetail/ShoeDetail';
+
 import SearchPage from './Searchpage/Searchpage';
 import TermsAndConditions from './TermsAndCondition/Terms';
 import PrivacyPolicy from './Privacypolicy/Privacy';
@@ -45,7 +45,7 @@ function App() {
         <Route path="/sportwears" element={<AllSportswear />} />
         <Route path="/sportswear/:id" element={<SportswearDetail />} />
         <Route path="/shoes" element={<AllShoes />} />
-        <Route path="/shoe/:id" element={<ShoeDetail />} />
+        
         <Route path="/search" element={<SearchPage />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />

@@ -9,7 +9,7 @@ import "aos/dist/aos.css";
 const BoysApparel = () => {
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
-  const baseUrl = "https://minnaminnie.com/minnaminniebackend/";
+  const baseUrl = "https://myapi.minnaminnie.com/";
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -17,7 +17,7 @@ const BoysApparel = () => {
     const fetchBoysApparel = async () => {
       try {
         const res = await fetch(
-          "https://minnaminnie.com/minnaminniebackend/get_products_by_category.php?category=Boys%27%20Apparel"
+          "https://myapi.minnaminnie.com/get_products_by_category.php?category=Boys%27%20Apparel"
         );
         const data = await res.json();
         if (data.status === "success" && Array.isArray(data.products)) {

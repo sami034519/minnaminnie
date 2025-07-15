@@ -11,7 +11,7 @@ const KidsSportswear = () => {
   const [products, setProducts] = useState([]);
   const [index, setIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(2);
-  const baseUrl = "https://minnaminnie.com/minnaminniebackend/";
+  const baseUrl = "https://myapi.minnaminnie.com/";
 
   useEffect(() => {
     AOS.init({ duration: 1000 });

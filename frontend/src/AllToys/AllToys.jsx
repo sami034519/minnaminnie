@@ -17,7 +17,7 @@ const Toys = () => {
 
     const fetchProducts = async () => {
       try {
-        const res = await fetch("https://minnaminnie.com/minnaminniebackend/get_products_by_category.php?category=Toys");
+        const res = await fetch("https://myapi.minnaminnie.com/get_products_by_category.php?category=Toys");
         const data = await res.json();
         if (data.status === "success" && Array.isArray(data.products)) {
           setProducts(data.products); // Combined category used as instructed

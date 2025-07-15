@@ -16,7 +16,7 @@ const AllShoes = () => {
     const fetchShoes = async () => {
       try {
         const res = await fetch(
-          "https://minnaminnie.com/minnaminniebackend/get_products_by_category.php?category=Shoes"
+          "https://myapi.minnaminnie.com/get_products_by_category.php?category=Shoes"
         );
         const data = await res.json();
         if (data.status === "success" && Array.isArray(data.products)) {

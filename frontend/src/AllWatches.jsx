@@ -16,7 +16,7 @@ const AllWatches = () => {
     const fetchShoes = async () => {
       try {
         const res = await fetch(
-          "https://minnaminnie.com/minnaminniebackend/get_products_by_category.php?category=Watches"
+          "https://myapi.minnaminnie.com/get_products_by_category.php?category=Watches"
         );
         const data = await res.json();
         if (data.status === "success" && Array.isArray(data.products)) {
@@ -54,7 +54,7 @@ const AllWatches = () => {
   return (
     <div className="px-4 md:px-10 py-10 max-w-7xl mx-auto">
       <h2 className="text-3xl font-bold text-myPink text-center mb-10">
-        ALL SHOES
+        ALL WATCHES
       </h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">

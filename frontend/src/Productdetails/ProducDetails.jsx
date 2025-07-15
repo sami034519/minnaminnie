@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { BsTruck, BsGift } from "react-icons/bs";
 import { FaShoppingBag } from "react-icons/fa";
 
+
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -25,7 +26,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`https://minnaminnie.com/minnaminniebackend/get_product_by_id.php?id=${id}`);
+        const res = await fetch(`https://myapi.minnaminnie.com/get_product_by_id.php?id=${id}`);
         const json = await res.json();
 
         if (json.status === "success") {
@@ -60,7 +61,8 @@ const ProductDetail = () => {
     if (
       category?.includes("girls") ||
       category?.includes("boys") ||
-      category?.includes("shoes")
+      category?.includes("shoes")||
+      category?.includes("sportswear")
     ) {
       alert("Please select a size");
       return;
@@ -144,6 +146,15 @@ const ProductDetail = () => {
       ["7-8 year", 21, 18],
       ["9-10 year", 22, 19],
     ],
+    sportswear: [
+      ["1-2 year", 16, 13],
+      ["2-3 year", 17, 14],
+      ["3-4 year", 18, 15],
+      ["4-5 year", 19, 16],
+      ["5-6 year", 20, 17],
+      ["7-8 year", 21, 18],
+      ["9-10 year", 22, 19],
+    ],
     shoes: [
       ["EU 21", "13.5 cm"],
       ["EU 22", "14.0 cm"],
@@ -158,6 +169,7 @@ const ProductDetail = () => {
     if (category?.includes("girls' apparel")) return sizeCharts.girls;
     if (category?.includes("boys' apparel")) return sizeCharts.boys;
     if (category?.includes("shoes")) return sizeCharts.shoes;
+    if (category?.includes("sportswear")) return sizeCharts.sportswear;
     console.log(category);
     return [];
     

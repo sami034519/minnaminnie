@@ -7,12 +7,13 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 const AllProducts = () => {
+  const baseUrl = "https://myapi.minnaminnie.com/";
   const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
-    fetch("https://minnaminnie.com/minnaminniebackend/get_products.php")
+    fetch(`${baseUrl}get_products.php`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
