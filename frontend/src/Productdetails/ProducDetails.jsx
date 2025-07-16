@@ -4,6 +4,29 @@ import { BsTruck, BsGift } from "react-icons/bs";
 import { FaShoppingBag } from "react-icons/fa";
 
 const ProductDetail = () => {
+  
+  const [phoneError, setPhoneError] = useState("");
+
+  const handleFormChange1 = (e) => {
+    const { name, value } = e.target;
+
+    // Allow only digits
+    const sanitizedValue = value.replace(/\D/g, "");
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: sanitizedValue,
+    }));
+
+    // Phone number validation
+    if (sanitizedValue.length < 11) {
+      setPhoneError("Phone number is too short");
+    } else if (sanitizedValue.length > 11) {
+      setPhoneError("Phone number is too long");
+    } else {
+      setPhoneError(""); // valid
+    }
+  };
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -321,7 +344,19 @@ const ProductDetail = () => {
             <div className="space-y-3">
               <input type="text" name="name" placeholder="Your Name" value={form.name} onChange={handleFormChange} className="w-full border p-2 rounded text-sm" />
               <input type="email" name="email" placeholder="Your Email" value={form.email} onChange={handleFormChange} className="w-full border p-2 rounded text-sm" />
-              <input type="tel" name="phone" placeholder="Phone Number" value={form.phone} onChange={handleFormChange} className="w-full border p-2 rounded text-sm" />
+             <div>
+      <input
+        type="tel"
+        name="phone"
+        placeholder="Phone Number"
+        value={form.phone}
+        onChange={handleFormChange1}
+        className="w-full border p-2 rounded text-sm"
+      />
+      {phoneError && (
+        <p className="text-red-500 text-xs mt-1">{phoneError}</p>
+      )}
+    </div>
               <textarea name="adress" placeholder="Delivery Address" value={form.adress} onChange={handleFormChange} rows="2" className="w-full border p-2 rounded text-sm" />
 
               <div className="text-sm mt-2">
