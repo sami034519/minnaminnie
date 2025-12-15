@@ -11,7 +11,7 @@ import AllToys from './AllToys/AllToys';
 import AllSportswear from './AllSportswear/AllSportswear';
 import SportswearDetail from './Sportweardetail/SportwearDetail';
 import AllShoes from './AllShoes/Allshoes';
-
+import WinterProducts from './WinterProducts/WinterProducts';
 import SearchPage from './Searchpage/Searchpage';
 import TermsAndConditions from './TermsAndCondition/Terms';
 import PrivacyPolicy from './Privacypolicy/Privacy';
@@ -38,6 +38,8 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/winterproducts" element={<WinterProducts />} />
+
         <Route path="/allgarments" element={<AllProducts />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/toy/:id" element={<ToyDetail />} />

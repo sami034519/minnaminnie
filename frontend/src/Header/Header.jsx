@@ -49,13 +49,13 @@ function Header() {
     }
   };
 
- 
-  const navLinkStyle ="cursor-pointer border-b-[3px] rounded border-transparent transition-colors duration-300";
+  const navLinkStyle =
+    "cursor-pointer border-b-[3px] rounded border-transparent transition-colors duration-300";
 
-const getActiveLink = ({ isActive }) =>
-  isActive
-    ? `${navLinkStyle} border-myPink` // Active = Pink border
-    : `${navLinkStyle} hover:border-mypurple`; // Inactive = hover shows Purple border
+  const getActiveLink = ({ isActive }) =>
+    isActive
+      ? `${navLinkStyle} border-myPink` // Active = Pink border
+      : `${navLinkStyle} hover:border-mypurple`; // Inactive = hover shows Purple border
 
   return (
     <>
@@ -183,7 +183,7 @@ const getActiveLink = ({ isActive }) =>
                   Sport Wears
                 </NavLink>
               </li>
-                            <li>
+              <li>
                 <NavLink to="/watches" className={getActiveLink}>
                   Baby Watches
                 </NavLink>
@@ -193,164 +193,183 @@ const getActiveLink = ({ isActive }) =>
                   Baby Shoes
                 </NavLink>
               </li>
-              </ul>
-              <div className=" hidden lg:flex gap-x-2 lg:pl-10">
-              
-                <button onClick={() => setSearchOpen(!searchOpen)}>
-                  <Search size={24} />
-                </button>
-              
-              
-                <button
-                  onClick={() => setShowCart(true)}
-                  className="relative text-pink-600"
-                >
-                  <ShoppingCart size={22} />
-                  {itemCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-pink-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {itemCount}
-                    </span>
-                  )}
-                </button>
-              
-              
-                <button
-                  onClick={() => setShowAdminPopup(true)}
-                  className="border px-2 py-1 bg-myPink  rounded text-sm text-white border-mypurple hover:bg-mypurple hover:text-white"
-                >
-                  Admin
-                </button>
-              
+            </ul>
+            <div className=" hidden lg:flex gap-x-2 lg:pl-10">
+              <button onClick={() => setSearchOpen(!searchOpen)}>
+                <Search size={24} />
+              </button>
+
+              <button
+                onClick={() => setShowCart(true)}
+                className="relative text-pink-600"
+              >
+                <ShoppingCart size={22} />
+                {itemCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-pink-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
+
+              <button
+                onClick={() => setShowAdminPopup(true)}
+                className="border px-2 py-1 bg-myPink  rounded text-sm text-white border-mypurple hover:bg-mypurple hover:text-white"
+              >
+                Admin
+              </button>
             </div>
           </div>
-         {/* Mobile Dropdown Menu */}
-{mobileMenuOpen && (
-  <div className="md:hidden bg-myPink text-white px-4 py-4 space-y-2 text-sm font-medium">
-    <NavLink
-      to="/allgarments"
-      onClick={closeMenus}
-      className={({ isActive }) =>
-        `block border-b-2 py-1 ${isActive ? "border-mypurple" : "border-white"}`
-      }
-    >
-      All Products
-    </NavLink>
+          {/* Mobile Dropdown Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden bg-myPink text-white px-4 py-4 space-y-2 text-sm font-medium">
+              <NavLink
+                to="/allgarments"
+                onClick={closeMenus}
+                className={({ isActive }) =>
+                  `block border-b-2 py-1 ${
+                    isActive ? "border-mypurple" : "border-white"
+                  }`
+                }
+              >
+                All Products
+              </NavLink>
 
-    {/* Accessories Toggle */}
-    <div
-      className="flex justify-between items-center cursor-pointer"
-      onClick={(e) => {
-        e.stopPropagation(); // Prevent closing the menu
-        setAccessoriesOpen(!accessoriesOpen);
-      }}
-    >
-      <span>Accessories</span>
-      {accessoriesOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-    </div>
+              {/* Accessories Toggle */}
+              <div
+                className="flex justify-between items-center cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent closing the menu
+                  setAccessoriesOpen(!accessoriesOpen);
+                }}
+              >
+                <span>Accessories</span>
+                {accessoriesOpen ? (
+                  <ChevronUp size={16} />
+                ) : (
+                  <ChevronDown size={16} />
+                )}
+              </div>
 
-    {accessoriesOpen && (
-      <div className="pl-4 space-y-1 flex flex-col gap-1">
-        <NavLink
-          to="/accessories/fiddle"
-          onClick={closeMenus}
-          className={({ isActive }) =>
-            `block border-b-2 py-1 ${isActive ? "border-mypurple" : "border-white"}`
-          }
-        >
-          FiddRe
-        </NavLink>
-        <NavLink
-          to="/accessories/prams"
-          onClick={closeMenus}
-          className={({ isActive }) =>
-            `block border-b-2 py-1 ${isActive ? "border-mypurple" : "border-white"}`
-          }
-        >
-          Prams
-        </NavLink>
-        <NavLink
-          to="/accessories/walkers"
-          onClick={closeMenus}
-          className={({ isActive }) =>
-            `block border-b-2 py-1 ${isActive ? "border-mypurple" : "border-white"}`
-          }
-        >
-          Walkers
-        </NavLink>
-      </div>
-    )}
+              {accessoriesOpen && (
+                <div className="pl-4 space-y-1 flex flex-col gap-1">
+                  <NavLink
+                    to="/accessories/fiddle"
+                    onClick={closeMenus}
+                    className={({ isActive }) =>
+                      `block border-b-2 py-1 ${
+                        isActive ? "border-mypurple" : "border-white"
+                      }`
+                    }
+                  >
+                    FiddRe
+                  </NavLink>
+                  <NavLink
+                    to="/accessories/prams"
+                    onClick={closeMenus}
+                    className={({ isActive }) =>
+                      `block border-b-2 py-1 ${
+                        isActive ? "border-mypurple" : "border-white"
+                      }`
+                    }
+                  >
+                    Prams
+                  </NavLink>
+                  <NavLink
+                    to="/accessories/walkers"
+                    onClick={closeMenus}
+                    className={({ isActive }) =>
+                      `block border-b-2 py-1 ${
+                        isActive ? "border-mypurple" : "border-white"
+                      }`
+                    }
+                  >
+                    Walkers
+                  </NavLink>
+                </div>
+              )}
 
-    <NavLink
-      to="/toys"
-      onClick={closeMenus}
-      className={({ isActive }) =>
-        `block border-b-2 py-1 ${isActive ? "border-mypurple" : "border-white"}`
-      }
-    >
-      Toys
-    </NavLink>
+              <NavLink
+                to="/toys"
+                onClick={closeMenus}
+                className={({ isActive }) =>
+                  `block border-b-2 py-1 ${
+                    isActive ? "border-mypurple" : "border-white"
+                  }`
+                }
+              >
+                Toys
+              </NavLink>
 
-    <NavLink
-      to="/sportwears"
-      onClick={closeMenus}
-      className={({ isActive }) =>
-        `block border-b-2 py-1 ${isActive ? "border-mypurple" : "border-white"}`
-      }
-    >
-      Sport Wears
-    </NavLink>
+              <NavLink
+                to="/sportwears"
+                onClick={closeMenus}
+                className={({ isActive }) =>
+                  `block border-b-2 py-1 ${
+                    isActive ? "border-mypurple" : "border-white"
+                  }`
+                }
+              >
+                Sport Wears
+              </NavLink>
 
-    <NavLink
-      to="/girlsapparel"
-      onClick={closeMenus}
-      className={({ isActive }) =>
-        `block border-b-2 py-1 ${isActive ? "border-mypurple" : "border-white"}`
-      }
-    >
-      Girls Apparel
-    </NavLink>
+              <NavLink
+                to="/girlsapparel"
+                onClick={closeMenus}
+                className={({ isActive }) =>
+                  `block border-b-2 py-1 ${
+                    isActive ? "border-mypurple" : "border-white"
+                  }`
+                }
+              >
+                Girls Apparel
+              </NavLink>
 
-    <NavLink
-      to="/boysapparel"
-      onClick={closeMenus}
-      className={({ isActive }) =>
-        `block border-b-2 py-1 ${isActive ? "border-mypurple" : "border-white"}`
-      }
-    >
-      Boys Apparel
-    </NavLink>
+              <NavLink
+                to="/boysapparel"
+                onClick={closeMenus}
+                className={({ isActive }) =>
+                  `block border-b-2 py-1 ${
+                    isActive ? "border-mypurple" : "border-white"
+                  }`
+                }
+              >
+                Boys Apparel
+              </NavLink>
 
-    <NavLink
-      to="/shoes"
-      onClick={closeMenus}
-      className={({ isActive }) =>
-        `block border-b-2 py-1 ${isActive ? "border-mypurple" : "border-white"}`
-      }
-    >
-      Baby Shoes
-    </NavLink>
-     <NavLink
-      to="/watches"
-      onClick={closeMenus}
-      className={({ isActive }) =>
-        `block border-b-2 py-1 ${isActive ? "border-mypurple" : "border-white"}`
-      }
-    >
-      Baby Watches
-    </NavLink>
+              <NavLink
+                to="/shoes"
+                onClick={closeMenus}
+                className={({ isActive }) =>
+                  `block border-b-2 py-1 ${
+                    isActive ? "border-mypurple" : "border-white"
+                  }`
+                }
+              >
+                Baby Shoes
+              </NavLink>
+              <NavLink
+                to="/watches"
+                onClick={closeMenus}
+                className={({ isActive }) =>
+                  `block border-b-2 py-1 ${
+                    isActive ? "border-mypurple" : "border-white"
+                  }`
+                }
+              >
+                Baby Watches
+              </NavLink>
 
-    <button
-      onClick={() => {
-        closeMenus();
-        setShowAdminPopup(true);
-      }}
-      className="block w-full text-center rounded bg-mypurple px-2 py-1"
-    >
-      Admin
-    </button>
-  </div>
-)}
-
+              <button
+                onClick={() => {
+                  closeMenus();
+                  setShowAdminPopup(true);
+                }}
+                className="block w-full text-center rounded bg-mypurple px-2 py-1"
+              >
+                Admin
+              </button>
+            </div>
+          )}
 
           {/* Search Bar */}
           {searchOpen && (
@@ -450,16 +469,17 @@ const getActiveLink = ({ isActive }) =>
         <div className="absolute bottom-10 flex items-center w-full justify-center text-white text-center px-4 z-20">
           <div>
             <div className="flex lg:flex-row flex-col gap-5">
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg">
-                SUMMER'2025
-              </h1>
+              <NavLink to='/' className='border-[3px] px-3 py-1 mt-3 border-white'>
+                <h1 className="text-3xl sm:text-3xl md:text-3xl font-bold drop-shadow-lg">
+                  SUMMER'2026
+                </h1>
+              </NavLink>
+               <NavLink to='/winterproducts'> <h1 className="text-3xl sm:text-3xl md:text-3xl font-bold drop-shadow-lg border-[3px] px-3 py-1 mt-3 border-white">
+                Winter'2026
+              </h1></NavLink>
              
             </div>
-            <NavLink to="/allgarments" onClick={closeMenus}>
-              <button className="border-[3px] px-3 py-1 mt-3 border-white">
-                SHOP NOW
-              </button>
-            </NavLink>
+           
           </div>
         </div>
       </div>
