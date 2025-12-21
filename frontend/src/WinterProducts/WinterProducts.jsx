@@ -5,14 +5,15 @@ import { NavLink } from "react-router-dom";
 import { addToCart } from "../redux/CartSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import winter1 from '../images/winter1.jpeg'
-import winter2 from '../images/winter2.jpeg'
-import winter3 from '../images/winter3.jpeg'
-import winter4 from '../images/winter4.jpeg'
-import winter5 from '../images/winter5.jpeg'
-import winter6 from '../images/winter6.jpeg'
-import winter7 from '../images/winter7.jpeg'
-import winter8 from '../images/winter8.jpeg'
+import winter1 from "../images/winter1.jpeg";
+import winter2 from "../images/winter2.jpeg";
+import winter3 from "../images/winter3.jpeg";
+import winter4 from "../images/winter4.jpeg";
+import winter5 from "../images/winter5.jpeg";
+import winter6 from "../images/winter6.jpeg";
+import winter7 from "../images/winter7.jpeg";
+import winter8 from "../images/winter8.jpeg";
+import heroimage from "../images/winter hero.jpg";
 
 /* =======================
    LOCAL PRODUCTS ARRAY
@@ -82,9 +83,8 @@ const products = [
     price: "1700",
     discount_price: "1300",
     stock: "18",
-    image:winter8,
+    image: winter8,
   },
-  
 ];
 
 const WinterProducts = () => {
@@ -108,69 +108,98 @@ const WinterProducts = () => {
   };
 
   return (
-    <div className="px-4 md:px-10 py-10 max-w-7xl mx-auto">
-      <h2 className="text-3xl font-bold text-myPink text-center mb-10">
-        ALL BABY GARMENTS
-      </h2>
+    <>
+      <div className="relative w-full lg:h-screen h-[70vh] overflow-hidden pt-[132px] animate__animated animate__zoomIn">
+        <div className="absolute inset-0 z-10">
+          <img src={heroimage} alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-        {products.map((product) => {
-          const originalPrice = parsePrice(product.price);
-          const discountedPrice = parsePrice(product.discount_price);
-          const fakeOldPrice = originalPrice + 200;
-
-          return (
-            <div
-              key={product.id}
-              className="bg-white shadow-md rounded-lg overflow-hidden group transition-transform duration-300 hover:scale-[1.02]"
-            >
-              <NavLink to={`/product/${product.id}`}>
-                <div className="w-full h-48 bg-productscolor">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-full object-contain"
-                    data-aos="fade-down"
-                  />
-                </div>
+        <div className="absolute bottom-10 flex items-center w-full justify-center text-white text-center px-4 z-20">
+          <div>
+            <div className="flex lg:flex-row flex-col gap-5">
+              <NavLink
+                to="/"
+                className="border-[3px] px-3 py-1 mt-3 border-white"
+              >
+                <h1 className="text-3xl sm:text-3xl md:text-3xl font-bold drop-shadow-lg">
+                  SUMMER'2026
+                </h1>
               </NavLink>
+              <NavLink to="/winterproducts">
+                {" "}
+                <h1 className="text-3xl sm:text-3xl md:text-3xl font-bold drop-shadow-lg border-[3px] px-3 py-1 mt-3 border-white">
+                  Winter'2026
+                </h1>
+              </NavLink>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="px-4 md:px-10 py-10 max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-myPink text-center mb-10">
+          ALL BABY Winter GARMENTS
+        </h2>
 
-              <div className="p-3 text-center">
-                <h4 className="text-sm font-semibold text-gray-800 mb-1">
-                  {product.title}
-                </h4>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+          {products.map((product) => {
+            const originalPrice = parsePrice(product.price);
+            const discountedPrice = parsePrice(product.discount_price);
+            const fakeOldPrice = originalPrice + 200;
 
-                <div className="flex justify-center gap-2 text-sm mb-2">
-                  <p className="line-through text-gray-400">
-                    Rs. {fakeOldPrice.toLocaleString()}
-                  </p>
-                  <p className="text-pink-600 font-semibold">
-                    Rs. {discountedPrice.toLocaleString()}
-                  </p>
-                </div>
+            return (
+              <div
+                key={product.id}
+                className="bg-white shadow-md rounded-lg overflow-hidden group transition-transform duration-300 hover:scale-[1.02]"
+              >
+                <NavLink to={`/product/${product.id}`}>
+                  <div className="w-full h-48 bg-productscolor">
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                      className="w-full h-full object-contain"
+                      data-aos="fade-down"
+                    />
+                  </div>
+                </NavLink>
 
-                <div className="flex flex-col gap-2 mt-3">
-                  <NavLink
-                    to={`/product/${product.id}`}
-                    className="bg-mypurple hover:bg-myPink text-white px-3 py-1 rounded text-xs"
-                  >
-                    View Details
-                  </NavLink>
+                <div className="p-3 text-center">
+                  <h4 className="text-sm font-semibold text-gray-800 mb-1">
+                    {product.title}
+                  </h4>
 
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="bg-myPink hover:bg-mypurple text-white px-3 py-1 rounded text-xs flex items-center gap-2 justify-center"
-                  >
-                    <FaCartPlus size={12} />
-                    Add to Cart
-                  </button>
+                  <div className="flex justify-center gap-2 text-sm mb-2">
+                    <p className="line-through text-gray-400">
+                      Rs. {fakeOldPrice.toLocaleString()}
+                    </p>
+                    <p className="text-pink-600 font-semibold">
+                      Rs. {discountedPrice.toLocaleString()}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-2 mt-3">
+                    <NavLink
+                      to={`/product/${product.id}`}
+                      className="bg-mypurple hover:bg-myPink text-white px-3 py-1 rounded text-xs"
+                    >
+                      View Details
+                    </NavLink>
+
+                    <button
+                      onClick={() => handleAddToCart(product)}
+                      className="bg-myPink hover:bg-mypurple text-white px-3 py-1 rounded text-xs flex items-center gap-2 justify-center"
+                    >
+                      <FaCartPlus size={12} />
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

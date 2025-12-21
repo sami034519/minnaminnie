@@ -25,7 +25,7 @@ function App() {
   const location = useLocation();
 
   // List of routes that should NOT show Header and Footer
-  const hideLayoutRoutes = ["/dashboard"];
+  const hideLayoutRoutes = ["/dashboard","/winterproducts"];
 
   const hideLayout = hideLayoutRoutes.includes(location.pathname);
 
